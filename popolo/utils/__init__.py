@@ -1,8 +1,8 @@
-import operator
 from datetime import datetime as dt
 from datetime import timedelta
-
+import operator
 import sys
+
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -22,61 +22,37 @@ class PartialDatesInterval(object):
         :type start Union[PartialDate, str]:
         :type end Union[PartialDate, str]:
         """
-        if sys.version_info >= (3,0,0):
+        if sys.version_info >= (3, 0, 0):
 
             if isinstance(start, PartialDate):
                 self.start = start
-            elif isinstance(start, str) \
-                or isinstance(start, bytes) \
-                or start is None:
+            elif isinstance(start, str) or isinstance(start, bytes) or start is None:
                 self.start = PartialDate(start)
             else:
-                raise PartialDateException(
-                    "Class {0} not allowed here".format(
-                        type(start)
-                    )
-                )
+                raise PartialDateException("Class {0} not allowed here".format(type(start)))
 
             if isinstance(end, PartialDate):
                 self.end = end
-            elif isinstance(end, str) \
-                or isinstance(end, bytes) \
-                or end is None:
+            elif isinstance(end, str) or isinstance(end, bytes) or end is None:
                 self.end = PartialDate(end)
             else:
-                raise PartialDateException(
-                    "Class {0} not allowed here".format(
-                        type(end)
-                    )
-                )
+                raise PartialDateException("Class {0} not allowed here".format(type(end)))
 
         else:
 
             if isinstance(start, PartialDate):
                 self.start = start
-            elif isinstance(start, str) \
-                or isinstance(start, unicode) \
-                or start is None:
+            elif isinstance(start, str) or isinstance(start, unicode) or start is None:
                 self.start = PartialDate(start)
             else:
-                raise PartialDateException(
-                    "Class {0} not allowed here".format(
-                        type(start)
-                    )
-                )
+                raise PartialDateException("Class {0} not allowed here".format(type(start)))
 
             if isinstance(end, PartialDate):
                 self.end = end
-            elif isinstance(end, str) \
-                or isinstance(end, unicode) \
-                or end is None:
+            elif isinstance(end, str) or isinstance(end, unicode) or end is None:
                 self.end = PartialDate(end)
             else:
-                raise PartialDateException(
-                    "Class {0} not allowed here".format(
-                        type(end)
-                    )
-                )
+                raise PartialDateException("Class {0} not allowed here".format(type(end)))
 
     def __eq__(self, other):
         """Equality operator for PartialDateInterval
@@ -85,8 +61,7 @@ class PartialDatesInterval(object):
         :return:
         """
 
-        if self.start == other.start and \
-           self.end == other.end:
+        if self.start == other.start and self.end == other.end:
             return True
         else:
             return False
@@ -98,7 +73,7 @@ class PartialDatesInterval(object):
         if self.start is None:
             start = _("forever")
         else:
-            start =  self.start
+            start = self.start
         if self.end is None:
             end = _("forever")
         else:
@@ -111,6 +86,7 @@ class PartialDateException(Exception):
     """Exception used in the context of the PartialDate class
 
     """
+
     pass
 
 
@@ -146,10 +122,10 @@ class PartialDate(object):
 
 
     """
-    d_fmt = '%Y-%m-%d'
-    m_fmt = '%Y-%m'
-    y_fmt = '%Y'
 
+    d_fmt = "%Y-%m-%d"
+    m_fmt = "%Y-%m"
+    y_fmt = "%Y"
 
     @classmethod
     def intervals_overlap(cls, a, b):
@@ -172,12 +148,10 @@ class PartialDate(object):
         """
         HUGE_OVERLAP = 999999
 
-        if not isinstance(a, PartialDatesInterval) or \
-           not isinstance(b, PartialDatesInterval):
-           raise PartialDateException(
-                "Both dates intervals need to be instances of "
-                "popolo.utils.PartialDatesInterval"
-           )
+        if not isinstance(a, PartialDatesInterval) or not isinstance(b, PartialDatesInterval):
+            raise PartialDateException(
+                "Both dates intervals need to be instances of " "popolo.utils.PartialDatesInterval"
+            )
 
         if a.start.date == None and b.start.date == None:
             # when both start dates are null,
@@ -205,7 +179,6 @@ class PartialDate(object):
 
         return overlap
 
-
     def __init__(self, date_string):
         """Initialize the instance, trying the various allowed format.
 
@@ -230,11 +203,7 @@ class PartialDate(object):
                     try:
                         self.date_as_dt = dt.strptime(self.date, self.y_fmt)
                     except ValueError:
-                        raise PartialDateException(
-                            "Could not convert {0} into datetime".format(
-                                self.date
-                            )
-                        )
+                        raise PartialDateException("Could not convert {0} into datetime".format(self.date))
         else:
             self.date_as_dt = None
 
@@ -261,9 +230,7 @@ class PartialDate(object):
         elif isinstance(other, timedelta):
             return self.date_as_dt - other
         else:
-            raise PartialDateException(
-                "Instance not allowed for the subtrahend"
-            )
+            raise PartialDateException("Instance not allowed for the subtrahend")
 
     def __add__(self, other):
         """override the *add* operation,
@@ -276,13 +243,9 @@ class PartialDate(object):
         """
         if isinstance(other, timedelta):
             res_as_dt = self.date_as_dt + other
-            return PartialDate(
-                dt.strftime(res_as_dt, self.d_fmt)
-            )
+            return PartialDate(dt.strftime(res_as_dt, self.d_fmt))
         else:
-            raise PartialDateException(
-                "Instance not allowed for the addendum"
-            )
+            raise PartialDateException("Instance not allowed for the addendum")
 
     def __eq__(self, other):
         """
@@ -295,7 +258,6 @@ class PartialDate(object):
             return self.date == other.date
         else:
             return self.date is None
-
 
     def _compare(self, other, op):
         """overrides comparison operators,
@@ -310,9 +272,7 @@ class PartialDate(object):
         if self.date and other.date:
             return op(self.date, other.date)
         else:
-            raise PartialDateException(
-                "Could not compare null dates"
-            )
+            raise PartialDateException("Could not compare null dates")
 
     def __gt__(self, other):
         return self._compare(other, operator.gt)
@@ -331,7 +291,6 @@ class PartialDate(object):
 
     def __str__(self):
         if self.date is None:
-            return 'None'
+            return "None"
         else:
             return self.date
-

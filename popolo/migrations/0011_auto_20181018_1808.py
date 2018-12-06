@@ -7,19 +7,17 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('popolo', '0010_auto_20181012_1704'),
-    ]
+    dependencies = [("popolo", "0010_auto_20181012_1704")]
 
     operations = [
         migrations.AlterField(
-            model_name='educationlevel',
-            name='name',
-            field=models.CharField(help_text='Education level name', max_length=256, unique=True, verbose_name='name'),
+            model_name="educationlevel",
+            name="name",
+            field=models.CharField(help_text="Education level name", max_length=256, unique=True, verbose_name="name"),
         ),
         migrations.AlterField(
-            model_name='originaleducationlevel',
-            name='name',
-            field=models.CharField(help_text='Education level name', max_length=512, unique=True, verbose_name='name'),
+            model_name="originaleducationlevel",
+            name="name",
+            field=models.CharField(help_text="Education level name", max_length=512, unique=True, verbose_name="name"),
         ),
     ]

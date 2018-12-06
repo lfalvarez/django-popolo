@@ -14,7 +14,7 @@ from django.utils.translation import ugettext_lazy as _
 from autoslug import AutoSlugField
 from datetime import datetime
 
-__author__ = 'guglielmo'
+__author__ = "guglielmo"
 
 
 def get_slug_source(instance):
@@ -26,9 +26,10 @@ class GenericRelatable(models.Model):
     """
     An abstract class that provides the possibility of generic relations
     """
-    content_type = models.ForeignKey(ContentType, blank=True, null=True, db_index=True)
+
+    content_type = models.ForeignKey(ContentType, blank=True, null=True, db_index=True, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField(null=True, db_index=True)
-    content_object = GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey("content_type", "object_id")
 
     class Meta:
         abstract = True
@@ -41,16 +42,15 @@ def validate_partial_date(value):
     2013-22 must rais a ValidationError, as 2013-13-12, or 2013-11-55.
     """
     try:
-        datetime.strptime(value, '%Y-%m-%d')
+        datetime.strptime(value, "%Y-%m-%d")
     except ValueError:
         try:
-            datetime.strptime(value, '%Y-%m')
+            datetime.strptime(value, "%Y-%m")
         except ValueError:
             try:
-                datetime.strptime(value, '%Y')
+                datetime.strptime(value, "%Y")
             except ValueError:
-                raise ValidationError(
-                    u'date seems not to be correct %s' % value)
+                raise ValidationError(u"date seems not to be correct %s" % value)
 
 
 class Dateframeable(models.Model):
@@ -60,26 +60,31 @@ class Dateframeable(models.Model):
     Uncomplete dates can be used. The validation pattern is: "^[0-9]{4}(-[
     0-9]{2}){0,2}$"
     """
-    partial_date_validator = RegexValidator(regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
-                                            message="Date has wrong format")
+
+    partial_date_validator = RegexValidator(regex="^[0-9]{4}(-[0-9]{2}){0,2}$", message="Date has wrong format")
 
     start_date = models.CharField(
-        _("start date"), max_length=10, blank=True, null=True,
+        _("start date"),
+        max_length=10,
+        blank=True,
+        null=True,
         validators=[partial_date_validator, validate_partial_date],
         help_text=_("The date when the validity of the item starts"),
     )
     end_date = models.CharField(
-        _("end date"), max_length=10, blank=True, null=True,
+        _("end date"),
+        max_length=10,
+        blank=True,
+        null=True,
         validators=[partial_date_validator, validate_partial_date],
-        help_text=_("The date when the validity of the item ends")
+        help_text=_("The date when the validity of the item ends"),
     )
     end_reason = models.CharField(
         _("end reason"),
         max_length=255,
-        null=True, blank=True,
-        help_text=_(
-            "The reason why the entity isn't valid any longer (eg: merge)"
-        )
+        null=True,
+        blank=True,
+        help_text=_("The reason why the entity isn't valid any longer (eg: merge)"),
     )
 
     @property
@@ -90,7 +95,7 @@ class Dateframeable(models.Model):
         """
         return self.is_active()
 
-    def is_active(self, moment=datetime.strftime(datetime.now(), '%Y-%m-%d')):
+    def is_active(self, moment=datetime.strftime(datetime.now(), "%Y-%m-%d")):
         """Return the status of the item at the given moment
 
         :param moment: date in '%Y-%m-%d' format
@@ -98,11 +103,7 @@ class Dateframeable(models.Model):
         """
         return self.end_date is None or self.end_date >= moment
 
-    def close(
-        self,
-        moment=datetime.strftime(datetime.now(), '%Y-%m-%d'),
-        reason=None
-    ):
+    def close(self, moment=datetime.strftime(datetime.now(), "%Y-%m-%d"), reason=None):
         """closes the validity of the entity, specifying a reason
 
         :param moment: the moment the validity ends, in %Y-%m-%d format
@@ -123,8 +124,9 @@ class Timestampable(models.Model):
     An abstract base class model that provides self-updating
     ``created`` and ``modified`` fields.
     """
-    created_at = DateTimeField(_('creation time'), auto_now_add=True)
-    updated_at = DateTimeField(_('last modification time'), auto_now=True)
+
+    created_at = DateTimeField(_("creation time"), auto_now_add=True)
+    updated_at = DateTimeField(_("last modification time"), auto_now=True)
 
     class Meta:
         abstract = True
@@ -135,26 +137,22 @@ class Permalinkable(models.Model):
     An abstract base class model that provides a unique slug,
     and the methods necessary to handle the permalink
     """
+
     from django.utils.text import slugify
 
-    slug = AutoSlugField(
-        populate_from=get_slug_source,
-        max_length=255,
-        unique=True,
-        slugify=slugify
-    )
+    slug = AutoSlugField(populate_from=get_slug_source, max_length=255, unique=True, slugify=slugify)
 
     class Meta:
         abstract = True
 
-    def get_url_kwargs(self, **kwargs):
-        kwargs.update(getattr(self, 'url_kwargs', {}))
-        return kwargs
-
-    @models.permalink
-    def get_absolute_url(self):
-        url_kwargs = self.get_url_kwargs(slug=self.slug)
-        return (self.url_name, (), url_kwargs)
+    # def get_url_kwargs(self, **kwargs):
+    #     kwargs.update(getattr(self, "url_kwargs", {}))
+    #     return kwargs
+    #
+    # @models.permalink
+    # def get_absolute_url(self):
+    #     url_kwargs = self.get_url_kwargs(slug=self.slug)
+    #     return (self.url_name, (), url_kwargs)
 
 
 class PrioritizedModel(models.Model):
@@ -162,10 +160,9 @@ class PrioritizedModel(models.Model):
     An abstract base class that provides an optional priority field,
     to impose a custom sorting order.
     """
+
     priority = models.IntegerField(
-        _('Priority'),
-        null=True, blank=True, default=0,
-        help_text=_("Sort order in case ambiguities arise")
+        _("Priority"), null=True, blank=True, default=0, help_text=_("Sort order in case ambiguities arise")
     )
 
     class Meta:

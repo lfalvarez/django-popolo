@@ -3,7 +3,6 @@ from __future__ import print_function
 import re
 
 from django.core.management.base import BaseCommand, CommandError
-
 from popolo.importers.popolo_json import PopoloJSONImporter
 
 
@@ -12,14 +11,14 @@ class Command(PopoloJSONImporter, BaseCommand):
         # django-popolo has restricted lengths for various fields,
         # whereas PopIt has no such aritrary limits; so, for the
         # import not to fail, we need to truncate them.
-        kwargs['truncate'] = 'yes'
+        kwargs["truncate"] = "yes"
         super(Command, self).__init__(*args, **kwargs)
 
     # This is so that this command works on Django 1.8 as well as
     # earlier versions. See "Changed in Django 1.8" here:
     # https://docs.djangoproject.com/en/1.8/howto/custom-management-commands/
     def add_arguments(self, parser):
-        parser.add_argument('args', nargs='+')
+        parser.add_argument("args", nargs="+")
 
     def handle(self, *args, **options):
 
@@ -40,8 +39,8 @@ class Command(PopoloJSONImporter, BaseCommand):
         # Surprisingly, quite a lot of PopIt email addresses have
         # extraneous whitespace in them, so strip any out to avoid
         # the 'Enter a valid email address' ValidationError on saving:
-        email = person_data.get('email') or None
+        email = person_data.get("email") or None
         if email:
-            email = re.sub(r'\s*', '', email)
-        new_person_data['email'] = email
+            email = re.sub(r"\s*", "", email)
+        new_person_data["email"] = email
         return super(Command, self).update_person(new_person_data)

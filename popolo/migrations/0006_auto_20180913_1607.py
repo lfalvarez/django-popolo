@@ -7,14 +7,19 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('popolo', '0005_auto_20180911_1811'),
-    ]
+    dependencies = [("popolo", "0005_auto_20180911_1811")]
 
     operations = [
         migrations.AlterField(
-            model_name='person',
-            name='name',
-            field=models.CharField(blank=True, db_index=True, help_text="A person's preferred full name", max_length=512, null=True, verbose_name='name'),
-        ),
+            model_name="person",
+            name="name",
+            field=models.CharField(
+                blank=True,
+                db_index=True,
+                help_text="A person's preferred full name",
+                max_length=512,
+                null=True,
+                verbose_name="name",
+            ),
+        )
     ]

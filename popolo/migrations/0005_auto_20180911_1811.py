@@ -7,19 +7,30 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('popolo', '0004_auto_20180716_1639'),
-    ]
+    dependencies = [("popolo", "0004_auto_20180716_1639")]
 
     operations = [
         migrations.AlterField(
-            model_name='keyevent',
-            name='event_type',
-            field=models.CharField(choices=[('ELE', 'Election round'), ('ITL', 'IT legislature'), ('EUL', 'EU legislature'), ('XAD', 'External administration')], default='ELE', help_text='The electoral type, e.g.: election, legislature, ...', max_length=3, verbose_name='event type'),
+            model_name="keyevent",
+            name="event_type",
+            field=models.CharField(
+                choices=[
+                    ("ELE", "Election round"),
+                    ("ITL", "IT legislature"),
+                    ("EUL", "EU legislature"),
+                    ("XAD", "External administration"),
+                ],
+                default="ELE",
+                help_text="The electoral type, e.g.: election, legislature, ...",
+                max_length=3,
+                verbose_name="event type",
+            ),
         ),
         migrations.AlterField(
-            model_name='keyevent',
-            name='identifier',
-            field=models.CharField(blank=True, help_text='An issued identifier', max_length=512, null=True, verbose_name='identifier'),
+            model_name="keyevent",
+            name="identifier",
+            field=models.CharField(
+                blank=True, help_text="An issued identifier", max_length=512, null=True, verbose_name="identifier"
+            ),
         ),
     ]

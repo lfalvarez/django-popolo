@@ -7,14 +7,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('popolo', '0001_initial'),
-    ]
+    dependencies = [("popolo", "0001_initial")]
 
     operations = [
         migrations.AddField(
-            model_name='organization',
-            name='key_events',
-            field=models.ManyToManyField(related_name='organization', to='popolo.KeyEvent'),
-        ),
+            model_name="organization",
+            name="key_events",
+            field=models.ManyToManyField(related_name="organization", to="popolo.KeyEvent"),
+        )
     ]

@@ -7,13 +7,8 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('popolo', '0002_organization_key_events'),
-    ]
+    dependencies = [("popolo", "0002_organization_key_events")]
 
     operations = [
-        migrations.AlterUniqueTogether(
-            name='organization',
-            unique_together=set([('name', 'identifier', 'start_date')]),
-        ),
+        migrations.AlterUniqueTogether(name="organization", unique_together=set([("name", "identifier", "start_date")]))
     ]

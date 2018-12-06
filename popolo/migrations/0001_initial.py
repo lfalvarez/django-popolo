@@ -5,8 +5,8 @@ from __future__ import unicode_literals
 import autoslug.fields
 import django.core.validators
 from django.db import migrations, models
-import django.db.models.deletion
 import django.utils.text
+
 import popolo.behaviors.models
 import popolo.models
 import popolo.validators
@@ -16,646 +16,2430 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ('contenttypes', '0002_remove_content_type_name'),
-    ]
+    dependencies = [("contenttypes", "0002_remove_content_type_name")]
 
     operations = [
         migrations.CreateModel(
-            name='Area',
+            name="Area",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creation time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='last modification time')),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, max_length=255, populate_from=popolo.behaviors.models.get_slug_source, slugify=django.utils.text.slugify, unique=True)),
-                ('name', models.CharField(blank=True, help_text='The official, issued name', max_length=256, verbose_name='name')),
-                ('identifier', models.CharField(blank=True, help_text='The main issued identifier', max_length=128, unique=True, verbose_name='identifier')),
-                ('classification', models.CharField(blank=True, help_text='An area category, according to GEONames definitions: http://www.geonames.org/export/codes.html', max_length=128, verbose_name='classification')),
-                ('istat_classification', models.CharField(blank=True, choices=[('NAZ', 'Country'), ('RIP', 'Geographic partition'), ('REG', 'Region'), ('PROV', 'Province'), ('CM', 'Metropolitan area'), ('COM', 'Municipality')], help_text='An area category, according to ISTAT: Ripartizione Geografica, Regione, Provincia, Città Metropolitana, Comune', max_length=4, null=True, verbose_name='ISTAT classification')),
-                ('is_provincial_capital', models.NullBooleanField(help_text='If the city is a provincial capital.Takes the Null value if not a municipality.', verbose_name='Is provincial capital')),
-                ('geom', models.TextField(blank=True, help_text='A geometry, expressed as text, eg: GeoJson, TopoJson, KML', null=True, verbose_name='geom')),
-                ('gps_lat', models.DecimalField(blank=True, decimal_places=6, help_text='The Latitude, expressed as a float, eg: 85.3420', max_digits=9, null=True, verbose_name='GPS Latitude')),
-                ('gps_lon', models.DecimalField(blank=True, decimal_places=6, help_text='The Longitude, expressed as a float, eg: 27.7172', max_digits=9, null=True, verbose_name='GPS Longitude')),
-                ('inhabitants', models.PositiveIntegerField(blank=True, help_text='The total number of inhabitants', null=True, verbose_name='inhabitants')),
-                ('new_places', models.ManyToManyField(blank=True, help_text='Link to area(s) after date_end', related_name='old_places', to='popolo.Area')),
-                ('parent', models.ForeignKey(blank=True, help_text='The area that contains this area, as for the main administrative subdivision.', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='popolo.Area', verbose_name='Main parent')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
+                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "slug",
+                    autoslug.fields.AutoSlugField(
+                        editable=False,
+                        max_length=255,
+                        populate_from=popolo.behaviors.models.get_slug_source,
+                        slugify=django.utils.text.slugify,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        blank=True, help_text="The official, issued name", max_length=256, verbose_name="name"
+                    ),
+                ),
+                (
+                    "identifier",
+                    models.CharField(
+                        blank=True,
+                        help_text="The main issued identifier",
+                        max_length=128,
+                        unique=True,
+                        verbose_name="identifier",
+                    ),
+                ),
+                (
+                    "classification",
+                    models.CharField(
+                        blank=True,
+                        help_text="An area category, according to GEONames definitions: http://www.geonames.org/export/codes.html",
+                        max_length=128,
+                        verbose_name="classification",
+                    ),
+                ),
+                (
+                    "istat_classification",
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ("NAZ", "Country"),
+                            ("RIP", "Geographic partition"),
+                            ("REG", "Region"),
+                            ("PROV", "Province"),
+                            ("CM", "Metropolitan area"),
+                            ("COM", "Municipality"),
+                        ],
+                        help_text="An area category, according to ISTAT: Ripartizione Geografica, Regione, Provincia, Città Metropolitana, Comune",
+                        max_length=4,
+                        null=True,
+                        verbose_name="ISTAT classification",
+                    ),
+                ),
+                (
+                    "is_provincial_capital",
+                    models.NullBooleanField(
+                        help_text="If the city is a provincial capital.Takes the Null value if not a municipality.",
+                        verbose_name="Is provincial capital",
+                    ),
+                ),
+                (
+                    "geom",
+                    models.TextField(
+                        blank=True,
+                        help_text="A geometry, expressed as text, eg: GeoJson, TopoJson, KML",
+                        null=True,
+                        verbose_name="geom",
+                    ),
+                ),
+                (
+                    "gps_lat",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=6,
+                        help_text="The Latitude, expressed as a float, eg: 85.3420",
+                        max_digits=9,
+                        null=True,
+                        verbose_name="GPS Latitude",
+                    ),
+                ),
+                (
+                    "gps_lon",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=6,
+                        help_text="The Longitude, expressed as a float, eg: 27.7172",
+                        max_digits=9,
+                        null=True,
+                        verbose_name="GPS Longitude",
+                    ),
+                ),
+                (
+                    "inhabitants",
+                    models.PositiveIntegerField(
+                        blank=True, help_text="The total number of inhabitants", null=True, verbose_name="inhabitants"
+                    ),
+                ),
+                (
+                    "new_places",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Link to area(s) after date_end",
+                        related_name="old_places",
+                        to="popolo.Area",
+                    ),
+                ),
+                (
+                    "parent",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The area that contains this area, as for the main administrative subdivision.",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="children",
+                        to="popolo.Area",
+                        verbose_name="Main parent",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Geographic Area',
-                'verbose_name_plural': 'Geographic Areas',
-            },
-            bases=(popolo.models.SourceShortcutsMixin, popolo.models.LinkShortcutsMixin, popolo.models.IdentifierShortcutsMixin, popolo.models.OtherNamesShortcutsMixin, models.Model),
+            options={"verbose_name": "Geographic Area", "verbose_name_plural": "Geographic Areas"},
+            bases=(
+                popolo.models.SourceShortcutsMixin,
+                popolo.models.LinkShortcutsMixin,
+                popolo.models.IdentifierShortcutsMixin,
+                popolo.models.OtherNamesShortcutsMixin,
+                models.Model,
+            ),
         ),
         migrations.CreateModel(
-            name='AreaI18Name',
+            name="AreaI18Name",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, verbose_name='name')),
-                ('area', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='i18n_names', to='popolo.Area')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=255, verbose_name="name")),
+                (
+                    "area",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, related_name="i18n_names", to="popolo.Area"
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'I18N Name',
-                'verbose_name_plural': 'I18N Names',
-            },
+            options={"verbose_name": "I18N Name", "verbose_name_plural": "I18N Names"},
         ),
         migrations.CreateModel(
-            name='AreaRelationship',
+            name="AreaRelationship",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creation time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='last modification time')),
-                ('classification', models.CharField(choices=[('FIP', 'Former ISTAT parent'), ('AMP', 'Alternate mountain community parent'), ('ACP', 'Alternate consortium of municipality parent')], help_text='The relationship classification, ex: Former ISTAT parent, ...', max_length=3)),
-                ('note', models.TextField(blank=True, help_text='Additional info about the relationship', null=True)),
-                ('dest_area', models.ForeignKey(help_text='The Area the relationship ends to', on_delete=django.db.models.deletion.CASCADE, related_name='to_relationships', to='popolo.Area', verbose_name='Destination area')),
-                ('source_area', models.ForeignKey(help_text='The Area the relation starts from', on_delete=django.db.models.deletion.CASCADE, related_name='from_relationships', to='popolo.Area', verbose_name='Source area')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
+                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "classification",
+                    models.CharField(
+                        choices=[
+                            ("FIP", "Former ISTAT parent"),
+                            ("AMP", "Alternate mountain community parent"),
+                            ("ACP", "Alternate consortium of municipality parent"),
+                        ],
+                        help_text="The relationship classification, ex: Former ISTAT parent, ...",
+                        max_length=3,
+                    ),
+                ),
+                ("note", models.TextField(blank=True, help_text="Additional info about the relationship", null=True)),
+                (
+                    "dest_area",
+                    models.ForeignKey(
+                        help_text="The Area the relationship ends to",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="to_relationships",
+                        to="popolo.Area",
+                        verbose_name="Destination area",
+                    ),
+                ),
+                (
+                    "source_area",
+                    models.ForeignKey(
+                        help_text="The Area the relation starts from",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="from_relationships",
+                        to="popolo.Area",
+                        verbose_name="Source area",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Area relationship',
-                'verbose_name_plural': 'Area relationships',
-            },
+            options={"verbose_name": "Area relationship", "verbose_name_plural": "Area relationships"},
             bases=(popolo.models.SourceShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
-            name='Classification',
+            name="Classification",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('scheme', models.CharField(blank=True, help_text='A classification scheme, e.g. ATECO, or FORMA_GIURIDICA', max_length=128, verbose_name='scheme')),
-                ('code', models.CharField(blank=True, help_text='An alphanumerical code in use within the scheme', max_length=128, null=True, verbose_name='code')),
-                ('descr', models.CharField(blank=True, help_text='The extended, textual description of the classification', max_length=512, null=True, verbose_name='description')),
-                ('parent', models.ForeignKey(blank=True, help_text='The parent classification.', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='popolo.Classification')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                (
+                    "scheme",
+                    models.CharField(
+                        blank=True,
+                        help_text="A classification scheme, e.g. ATECO, or FORMA_GIURIDICA",
+                        max_length=128,
+                        verbose_name="scheme",
+                    ),
+                ),
+                (
+                    "code",
+                    models.CharField(
+                        blank=True,
+                        help_text="An alphanumerical code in use within the scheme",
+                        max_length=128,
+                        null=True,
+                        verbose_name="code",
+                    ),
+                ),
+                (
+                    "descr",
+                    models.CharField(
+                        blank=True,
+                        help_text="The extended, textual description of the classification",
+                        max_length=512,
+                        null=True,
+                        verbose_name="description",
+                    ),
+                ),
+                (
+                    "parent",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The parent classification.",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="children",
+                        to="popolo.Classification",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Classification',
-                'verbose_name_plural': 'Classifications',
-            },
+            options={"verbose_name": "Classification", "verbose_name_plural": "Classifications"},
             bases=(popolo.models.SourceShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
-            name='ClassificationRel',
+            name="ClassificationRel",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('object_id', models.PositiveIntegerField(db_index=True, null=True)),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('classification', models.ForeignKey(help_text='A Classification instance assigned to this object', on_delete=django.db.models.deletion.CASCADE, related_name='related_objects', to='popolo.Classification')),
-                ('content_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                (
+                    "classification",
+                    models.ForeignKey(
+                        help_text="A Classification instance assigned to this object",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="related_objects",
+                        to="popolo.Classification",
+                    ),
+                ),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="contenttypes.ContentType",
+                    ),
+                ),
             ],
-            options={
-                'abstract': False,
-            },
+            options={"abstract": False},
         ),
         migrations.CreateModel(
-            name='ContactDetail',
+            name="ContactDetail",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('object_id', models.PositiveIntegerField(db_index=True, null=True)),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creation time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='last modification time')),
-                ('label', models.CharField(blank=True, help_text='A human-readable label for the contact detail', max_length=256, verbose_name='label')),
-                ('contact_type', models.CharField(choices=[('ADDRESS', 'Address'), ('EMAIL', 'Email'), ('URL', 'Url'), ('MAIL', 'Snail mail'), ('TWITTER', 'Twitter'), ('FACEBOOK', 'Facebook'), ('PHONE', 'Telephone'), ('MOBILE', 'Mobile'), ('TEXT', 'Text'), ('VOICE', 'Voice'), ('FAX', 'Fax'), ('CELL', 'Cell'), ('VIDEO', 'Video'), ('PAGER', 'Pager'), ('TEXTPHONE', 'Textphone')], help_text="A type of medium, e.g. 'fax' or 'email'", max_length=12, verbose_name='type')),
-                ('value', models.CharField(help_text='A value, e.g. a phone number or email address', max_length=256, verbose_name='value')),
-                ('note', models.CharField(blank=True, help_text='A note, e.g. for grouping contact details by physical location', max_length=512, verbose_name='note')),
-                ('content_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
+                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "label",
+                    models.CharField(
+                        blank=True,
+                        help_text="A human-readable label for the contact detail",
+                        max_length=256,
+                        verbose_name="label",
+                    ),
+                ),
+                (
+                    "contact_type",
+                    models.CharField(
+                        choices=[
+                            ("ADDRESS", "Address"),
+                            ("EMAIL", "Email"),
+                            ("URL", "Url"),
+                            ("MAIL", "Snail mail"),
+                            ("TWITTER", "Twitter"),
+                            ("FACEBOOK", "Facebook"),
+                            ("PHONE", "Telephone"),
+                            ("MOBILE", "Mobile"),
+                            ("TEXT", "Text"),
+                            ("VOICE", "Voice"),
+                            ("FAX", "Fax"),
+                            ("CELL", "Cell"),
+                            ("VIDEO", "Video"),
+                            ("PAGER", "Pager"),
+                            ("TEXTPHONE", "Textphone"),
+                        ],
+                        help_text="A type of medium, e.g. 'fax' or 'email'",
+                        max_length=12,
+                        verbose_name="type",
+                    ),
+                ),
+                (
+                    "value",
+                    models.CharField(
+                        help_text="A value, e.g. a phone number or email address", max_length=256, verbose_name="value"
+                    ),
+                ),
+                (
+                    "note",
+                    models.CharField(
+                        blank=True,
+                        help_text="A note, e.g. for grouping contact details by physical location",
+                        max_length=512,
+                        verbose_name="note",
+                    ),
+                ),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="contenttypes.ContentType",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Contact detail',
-                'verbose_name_plural': 'Contact details',
-            },
+            options={"verbose_name": "Contact detail", "verbose_name_plural": "Contact details"},
             bases=(popolo.models.SourceShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
-            name='EducationLevel',
+            name="EducationLevel",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Education level name', max_length=128, unique=True, verbose_name='name')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "name",
+                    models.CharField(
+                        help_text="Education level name", max_length=128, unique=True, verbose_name="name"
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Education level',
-                'verbose_name_plural': 'Education levels',
-            },
+            options={"verbose_name": "Education level", "verbose_name_plural": "Education levels"},
             bases=(popolo.models.IdentifierShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
-            name='ElectoralResult',
+            name="ElectoralResult",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creation time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='last modification time')),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, max_length=255, populate_from=popolo.behaviors.models.get_slug_source, slugify=django.utils.text.slugify, unique=True)),
-                ('n_eligible_voters', models.PositiveIntegerField(blank=True, help_text='The total number of eligible voter', null=True, verbose_name='Total number of eligible voters')),
-                ('n_ballots', models.PositiveIntegerField(blank=True, help_text='The total number of ballots casted', null=True, verbose_name='Total number of ballots casted')),
-                ('perc_turnout', models.FloatField(blank=True, help_text='The percentage of eligible voters that casted a ballot', null=True, validators=[popolo.validators.validate_percentage], verbose_name='Voter turnout')),
-                ('perc_valid_votes', models.FloatField(blank=True, help_text='The percentage of valid votes among those cast', null=True, validators=[popolo.validators.validate_percentage], verbose_name='Valid votes perc.')),
-                ('perc_null_votes', models.FloatField(blank=True, help_text='The percentage of null votes among those cast', null=True, validators=[popolo.validators.validate_percentage], verbose_name='Null votes perc.')),
-                ('perc_blank_votes', models.FloatField(blank=True, help_text='The percentage of blank votes among those cast', null=True, validators=[popolo.validators.validate_percentage], verbose_name='Blank votes perc.')),
-                ('n_preferences', models.PositiveIntegerField(blank=True, help_text='The total number of preferences expressed for the list/candidate', null=True, verbose_name='Total number of preferences')),
-                ('perc_preferences', models.FloatField(blank=True, help_text='The percentage of preferences expressed for the list/candidate', null=True, validators=[popolo.validators.validate_percentage], verbose_name='Preference perc.')),
-                ('is_elected', models.NullBooleanField(help_text='If the candidate has been elected with the result', verbose_name='Is elected')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
+                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "slug",
+                    autoslug.fields.AutoSlugField(
+                        editable=False,
+                        max_length=255,
+                        populate_from=popolo.behaviors.models.get_slug_source,
+                        slugify=django.utils.text.slugify,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "n_eligible_voters",
+                    models.PositiveIntegerField(
+                        blank=True,
+                        help_text="The total number of eligible voter",
+                        null=True,
+                        verbose_name="Total number of eligible voters",
+                    ),
+                ),
+                (
+                    "n_ballots",
+                    models.PositiveIntegerField(
+                        blank=True,
+                        help_text="The total number of ballots casted",
+                        null=True,
+                        verbose_name="Total number of ballots casted",
+                    ),
+                ),
+                (
+                    "perc_turnout",
+                    models.FloatField(
+                        blank=True,
+                        help_text="The percentage of eligible voters that casted a ballot",
+                        null=True,
+                        validators=[popolo.validators.validate_percentage],
+                        verbose_name="Voter turnout",
+                    ),
+                ),
+                (
+                    "perc_valid_votes",
+                    models.FloatField(
+                        blank=True,
+                        help_text="The percentage of valid votes among those cast",
+                        null=True,
+                        validators=[popolo.validators.validate_percentage],
+                        verbose_name="Valid votes perc.",
+                    ),
+                ),
+                (
+                    "perc_null_votes",
+                    models.FloatField(
+                        blank=True,
+                        help_text="The percentage of null votes among those cast",
+                        null=True,
+                        validators=[popolo.validators.validate_percentage],
+                        verbose_name="Null votes perc.",
+                    ),
+                ),
+                (
+                    "perc_blank_votes",
+                    models.FloatField(
+                        blank=True,
+                        help_text="The percentage of blank votes among those cast",
+                        null=True,
+                        validators=[popolo.validators.validate_percentage],
+                        verbose_name="Blank votes perc.",
+                    ),
+                ),
+                (
+                    "n_preferences",
+                    models.PositiveIntegerField(
+                        blank=True,
+                        help_text="The total number of preferences expressed for the list/candidate",
+                        null=True,
+                        verbose_name="Total number of preferences",
+                    ),
+                ),
+                (
+                    "perc_preferences",
+                    models.FloatField(
+                        blank=True,
+                        help_text="The percentage of preferences expressed for the list/candidate",
+                        null=True,
+                        validators=[popolo.validators.validate_percentage],
+                        verbose_name="Preference perc.",
+                    ),
+                ),
+                (
+                    "is_elected",
+                    models.NullBooleanField(
+                        help_text="If the candidate has been elected with the result", verbose_name="Is elected"
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Electoral result',
-                'verbose_name_plural': 'Electoral results',
-            },
+            options={"verbose_name": "Electoral result", "verbose_name_plural": "Electoral results"},
             bases=(popolo.models.SourceShortcutsMixin, popolo.models.LinkShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
-            name='Event',
+            name="Event",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creation time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='last modification time')),
-                ('name', models.CharField(help_text="The event's name", max_length=128, verbose_name='name')),
-                ('description', models.CharField(blank=True, help_text="The event's description", max_length=512, null=True, verbose_name='description')),
-                ('start_date', models.CharField(blank=True, help_text='The time at which the event starts', max_length=20, null=True, validators=[django.core.validators.RegexValidator(code='invalid_start_date', message='start date must follow the given pattern: ^[0-9]{4}((-[0-9]{2}){0,2}|(-[0-9]{2}){2}T[0-9]{2}(:[0-9]{2}){0,2}(Z|[+-][0-9]{2}(:[0-9]{2})?))$', regex='^[0-9]{4}((-[0-9]{2}){0,2}|(-[0-9]{2}){2}T[0-9]{2}(:[0-9]{2}){0,2}(Z|[+-][0-9]{2}(:[0-9]{2})?))$')], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The time at which the event ends', max_length=20, null=True, validators=[django.core.validators.RegexValidator(code='invalid_end_date', message='end date must follow the given pattern: ^[0-9]{4}((-[0-9]{2}){0,2}|(-[0-9]{2}){2}T[0-9]{2}(:[0-9]{2}){0,2}(Z|[+-][0-9]{2}(:[0-9]{2})?))$', regex='^[0-9]{4}((-[0-9]{2}){0,2}|(-[0-9]{2}){2}T[0-9]{2}(:[0-9]{2}){0,2}(Z|[+-][0-9]{2}(:[0-9]{2})?))$')], verbose_name='end date')),
-                ('location', models.CharField(blank=True, help_text="The event's location", max_length=255, null=True, verbose_name='location')),
-                ('status', models.CharField(blank=True, help_text="The event's status", max_length=128, null=True, verbose_name='status')),
-                ('classification', models.CharField(blank=True, help_text="The event's category", max_length=128, null=True, verbose_name='classification')),
-                ('area', models.ForeignKey(blank=True, help_text='The Area the Event is related to', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='events', to='popolo.Area')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
+                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                ("name", models.CharField(help_text="The event's name", max_length=128, verbose_name="name")),
+                (
+                    "description",
+                    models.CharField(
+                        blank=True,
+                        help_text="The event's description",
+                        max_length=512,
+                        null=True,
+                        verbose_name="description",
+                    ),
+                ),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The time at which the event starts",
+                        max_length=20,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                code="invalid_start_date",
+                                message="start date must follow the given pattern: ^[0-9]{4}((-[0-9]{2}){0,2}|(-[0-9]{2}){2}T[0-9]{2}(:[0-9]{2}){0,2}(Z|[+-][0-9]{2}(:[0-9]{2})?))$",
+                                regex="^[0-9]{4}((-[0-9]{2}){0,2}|(-[0-9]{2}){2}T[0-9]{2}(:[0-9]{2}){0,2}(Z|[+-][0-9]{2}(:[0-9]{2})?))$",
+                            )
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The time at which the event ends",
+                        max_length=20,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                code="invalid_end_date",
+                                message="end date must follow the given pattern: ^[0-9]{4}((-[0-9]{2}){0,2}|(-[0-9]{2}){2}T[0-9]{2}(:[0-9]{2}){0,2}(Z|[+-][0-9]{2}(:[0-9]{2})?))$",
+                                regex="^[0-9]{4}((-[0-9]{2}){0,2}|(-[0-9]{2}){2}T[0-9]{2}(:[0-9]{2}){0,2}(Z|[+-][0-9]{2}(:[0-9]{2})?))$",
+                            )
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "location",
+                    models.CharField(
+                        blank=True, help_text="The event's location", max_length=255, null=True, verbose_name="location"
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        blank=True, help_text="The event's status", max_length=128, null=True, verbose_name="status"
+                    ),
+                ),
+                (
+                    "classification",
+                    models.CharField(
+                        blank=True,
+                        help_text="The event's category",
+                        max_length=128,
+                        null=True,
+                        verbose_name="classification",
+                    ),
+                ),
+                (
+                    "area",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The Area the Event is related to",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="events",
+                        to="popolo.Area",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Event',
-                'verbose_name_plural': 'Events',
-            },
+            options={"verbose_name": "Event", "verbose_name_plural": "Events"},
             bases=(popolo.models.SourceShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
-            name='Identifier',
+            name="Identifier",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('object_id', models.PositiveIntegerField(db_index=True, null=True)),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('identifier', models.CharField(help_text='An issued identifier, e.g. a DUNS number', max_length=512, verbose_name='identifier')),
-                ('scheme', models.CharField(blank=True, help_text='An identifier scheme, e.g. DUNS', max_length=128, verbose_name='scheme')),
-                ('source', models.URLField(blank=True, help_text='The URL of the source where this information comes from', max_length=256, null=True, verbose_name='source')),
-                ('content_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                (
+                    "identifier",
+                    models.CharField(
+                        help_text="An issued identifier, e.g. a DUNS number", max_length=512, verbose_name="identifier"
+                    ),
+                ),
+                (
+                    "scheme",
+                    models.CharField(
+                        blank=True, help_text="An identifier scheme, e.g. DUNS", max_length=128, verbose_name="scheme"
+                    ),
+                ),
+                (
+                    "source",
+                    models.URLField(
+                        blank=True,
+                        help_text="The URL of the source where this information comes from",
+                        max_length=256,
+                        null=True,
+                        verbose_name="source",
+                    ),
+                ),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="contenttypes.ContentType",
+                    ),
+                ),
+            ],
+            options={"verbose_name": "Identifier", "verbose_name_plural": "Identifiers"},
+        ),
+        migrations.CreateModel(
+            name="KeyEvent",
+            fields=[
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
+                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "slug",
+                    autoslug.fields.AutoSlugField(
+                        editable=False,
+                        max_length=255,
+                        populate_from=popolo.behaviors.models.get_slug_source,
+                        slugify=django.utils.text.slugify,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        blank=True,
+                        help_text="A primary, generic name, e.g.: Local elections 2016",
+                        max_length=256,
+                        null=True,
+                        verbose_name="name",
+                    ),
+                ),
+                (
+                    "event_type",
+                    models.CharField(
+                        choices=[("ELE", "Election round"), ("LEG", "Legislature"), ("XAD", "External administration")],
+                        default="ELE",
+                        help_text="The electoral type, e.g.: election, legislature, ...",
+                        max_length=3,
+                        verbose_name="event type",
+                    ),
+                ),
+                (
+                    "identifier",
+                    models.CharField(
+                        blank=True,
+                        help_text="An issued identifier",
+                        max_length=128,
+                        null=True,
+                        verbose_name="identifier",
+                    ),
+                ),
+            ],
+            options={"verbose_name": "Key event", "verbose_name_plural": "Key events"},
+        ),
+        migrations.CreateModel(
+            name="Language",
+            fields=[
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "name",
+                    models.CharField(help_text="English name of the language", max_length=128, verbose_name="name"),
+                ),
+                (
+                    "iso639_1_code",
+                    models.CharField(
+                        help_text="ISO 639_1 code, ex: en, it, de, fr, es, ...",
+                        max_length=2,
+                        unique=True,
+                        verbose_name="iso639_1 code",
+                    ),
+                ),
+                (
+                    "dbpedia_resource",
+                    models.CharField(
+                        blank=True,
+                        help_text="DbPedia URI of the resource",
+                        max_length=255,
+                        null=True,
+                        unique=True,
+                        verbose_name="dbpedia resource",
+                    ),
+                ),
+            ],
+            options={"verbose_name": "Language", "verbose_name_plural": "Languages"},
+        ),
+        migrations.CreateModel(
+            name="Link",
+            fields=[
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("url", models.URLField(help_text="A URL", max_length=350, verbose_name="url")),
+                (
+                    "note",
+                    models.CharField(
+                        blank=True, help_text="A note, e.g. 'Wikipedia page'", max_length=512, verbose_name="note"
+                    ),
+                ),
+            ],
+            options={"verbose_name": "Link", "verbose_name_plural": "Links"},
+        ),
+        migrations.CreateModel(
+            name="LinkRel",
+            fields=[
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="contenttypes.ContentType",
+                    ),
+                ),
+                (
+                    "link",
+                    models.ForeignKey(
+                        help_text="A relation to a Link instance assigned to this object",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="related_objects",
+                        to="popolo.Link",
+                    ),
+                ),
+            ],
+            options={"abstract": False},
+        ),
+        migrations.CreateModel(
+            name="Membership",
+            fields=[
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
+                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "slug",
+                    autoslug.fields.AutoSlugField(
+                        editable=False,
+                        max_length=255,
+                        populate_from=popolo.behaviors.models.get_slug_source,
+                        slugify=django.utils.text.slugify,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "label",
+                    models.CharField(
+                        blank=True,
+                        help_text="A label describing the membership",
+                        max_length=256,
+                        null=True,
+                        verbose_name="label",
+                    ),
+                ),
+                (
+                    "role",
+                    models.CharField(
+                        blank=True,
+                        help_text="The role that the member fulfills in the organization",
+                        max_length=512,
+                        null=True,
+                        verbose_name="role",
+                    ),
+                ),
+                (
+                    "constituency_descr_tmp",
+                    models.CharField(
+                        blank=True, max_length=128, null=True, verbose_name="Constituency location description"
+                    ),
+                ),
+                (
+                    "electoral_list_descr_tmp",
+                    models.CharField(blank=True, max_length=512, null=True, verbose_name="Electoral list description"),
+                ),
+                (
+                    "area",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The geographic area to which the membership is related",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="memberships",
+                        to="popolo.Area",
+                        verbose_name="Area",
+                    ),
+                ),
+                (
+                    "electoral_event",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The electoral event that assigned this membership",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="memberships_assigned",
+                        to="popolo.KeyEvent",
+                        verbose_name="Electoral event",
+                    ),
+                ),
+            ],
+            options={"verbose_name": "Membership", "verbose_name_plural": "Memberships"},
+            bases=(
+                popolo.models.ContactDetailsShortcutsMixin,
+                popolo.models.LinkShortcutsMixin,
+                popolo.models.SourceShortcutsMixin,
+                models.Model,
+            ),
+        ),
+        migrations.CreateModel(
+            name="Organization",
+            fields=[
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
+                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "slug",
+                    autoslug.fields.AutoSlugField(
+                        editable=False,
+                        max_length=255,
+                        populate_from=popolo.behaviors.models.get_slug_source,
+                        slugify=django.utils.text.slugify,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        help_text="A primary name, e.g. a legally recognized name", max_length=512, verbose_name="name"
+                    ),
+                ),
+                (
+                    "identifier",
+                    models.CharField(
+                        blank=True,
+                        help_text="The main issued identifier, or fiscal code, for organization",
+                        max_length=32,
+                        null=True,
+                        verbose_name="identifier",
+                    ),
+                ),
+                (
+                    "classification",
+                    models.CharField(
+                        blank=True,
+                        help_text="The nature of the organization, legal form in many cases",
+                        max_length=256,
+                        null=True,
+                        verbose_name="classification",
+                    ),
+                ),
+                (
+                    "thematic_classification",
+                    models.CharField(
+                        blank=True,
+                        help_text="What the organization does, in what fields, ...",
+                        max_length=256,
+                        null=True,
+                        verbose_name="thematic classification",
+                    ),
+                ),
+                (
+                    "abstract",
+                    models.CharField(
+                        blank=True,
+                        help_text="A one-line description of an organization",
+                        max_length=256,
+                        null=True,
+                        verbose_name="abstract",
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        blank=True,
+                        help_text="An extended description of an organization",
+                        null=True,
+                        verbose_name="biography",
+                    ),
+                ),
+                (
+                    "founding_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="A date of founding",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                code="invalid_founding_date",
+                                message="founding date must follow the given pattern: ^[0-9]{4}(-[0-9]{2}){0,2}$",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
+                            )
+                        ],
+                        verbose_name="founding date",
+                    ),
+                ),
+                (
+                    "dissolution_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="A date of dissolution",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                code="invalid_dissolution_date",
+                                message="dissolution date must follow the given pattern: ^[0-9]{4}(-[0-9]{2}){0,2}$",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
+                            )
+                        ],
+                        verbose_name="dissolution date",
+                    ),
+                ),
+                (
+                    "image",
+                    models.URLField(
+                        blank=True,
+                        help_text="A URL of an image, to identify the organization visually",
+                        max_length=255,
+                        null=True,
+                        verbose_name="image",
+                    ),
+                ),
+                (
+                    "area",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The geographic area to which this organization is related",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="organizations",
+                        to="popolo.Area",
+                    ),
+                ),
+                (
+                    "new_orgs",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Link to organization(s) after dissolution_date, needed to track mergers, acquisition, splits.",
+                        related_name="old_orgs",
+                        to="popolo.Organization",
+                    ),
+                ),
+                (
+                    "organization_members",
+                    models.ManyToManyField(
+                        related_name="organizations_memberships", through="popolo.Membership", to="popolo.Organization"
+                    ),
+                ),
+            ],
+            options={"verbose_name": "Organization", "verbose_name_plural": "Organizations"},
+            bases=(
+                popolo.models.ContactDetailsShortcutsMixin,
+                popolo.models.OtherNamesShortcutsMixin,
+                popolo.models.IdentifierShortcutsMixin,
+                popolo.models.ClassificationShortcutsMixin,
+                popolo.models.LinkShortcutsMixin,
+                popolo.models.SourceShortcutsMixin,
+                models.Model,
+            ),
+        ),
+        migrations.CreateModel(
+            name="OriginalEducationLevel",
+            fields=[
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "name",
+                    models.CharField(
+                        help_text="Education level name", max_length=128, unique=True, verbose_name="name"
+                    ),
+                ),
+                (
+                    "normalized_education_level",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The normalized education_level",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="original_education_levels",
+                        to="popolo.EducationLevel",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Identifier',
-                'verbose_name_plural': 'Identifiers',
+                "verbose_name": "Non normalized education level",
+                "verbose_name_plural": "Non normalized education levels",
             },
         ),
         migrations.CreateModel(
-            name='KeyEvent',
+            name="OriginalProfession",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creation time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='last modification time')),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, max_length=255, populate_from=popolo.behaviors.models.get_slug_source, slugify=django.utils.text.slugify, unique=True)),
-                ('name', models.CharField(blank=True, help_text='A primary, generic name, e.g.: Local elections 2016', max_length=256, null=True, verbose_name='name')),
-                ('event_type', models.CharField(choices=[('ELE', 'Election round'), ('LEG', 'Legislature'), ('XAD', 'External administration')], default='ELE', help_text='The electoral type, e.g.: election, legislature, ...', max_length=3, verbose_name='event type')),
-                ('identifier', models.CharField(blank=True, help_text='An issued identifier', max_length=128, null=True, verbose_name='identifier')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "name",
+                    models.CharField(
+                        help_text="The original profession name", max_length=512, unique=True, verbose_name="name"
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Key event',
-                'verbose_name_plural': 'Key events',
-            },
+            options={"verbose_name": "Original profession", "verbose_name_plural": "Original professions"},
         ),
         migrations.CreateModel(
-            name='Language',
+            name="OtherName",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='English name of the language', max_length=128, verbose_name='name')),
-                ('iso639_1_code', models.CharField(help_text='ISO 639_1 code, ex: en, it, de, fr, es, ...', max_length=2, unique=True, verbose_name='iso639_1 code')),
-                ('dbpedia_resource', models.CharField(blank=True, help_text='DbPedia URI of the resource', max_length=255, null=True, unique=True, verbose_name='dbpedia resource')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(help_text="An alternate or former name", max_length=512, verbose_name="name"),
+                ),
+                (
+                    "othername_type",
+                    models.CharField(
+                        choices=[
+                            ("FOR", "Former name"),
+                            ("ALT", "Alternate name"),
+                            ("AKA", "Also Known As"),
+                            ("NIC", "Nickname"),
+                            ("ACR", "Acronym"),
+                        ],
+                        default="ALT",
+                        help_text="Type of other name, e.g. FOR: former, ALT: alternate, ...",
+                        max_length=3,
+                        verbose_name="scheme",
+                    ),
+                ),
+                (
+                    "note",
+                    models.CharField(
+                        blank=True,
+                        help_text="An extended note, e.g. 'Birth name used before marrige'",
+                        max_length=1024,
+                        null=True,
+                        verbose_name="note",
+                    ),
+                ),
+                (
+                    "source",
+                    models.URLField(
+                        blank=True,
+                        help_text="The URL of the source where this information comes from",
+                        max_length=256,
+                        null=True,
+                        verbose_name="source",
+                    ),
+                ),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="contenttypes.ContentType",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Language',
-                'verbose_name_plural': 'Languages',
-            },
+            options={"verbose_name": "Other name", "verbose_name_plural": "Other names"},
         ),
         migrations.CreateModel(
-            name='Link',
+            name="Ownership",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('url', models.URLField(help_text='A URL', max_length=350, verbose_name='url')),
-                ('note', models.CharField(blank=True, help_text="A note, e.g. 'Wikipedia page'", max_length=512, verbose_name='note')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
+                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "slug",
+                    autoslug.fields.AutoSlugField(
+                        editable=False,
+                        max_length=255,
+                        populate_from=popolo.behaviors.models.get_slug_source,
+                        slugify=django.utils.text.slugify,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "percentage",
+                    models.FloatField(
+                        help_text="The *required* percentage ownership, expressed as a floating number, from 0 to 1",
+                        validators=[popolo.validators.validate_percentage],
+                        verbose_name="percentage ownership",
+                    ),
+                ),
+                (
+                    "organization",
+                    models.ForeignKey(
+                        help_text="The organization that is owned",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="owned_organizations",
+                        to="popolo.Organization",
+                        verbose_name="Person",
+                    ),
+                ),
+                (
+                    "owner_organization",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="An owner of the organization, when it is an Organization",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="ownerships",
+                        to="popolo.Organization",
+                        verbose_name="Organization",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Link',
-                'verbose_name_plural': 'Links',
-            },
-        ),
-        migrations.CreateModel(
-            name='LinkRel',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('object_id', models.PositiveIntegerField(db_index=True, null=True)),
-                ('content_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
-                ('link', models.ForeignKey(help_text='A relation to a Link instance assigned to this object', on_delete=django.db.models.deletion.CASCADE, related_name='related_objects', to='popolo.Link')),
-            ],
-            options={
-                'abstract': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='Membership',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creation time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='last modification time')),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, max_length=255, populate_from=popolo.behaviors.models.get_slug_source, slugify=django.utils.text.slugify, unique=True)),
-                ('label', models.CharField(blank=True, help_text='A label describing the membership', max_length=256, null=True, verbose_name='label')),
-                ('role', models.CharField(blank=True, help_text='The role that the member fulfills in the organization', max_length=512, null=True, verbose_name='role')),
-                ('constituency_descr_tmp', models.CharField(blank=True, max_length=128, null=True, verbose_name='Constituency location description')),
-                ('electoral_list_descr_tmp', models.CharField(blank=True, max_length=512, null=True, verbose_name='Electoral list description')),
-                ('area', models.ForeignKey(blank=True, help_text='The geographic area to which the membership is related', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='memberships', to='popolo.Area', verbose_name='Area')),
-                ('electoral_event', models.ForeignKey(blank=True, help_text='The electoral event that assigned this membership', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='memberships_assigned', to='popolo.KeyEvent', verbose_name='Electoral event')),
-            ],
-            options={
-                'verbose_name': 'Membership',
-                'verbose_name_plural': 'Memberships',
-            },
-            bases=(popolo.models.ContactDetailsShortcutsMixin, popolo.models.LinkShortcutsMixin, popolo.models.SourceShortcutsMixin, models.Model),
-        ),
-        migrations.CreateModel(
-            name='Organization',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creation time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='last modification time')),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, max_length=255, populate_from=popolo.behaviors.models.get_slug_source, slugify=django.utils.text.slugify, unique=True)),
-                ('name', models.CharField(help_text='A primary name, e.g. a legally recognized name', max_length=512, verbose_name='name')),
-                ('identifier', models.CharField(blank=True, help_text='The main issued identifier, or fiscal code, for organization', max_length=32, null=True, verbose_name='identifier')),
-                ('classification', models.CharField(blank=True, help_text='The nature of the organization, legal form in many cases', max_length=256, null=True, verbose_name='classification')),
-                ('thematic_classification', models.CharField(blank=True, help_text='What the organization does, in what fields, ...', max_length=256, null=True, verbose_name='thematic classification')),
-                ('abstract', models.CharField(blank=True, help_text='A one-line description of an organization', max_length=256, null=True, verbose_name='abstract')),
-                ('description', models.TextField(blank=True, help_text='An extended description of an organization', null=True, verbose_name='biography')),
-                ('founding_date', models.CharField(blank=True, help_text='A date of founding', max_length=10, null=True, validators=[django.core.validators.RegexValidator(code='invalid_founding_date', message='founding date must follow the given pattern: ^[0-9]{4}(-[0-9]{2}){0,2}$', regex='^[0-9]{4}(-[0-9]{2}){0,2}$')], verbose_name='founding date')),
-                ('dissolution_date', models.CharField(blank=True, help_text='A date of dissolution', max_length=10, null=True, validators=[django.core.validators.RegexValidator(code='invalid_dissolution_date', message='dissolution date must follow the given pattern: ^[0-9]{4}(-[0-9]{2}){0,2}$', regex='^[0-9]{4}(-[0-9]{2}){0,2}$')], verbose_name='dissolution date')),
-                ('image', models.URLField(blank=True, help_text='A URL of an image, to identify the organization visually', max_length=255, null=True, verbose_name='image')),
-                ('area', models.ForeignKey(blank=True, help_text='The geographic area to which this organization is related', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='organizations', to='popolo.Area')),
-                ('new_orgs', models.ManyToManyField(blank=True, help_text='Link to organization(s) after dissolution_date, needed to track mergers, acquisition, splits.', related_name='old_orgs', to='popolo.Organization')),
-                ('organization_members', models.ManyToManyField(related_name='organizations_memberships', through='popolo.Membership', to='popolo.Organization')),
-            ],
-            options={
-                'verbose_name': 'Organization',
-                'verbose_name_plural': 'Organizations',
-            },
-            bases=(popolo.models.ContactDetailsShortcutsMixin, popolo.models.OtherNamesShortcutsMixin, popolo.models.IdentifierShortcutsMixin, popolo.models.ClassificationShortcutsMixin, popolo.models.LinkShortcutsMixin, popolo.models.SourceShortcutsMixin, models.Model),
-        ),
-        migrations.CreateModel(
-            name='OriginalEducationLevel',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Education level name', max_length=128, unique=True, verbose_name='name')),
-                ('normalized_education_level', models.ForeignKey(blank=True, help_text='The normalized education_level', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='original_education_levels', to='popolo.EducationLevel')),
-            ],
-            options={
-                'verbose_name': 'Non normalized education level',
-                'verbose_name_plural': 'Non normalized education levels',
-            },
-        ),
-        migrations.CreateModel(
-            name='OriginalProfession',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='The original profession name', max_length=512, unique=True, verbose_name='name')),
-            ],
-            options={
-                'verbose_name': 'Original profession',
-                'verbose_name_plural': 'Original professions',
-            },
-        ),
-        migrations.CreateModel(
-            name='OtherName',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('object_id', models.PositiveIntegerField(db_index=True, null=True)),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('name', models.CharField(help_text='An alternate or former name', max_length=512, verbose_name='name')),
-                ('othername_type', models.CharField(choices=[('FOR', 'Former name'), ('ALT', 'Alternate name'), ('AKA', 'Also Known As'), ('NIC', 'Nickname'), ('ACR', 'Acronym')], default='ALT', help_text='Type of other name, e.g. FOR: former, ALT: alternate, ...', max_length=3, verbose_name='scheme')),
-                ('note', models.CharField(blank=True, help_text="An extended note, e.g. 'Birth name used before marrige'", max_length=1024, null=True, verbose_name='note')),
-                ('source', models.URLField(blank=True, help_text='The URL of the source where this information comes from', max_length=256, null=True, verbose_name='source')),
-                ('content_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
-            ],
-            options={
-                'verbose_name': 'Other name',
-                'verbose_name_plural': 'Other names',
-            },
-        ),
-        migrations.CreateModel(
-            name='Ownership',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creation time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='last modification time')),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, max_length=255, populate_from=popolo.behaviors.models.get_slug_source, slugify=django.utils.text.slugify, unique=True)),
-                ('percentage', models.FloatField(help_text='The *required* percentage ownership, expressed as a floating number, from 0 to 1', validators=[popolo.validators.validate_percentage], verbose_name='percentage ownership')),
-                ('organization', models.ForeignKey(help_text='The organization that is owned', on_delete=django.db.models.deletion.CASCADE, related_name='owned_organizations', to='popolo.Organization', verbose_name='Person')),
-                ('owner_organization', models.ForeignKey(blank=True, help_text='An owner of the organization, when it is an Organization', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='ownerships', to='popolo.Organization', verbose_name='Organization')),
-            ],
-            options={
-                'verbose_name': 'Ownership',
-                'verbose_name_plural': 'Ownerships',
-            },
+            options={"verbose_name": "Ownership", "verbose_name_plural": "Ownerships"},
             bases=(popolo.models.SourceShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
-            name='Person',
+            name="Person",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creation time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='last modification time')),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, max_length=255, populate_from=popolo.behaviors.models.get_slug_source, slugify=django.utils.text.slugify, unique=True)),
-                ('name', models.CharField(db_index=True, help_text="A person's preferred full name", max_length=512, verbose_name='name')),
-                ('family_name', models.CharField(blank=True, db_index=True, help_text='One or more family names', max_length=128, null=True, verbose_name='family name')),
-                ('given_name', models.CharField(blank=True, db_index=True, help_text='One or more primary given names', max_length=128, null=True, verbose_name='given name')),
-                ('additional_name', models.CharField(blank=True, help_text='One or more secondary given names', max_length=128, null=True, verbose_name='additional name')),
-                ('honorific_prefix', models.CharField(blank=True, help_text="One or more honorifics preceding a person's name", max_length=32, null=True, verbose_name='honorific prefix')),
-                ('honorific_suffix', models.CharField(blank=True, help_text="One or more honorifics following a person's name", max_length=32, null=True, verbose_name='honorific suffix')),
-                ('patronymic_name', models.CharField(blank=True, help_text='One or more patronymic names', max_length=128, null=True, verbose_name='patronymic name')),
-                ('sort_name', models.CharField(blank=True, db_index=True, help_text='A name to use in an lexicographically ordered list', max_length=128, null=True, verbose_name='sort name')),
-                ('email', models.EmailField(blank=True, help_text='A preferred email address', max_length=254, null=True, verbose_name='email')),
-                ('gender', models.CharField(blank=True, db_index=True, help_text='A gender', max_length=32, null=True, verbose_name='gender')),
-                ('birth_date', models.CharField(blank=True, db_index=True, help_text='A date of birth', max_length=10, null=True, verbose_name='birth date')),
-                ('birth_location', models.CharField(blank=True, help_text='Birth location as a string', max_length=128, null=True, verbose_name='birth location')),
-                ('death_date', models.CharField(blank=True, db_index=True, help_text='A date of death', max_length=10, null=True, verbose_name='death date')),
-                ('image', models.URLField(blank=True, help_text='A URL of a head shot', null=True, verbose_name='image')),
-                ('summary', models.CharField(blank=True, help_text="A one-line account of a person's life", max_length=1024, null=True, verbose_name='summary')),
-                ('biography', models.TextField(blank=True, help_text="An extended account of a person's life", null=True, verbose_name='biography')),
-                ('national_identity', models.CharField(blank=True, help_text='A national identity', max_length=128, null=True, verbose_name='national identity')),
-                ('birth_location_area', models.ForeignKey(blank=True, help_text='The geographic area corresponding to the birth location', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='persons_born_here', to='popolo.Area', verbose_name='birth location Area')),
-                ('education_level', models.ForeignKey(blank=True, help_text='The education level of this person', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='persons_with_this_education_level', to='popolo.EducationLevel', verbose_name='Normalized education level')),
-                ('original_education_level', models.ForeignKey(blank=True, help_text='The education level of this person, non normalized', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='persons_with_this_original_education_level', to='popolo.OriginalEducationLevel', verbose_name='Non normalized education level')),
-                ('original_profession', models.ForeignKey(blank=True, help_text='The profession of this person, non normalized', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='persons_with_this_original_profession', to='popolo.OriginalProfession', verbose_name='Non normalized profession')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
+                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "slug",
+                    autoslug.fields.AutoSlugField(
+                        editable=False,
+                        max_length=255,
+                        populate_from=popolo.behaviors.models.get_slug_source,
+                        slugify=django.utils.text.slugify,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        db_index=True, help_text="A person's preferred full name", max_length=512, verbose_name="name"
+                    ),
+                ),
+                (
+                    "family_name",
+                    models.CharField(
+                        blank=True,
+                        db_index=True,
+                        help_text="One or more family names",
+                        max_length=128,
+                        null=True,
+                        verbose_name="family name",
+                    ),
+                ),
+                (
+                    "given_name",
+                    models.CharField(
+                        blank=True,
+                        db_index=True,
+                        help_text="One or more primary given names",
+                        max_length=128,
+                        null=True,
+                        verbose_name="given name",
+                    ),
+                ),
+                (
+                    "additional_name",
+                    models.CharField(
+                        blank=True,
+                        help_text="One or more secondary given names",
+                        max_length=128,
+                        null=True,
+                        verbose_name="additional name",
+                    ),
+                ),
+                (
+                    "honorific_prefix",
+                    models.CharField(
+                        blank=True,
+                        help_text="One or more honorifics preceding a person's name",
+                        max_length=32,
+                        null=True,
+                        verbose_name="honorific prefix",
+                    ),
+                ),
+                (
+                    "honorific_suffix",
+                    models.CharField(
+                        blank=True,
+                        help_text="One or more honorifics following a person's name",
+                        max_length=32,
+                        null=True,
+                        verbose_name="honorific suffix",
+                    ),
+                ),
+                (
+                    "patronymic_name",
+                    models.CharField(
+                        blank=True,
+                        help_text="One or more patronymic names",
+                        max_length=128,
+                        null=True,
+                        verbose_name="patronymic name",
+                    ),
+                ),
+                (
+                    "sort_name",
+                    models.CharField(
+                        blank=True,
+                        db_index=True,
+                        help_text="A name to use in an lexicographically ordered list",
+                        max_length=128,
+                        null=True,
+                        verbose_name="sort name",
+                    ),
+                ),
+                (
+                    "email",
+                    models.EmailField(
+                        blank=True,
+                        help_text="A preferred email address",
+                        max_length=254,
+                        null=True,
+                        verbose_name="email",
+                    ),
+                ),
+                (
+                    "gender",
+                    models.CharField(
+                        blank=True, db_index=True, help_text="A gender", max_length=32, null=True, verbose_name="gender"
+                    ),
+                ),
+                (
+                    "birth_date",
+                    models.CharField(
+                        blank=True,
+                        db_index=True,
+                        help_text="A date of birth",
+                        max_length=10,
+                        null=True,
+                        verbose_name="birth date",
+                    ),
+                ),
+                (
+                    "birth_location",
+                    models.CharField(
+                        blank=True,
+                        help_text="Birth location as a string",
+                        max_length=128,
+                        null=True,
+                        verbose_name="birth location",
+                    ),
+                ),
+                (
+                    "death_date",
+                    models.CharField(
+                        blank=True,
+                        db_index=True,
+                        help_text="A date of death",
+                        max_length=10,
+                        null=True,
+                        verbose_name="death date",
+                    ),
+                ),
+                (
+                    "image",
+                    models.URLField(blank=True, help_text="A URL of a head shot", null=True, verbose_name="image"),
+                ),
+                (
+                    "summary",
+                    models.CharField(
+                        blank=True,
+                        help_text="A one-line account of a person's life",
+                        max_length=1024,
+                        null=True,
+                        verbose_name="summary",
+                    ),
+                ),
+                (
+                    "biography",
+                    models.TextField(
+                        blank=True,
+                        help_text="An extended account of a person's life",
+                        null=True,
+                        verbose_name="biography",
+                    ),
+                ),
+                (
+                    "national_identity",
+                    models.CharField(
+                        blank=True,
+                        help_text="A national identity",
+                        max_length=128,
+                        null=True,
+                        verbose_name="national identity",
+                    ),
+                ),
+                (
+                    "birth_location_area",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The geographic area corresponding to the birth location",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="persons_born_here",
+                        to="popolo.Area",
+                        verbose_name="birth location Area",
+                    ),
+                ),
+                (
+                    "education_level",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The education level of this person",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="persons_with_this_education_level",
+                        to="popolo.EducationLevel",
+                        verbose_name="Normalized education level",
+                    ),
+                ),
+                (
+                    "original_education_level",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The education level of this person, non normalized",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="persons_with_this_original_education_level",
+                        to="popolo.OriginalEducationLevel",
+                        verbose_name="Non normalized education level",
+                    ),
+                ),
+                (
+                    "original_profession",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The profession of this person, non normalized",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="persons_with_this_original_profession",
+                        to="popolo.OriginalProfession",
+                        verbose_name="Non normalized profession",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Person',
-                'verbose_name_plural': 'People',
-            },
-            bases=(popolo.models.ContactDetailsShortcutsMixin, popolo.models.OtherNamesShortcutsMixin, popolo.models.IdentifierShortcutsMixin, popolo.models.LinkShortcutsMixin, popolo.models.SourceShortcutsMixin, models.Model),
+            options={"verbose_name": "Person", "verbose_name_plural": "People"},
+            bases=(
+                popolo.models.ContactDetailsShortcutsMixin,
+                popolo.models.OtherNamesShortcutsMixin,
+                popolo.models.IdentifierShortcutsMixin,
+                popolo.models.LinkShortcutsMixin,
+                popolo.models.SourceShortcutsMixin,
+                models.Model,
+            ),
         ),
         migrations.CreateModel(
-            name='PersonalRelationship',
+            name="PersonalRelationship",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creation time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='last modification time')),
-                ('weight', models.IntegerField(choices=[(-1, 'Strongly negative'), (-2, 'Negative'), (0, 'Neutral'), (1, 'Positive'), (2, 'Strongly positive')], default=0, help_text='The relationship weight, from strongly negative, to strongly positive', verbose_name='weight')),
-                ('classification', models.CharField(help_text='The relationship classification, ex: friendship, family, ...', max_length=255)),
-                ('dest_person', models.ForeignKey(help_text='The Person the relationship ends to', on_delete=django.db.models.deletion.CASCADE, related_name='from_relationships', to='popolo.Person', verbose_name='Destination person')),
-                ('source_person', models.ForeignKey(help_text='The Person the relation starts from', on_delete=django.db.models.deletion.CASCADE, related_name='to_relationships', to='popolo.Person', verbose_name='Source person')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
+                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "weight",
+                    models.IntegerField(
+                        choices=[
+                            (-1, "Strongly negative"),
+                            (-2, "Negative"),
+                            (0, "Neutral"),
+                            (1, "Positive"),
+                            (2, "Strongly positive"),
+                        ],
+                        default=0,
+                        help_text="The relationship weight, from strongly negative, to strongly positive",
+                        verbose_name="weight",
+                    ),
+                ),
+                (
+                    "classification",
+                    models.CharField(
+                        help_text="The relationship classification, ex: friendship, family, ...", max_length=255
+                    ),
+                ),
+                (
+                    "dest_person",
+                    models.ForeignKey(
+                        help_text="The Person the relationship ends to",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="from_relationships",
+                        to="popolo.Person",
+                        verbose_name="Destination person",
+                    ),
+                ),
+                (
+                    "source_person",
+                    models.ForeignKey(
+                        help_text="The Person the relation starts from",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="to_relationships",
+                        to="popolo.Person",
+                        verbose_name="Source person",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Personal relationship',
-                'verbose_name_plural': 'Personal relationships',
-            },
+            options={"verbose_name": "Personal relationship", "verbose_name_plural": "Personal relationships"},
             bases=(popolo.models.SourceShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
-            name='Post',
+            name="Post",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.CharField(blank=True, help_text='The date when the validity of the item starts', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='start date')),
-                ('end_date', models.CharField(blank=True, help_text='The date when the validity of the item ends', max_length=10, null=True, validators=[django.core.validators.RegexValidator(message='Date has wrong format', regex='^[0-9]{4}(-[0-9]{2}){0,2}$'), popolo.behaviors.models.validate_partial_date], verbose_name='end date')),
-                ('end_reason', models.CharField(blank=True, help_text="The reason why the entity isn't valid any longer (eg: merge)", max_length=255, null=True, verbose_name='end reason')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creation time')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='last modification time')),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, max_length=255, populate_from=popolo.behaviors.models.get_slug_source, slugify=django.utils.text.slugify, unique=True)),
-                ('label', models.CharField(blank=True, help_text='A label describing the post', max_length=256, verbose_name='label')),
-                ('other_label', models.CharField(blank=True, help_text='An alternate label, such as an abbreviation', max_length=32, null=True, verbose_name='other label')),
-                ('role', models.CharField(blank=True, help_text='The function that the holder of the post fulfills', max_length=512, null=True, verbose_name='role')),
-                ('priority', models.FloatField(blank=True, help_text='The absolute priority of this specific post, with respect to all others.', null=True, verbose_name='priority')),
-                ('appointed_by', models.ForeignKey(blank=True, help_text='The Post that officially appoints members to this one, ex: Secr. of Defence is appointed by POTUS', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='appointees', to='popolo.Post', verbose_name='Appointed by')),
-                ('area', models.ForeignKey(blank=True, help_text='The geographic area to which the post is related', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='posts', to='popolo.Area', verbose_name='Area')),
-                ('holders', models.ManyToManyField(related_name='roles_held', through='popolo.Membership', to='popolo.Person')),
-                ('organization', models.ForeignKey(blank=True, help_text='The organization in which the post is held', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='posts', to='popolo.Organization', verbose_name='Organization')),
-                ('organizations', models.ManyToManyField(related_name='posts_available', through='popolo.Membership', to='popolo.Organization')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "start_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item starts",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="start date",
+                    ),
+                ),
+                (
+                    "end_date",
+                    models.CharField(
+                        blank=True,
+                        help_text="The date when the validity of the item ends",
+                        max_length=10,
+                        null=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                            ),
+                            popolo.behaviors.models.validate_partial_date,
+                        ],
+                        verbose_name="end date",
+                    ),
+                ),
+                (
+                    "end_reason",
+                    models.CharField(
+                        blank=True,
+                        help_text="The reason why the entity isn't valid any longer (eg: merge)",
+                        max_length=255,
+                        null=True,
+                        verbose_name="end reason",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
+                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "slug",
+                    autoslug.fields.AutoSlugField(
+                        editable=False,
+                        max_length=255,
+                        populate_from=popolo.behaviors.models.get_slug_source,
+                        slugify=django.utils.text.slugify,
+                        unique=True,
+                    ),
+                ),
+                (
+                    "label",
+                    models.CharField(
+                        blank=True, help_text="A label describing the post", max_length=256, verbose_name="label"
+                    ),
+                ),
+                (
+                    "other_label",
+                    models.CharField(
+                        blank=True,
+                        help_text="An alternate label, such as an abbreviation",
+                        max_length=32,
+                        null=True,
+                        verbose_name="other label",
+                    ),
+                ),
+                (
+                    "role",
+                    models.CharField(
+                        blank=True,
+                        help_text="The function that the holder of the post fulfills",
+                        max_length=512,
+                        null=True,
+                        verbose_name="role",
+                    ),
+                ),
+                (
+                    "priority",
+                    models.FloatField(
+                        blank=True,
+                        help_text="The absolute priority of this specific post, with respect to all others.",
+                        null=True,
+                        verbose_name="priority",
+                    ),
+                ),
+                (
+                    "appointed_by",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The Post that officially appoints members to this one, ex: Secr. of Defence is appointed by POTUS",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="appointees",
+                        to="popolo.Post",
+                        verbose_name="Appointed by",
+                    ),
+                ),
+                (
+                    "area",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The geographic area to which the post is related",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="posts",
+                        to="popolo.Area",
+                        verbose_name="Area",
+                    ),
+                ),
+                (
+                    "holders",
+                    models.ManyToManyField(related_name="roles_held", through="popolo.Membership", to="popolo.Person"),
+                ),
+                (
+                    "organization",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The organization in which the post is held",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="posts",
+                        to="popolo.Organization",
+                        verbose_name="Organization",
+                    ),
+                ),
+                (
+                    "organizations",
+                    models.ManyToManyField(
+                        related_name="posts_available", through="popolo.Membership", to="popolo.Organization"
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Post',
-                'verbose_name_plural': 'Posts',
-            },
-            bases=(popolo.models.ContactDetailsShortcutsMixin, popolo.models.LinkShortcutsMixin, popolo.models.SourceShortcutsMixin, models.Model),
+            options={"verbose_name": "Post", "verbose_name_plural": "Posts"},
+            bases=(
+                popolo.models.ContactDetailsShortcutsMixin,
+                popolo.models.LinkShortcutsMixin,
+                popolo.models.SourceShortcutsMixin,
+                models.Model,
+            ),
         ),
         migrations.CreateModel(
-            name='Profession',
+            name="Profession",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Normalized profession name', max_length=512, unique=True, verbose_name='name')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "name",
+                    models.CharField(
+                        help_text="Normalized profession name", max_length=512, unique=True, verbose_name="name"
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Normalized profession',
-                'verbose_name_plural': 'Normalized professions',
-            },
+            options={"verbose_name": "Normalized profession", "verbose_name_plural": "Normalized professions"},
             bases=(popolo.models.IdentifierShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
-            name='RoleType',
+            name="RoleType",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('label', models.CharField(help_text='A label describing the post', max_length=256, verbose_name='label')),
-                ('other_label', models.CharField(blank=True, help_text='An alternate label, such as an abbreviation', max_length=32, null=True, verbose_name='other label')),
-                ('priority', models.IntegerField(blank=True, help_text='The priority of this role type, within the same classification group', null=True, verbose_name='priority')),
-                ('classification', models.ForeignKey(help_text='The OP_FORMA_GIURIDICA classification this role type is related to', on_delete=django.db.models.deletion.CASCADE, related_name='role_types', to='popolo.Classification')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "label",
+                    models.CharField(help_text="A label describing the post", max_length=256, verbose_name="label"),
+                ),
+                (
+                    "other_label",
+                    models.CharField(
+                        blank=True,
+                        help_text="An alternate label, such as an abbreviation",
+                        max_length=32,
+                        null=True,
+                        verbose_name="other label",
+                    ),
+                ),
+                (
+                    "priority",
+                    models.IntegerField(
+                        blank=True,
+                        help_text="The priority of this role type, within the same classification group",
+                        null=True,
+                        verbose_name="priority",
+                    ),
+                ),
+                (
+                    "classification",
+                    models.ForeignKey(
+                        help_text="The OP_FORMA_GIURIDICA classification this role type is related to",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="role_types",
+                        to="popolo.Classification",
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Role type',
-                'verbose_name_plural': 'Role types',
-            },
+            options={"verbose_name": "Role type", "verbose_name_plural": "Role types"},
         ),
         migrations.CreateModel(
-            name='Source',
+            name="Source",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('url', models.URLField(help_text='A URL', max_length=350, verbose_name='url')),
-                ('note', models.CharField(blank=True, help_text="A note, e.g. 'Parliament website'", max_length=512, verbose_name='note')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("url", models.URLField(help_text="A URL", max_length=350, verbose_name="url")),
+                (
+                    "note",
+                    models.CharField(
+                        blank=True, help_text="A note, e.g. 'Parliament website'", max_length=512, verbose_name="note"
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'Source',
-                'verbose_name_plural': 'Sources',
-            },
+            options={"verbose_name": "Source", "verbose_name_plural": "Sources"},
         ),
         migrations.CreateModel(
-            name='SourceRel',
+            name="SourceRel",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('object_id', models.PositiveIntegerField(db_index=True, null=True)),
-                ('content_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
-                ('source', models.ForeignKey(help_text='A Source instance assigned to this object', on_delete=django.db.models.deletion.CASCADE, related_name='related_objects', to='popolo.Source')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "content_type",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="contenttypes.ContentType",
+                    ),
+                ),
+                (
+                    "source",
+                    models.ForeignKey(
+                        help_text="A Source instance assigned to this object",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="related_objects",
+                        to="popolo.Source",
+                    ),
+                ),
             ],
-            options={
-                'abstract': False,
-            },
+            options={"abstract": False},
         ),
         migrations.AddField(
-            model_name='post',
-            name='role_type',
-            field=models.ForeignKey(blank=True, help_text='The structured role type for this post', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='posts', to='popolo.RoleType', verbose_name='Role type'),
+            model_name="post",
+            name="role_type",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The structured role type for this post",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="posts",
+                to="popolo.RoleType",
+                verbose_name="Role type",
+            ),
         ),
         migrations.AddField(
-            model_name='person',
-            name='profession',
-            field=models.ForeignKey(blank=True, help_text='The profession of this person', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='persons_with_this_profession', to='popolo.Profession', verbose_name='Normalized profession'),
+            model_name="person",
+            name="profession",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The profession of this person",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="persons_with_this_profession",
+                to="popolo.Profession",
+                verbose_name="Normalized profession",
+            ),
         ),
         migrations.AddField(
-            model_name='person',
-            name='related_persons',
-            field=models.ManyToManyField(through='popolo.PersonalRelationship', to='popolo.Person'),
+            model_name="person",
+            name="related_persons",
+            field=models.ManyToManyField(through="popolo.PersonalRelationship", to="popolo.Person"),
         ),
         migrations.AddField(
-            model_name='ownership',
-            name='owner_person',
-            field=models.ForeignKey(blank=True, help_text='An owner of the organization, when it is a Person', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='ownerships', to='popolo.Person', verbose_name='Person'),
+            model_name="ownership",
+            name="owner_person",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="An owner of the organization, when it is a Person",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="ownerships",
+                to="popolo.Person",
+                verbose_name="Person",
+            ),
         ),
         migrations.AddField(
-            model_name='originalprofession',
-            name='normalized_profession',
-            field=models.ForeignKey(blank=True, help_text='The normalized profession', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='original_professions', to='popolo.Profession'),
+            model_name="originalprofession",
+            name="normalized_profession",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The normalized profession",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="original_professions",
+                to="popolo.Profession",
+            ),
         ),
         migrations.AddField(
-            model_name='organization',
-            name='organization_owners',
-            field=models.ManyToManyField(related_name='organization_ownerships', through='popolo.Ownership', to='popolo.Organization'),
+            model_name="organization",
+            name="organization_owners",
+            field=models.ManyToManyField(
+                related_name="organization_ownerships", through="popolo.Ownership", to="popolo.Organization"
+            ),
         ),
         migrations.AddField(
-            model_name='organization',
-            name='parent',
-            field=models.ForeignKey(blank=True, help_text='The organization that contains this organization', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='popolo.Organization', verbose_name='Parent'),
+            model_name="organization",
+            name="parent",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The organization that contains this organization",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="children",
+                to="popolo.Organization",
+                verbose_name="Parent",
+            ),
         ),
         migrations.AddField(
-            model_name='organization',
-            name='person_members',
-            field=models.ManyToManyField(related_name='organizations_memberships', through='popolo.Membership', to='popolo.Person'),
+            model_name="organization",
+            name="person_members",
+            field=models.ManyToManyField(
+                related_name="organizations_memberships", through="popolo.Membership", to="popolo.Person"
+            ),
         ),
         migrations.AddField(
-            model_name='organization',
-            name='person_owners',
-            field=models.ManyToManyField(related_name='organizations_ownerships', through='popolo.Ownership', to='popolo.Person'),
+            model_name="organization",
+            name="person_owners",
+            field=models.ManyToManyField(
+                related_name="organizations_ownerships", through="popolo.Ownership", to="popolo.Person"
+            ),
         ),
         migrations.AddField(
-            model_name='membership',
-            name='member_organization',
-            field=models.ForeignKey(blank=True, help_text='The organization who is a member of the organization', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='memberships_as_member', to='popolo.Organization', verbose_name='Organization'),
+            model_name="membership",
+            name="member_organization",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The organization who is a member of the organization",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="memberships_as_member",
+                to="popolo.Organization",
+                verbose_name="Organization",
+            ),
         ),
         migrations.AddField(
-            model_name='membership',
-            name='on_behalf_of',
-            field=models.ForeignKey(blank=True, help_text='The organization on whose behalf the person is a member of the organization', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='memberships_on_behalf_of', to='popolo.Organization', verbose_name='On behalf of'),
+            model_name="membership",
+            name="on_behalf_of",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The organization on whose behalf the person is a member of the organization",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="memberships_on_behalf_of",
+                to="popolo.Organization",
+                verbose_name="On behalf of",
+            ),
         ),
         migrations.AddField(
-            model_name='membership',
-            name='organization',
-            field=models.ForeignKey(blank=True, help_text='The organization in which the person or organization is a member', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='memberships', to='popolo.Organization', verbose_name='Organization'),
+            model_name="membership",
+            name="organization",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The organization in which the person or organization is a member",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="memberships",
+                to="popolo.Organization",
+                verbose_name="Organization",
+            ),
         ),
         migrations.AddField(
-            model_name='membership',
-            name='person',
-            field=models.ForeignKey(blank=True, help_text='The person who is a member of the organization', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='memberships', to='popolo.Person', verbose_name='Person'),
+            model_name="membership",
+            name="person",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The person who is a member of the organization",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="memberships",
+                to="popolo.Person",
+                verbose_name="Person",
+            ),
         ),
         migrations.AddField(
-            model_name='membership',
-            name='post',
-            field=models.ForeignKey(blank=True, help_text='The post held by the person in the organization through this membership', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='memberships', to='popolo.Post', verbose_name='Post'),
+            model_name="membership",
+            name="post",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The post held by the person in the organization through this membership",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="memberships",
+                to="popolo.Post",
+                verbose_name="Post",
+            ),
         ),
-        migrations.AlterUniqueTogether(
-            name='keyevent',
-            unique_together=set([('start_date', 'event_type')]),
+        migrations.AlterUniqueTogether(name="keyevent", unique_together=set([("start_date", "event_type")])),
+        migrations.AddField(
+            model_name="event",
+            name="attendees",
+            field=models.ManyToManyField(
+                blank=True, help_text="People attending the event", related_name="attended_events", to="popolo.Person"
+            ),
         ),
         migrations.AddField(
-            model_name='event',
-            name='attendees',
-            field=models.ManyToManyField(blank=True, help_text='People attending the event', related_name='attended_events', to='popolo.Person'),
+            model_name="event",
+            name="organization",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The organization organizing the event",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="events",
+                to="popolo.Organization",
+            ),
         ),
         migrations.AddField(
-            model_name='event',
-            name='organization',
-            field=models.ForeignKey(blank=True, help_text='The organization organizing the event', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='events', to='popolo.Organization'),
+            model_name="event",
+            name="parent",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The Event that this event is part of",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="children",
+                to="popolo.Event",
+                verbose_name="Parent",
+            ),
         ),
         migrations.AddField(
-            model_name='event',
-            name='parent',
-            field=models.ForeignKey(blank=True, help_text='The Event that this event is part of', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='popolo.Event', verbose_name='Parent'),
+            model_name="electoralresult",
+            name="candidate",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The candidate in the election these data are referred to",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="electoral_results",
+                to="popolo.Person",
+                verbose_name="Candidate",
+            ),
         ),
         migrations.AddField(
-            model_name='electoralresult',
-            name='candidate',
-            field=models.ForeignKey(blank=True, help_text='The candidate in the election these data are referred to', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='electoral_results', to='popolo.Person', verbose_name='Candidate'),
+            model_name="electoralresult",
+            name="constituency",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The electoral constituency these electoral data are referred to",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="electoral_results",
+                to="popolo.Area",
+                verbose_name="Electoral constituency",
+            ),
         ),
         migrations.AddField(
-            model_name='electoralresult',
-            name='constituency',
-            field=models.ForeignKey(blank=True, help_text='The electoral constituency these electoral data are referred to', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='electoral_results', to='popolo.Area', verbose_name='Electoral constituency'),
+            model_name="electoralresult",
+            name="event",
+            field=models.ForeignKey(
+                help_text="The generating electoral event",
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="results",
+                to="popolo.KeyEvent",
+                verbose_name="Electoral event",
+            ),
         ),
         migrations.AddField(
-            model_name='electoralresult',
-            name='event',
-            field=models.ForeignKey(help_text='The generating electoral event', on_delete=django.db.models.deletion.CASCADE, related_name='results', to='popolo.KeyEvent', verbose_name='Electoral event'),
+            model_name="electoralresult",
+            name="list",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The electoral list these electoral data are referred to",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="list_electoral_results",
+                to="popolo.Organization",
+                verbose_name="Electoral list",
+            ),
         ),
         migrations.AddField(
-            model_name='electoralresult',
-            name='list',
-            field=models.ForeignKey(blank=True, help_text='The electoral list these electoral data are referred to', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='list_electoral_results', to='popolo.Organization', verbose_name='Electoral list'),
+            model_name="electoralresult",
+            name="organization",
+            field=models.ForeignKey(
+                help_text="The institution these electoral data are referred to",
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="general_electoral_results",
+                to="popolo.Organization",
+                verbose_name="Institution",
+            ),
         ),
         migrations.AddField(
-            model_name='electoralresult',
-            name='organization',
-            field=models.ForeignKey(help_text='The institution these electoral data are referred to', on_delete=django.db.models.deletion.CASCADE, related_name='general_electoral_results', to='popolo.Organization', verbose_name='Institution'),
+            model_name="areai18name",
+            name="language",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="popolo.Language", verbose_name="Language"
+            ),
         ),
         migrations.AddField(
-            model_name='areai18name',
-            name='language',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='popolo.Language', verbose_name='Language'),
+            model_name="area",
+            name="related_areas",
+            field=models.ManyToManyField(
+                help_text="Relationships between areas",
+                related_name="inversely_related_areas",
+                through="popolo.AreaRelationship",
+                to="popolo.Area",
+            ),
         ),
-        migrations.AddField(
-            model_name='area',
-            name='related_areas',
-            field=models.ManyToManyField(help_text='Relationships between areas', related_name='inversely_related_areas', through='popolo.AreaRelationship', to='popolo.Area'),
-        ),
-        migrations.AlterUniqueTogether(
-            name='roletype',
-            unique_together=set([('classification', 'label')]),
-        ),
+        migrations.AlterUniqueTogether(name="roletype", unique_together=set([("classification", "label")])),
         migrations.AddIndex(
-            model_name='identifier',
-            index=models.Index(fields=['identifier'], name='popolo_iden_identif_ace930_idx'),
+            model_name="identifier", index=models.Index(fields=["identifier"], name="popolo_iden_identif_ace930_idx")
         ),
-        migrations.AlterUniqueTogether(
-            name='event',
-            unique_together=set([('name', 'start_date')]),
-        ),
-        migrations.AlterUniqueTogether(
-            name='classification',
-            unique_together=set([('scheme', 'code', 'descr')]),
-        ),
-        migrations.AlterUniqueTogether(
-            name='areai18name',
-            unique_together=set([('area', 'language', 'name')]),
-        ),
+        migrations.AlterUniqueTogether(name="event", unique_together=set([("name", "start_date")])),
+        migrations.AlterUniqueTogether(name="classification", unique_together=set([("scheme", "code", "descr")])),
+        migrations.AlterUniqueTogether(name="areai18name", unique_together=set([("area", "language", "name")])),
     ]
