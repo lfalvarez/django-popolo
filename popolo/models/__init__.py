@@ -15,7 +15,6 @@ from .core import (
     Source,
     Classification,
 )
-
 from .extra import (
     AreaI18Name,
     EducationLevel,
@@ -26,7 +25,14 @@ from .extra import (
     OriginalProfession,
     Profession,
 )
-
+from .mixins import (
+    ClassificationShortcutsMixin,
+    ContactDetailsShortcutsMixin,
+    IdentifierShortcutsMixin,
+    LinkShortcutsMixin,
+    OtherNamesShortcutsMixin,
+    SourceShortcutsMixin,
+)
 from .relations import (
     AreaRelationship,
     ClassificationRel,
@@ -36,7 +42,6 @@ from .relations import (
     PersonalRelationship,
     SourceRel,
 )
-
 
 __all__ = [
     Area,
@@ -67,4 +72,10 @@ __all__ = [
     Ownership,
     PersonalRelationship,
     SourceRel,
+    ClassificationShortcutsMixin,
+    ContactDetailsShortcutsMixin,
+    IdentifierShortcutsMixin,
+    LinkShortcutsMixin,
+    OtherNamesShortcutsMixin,
+    SourceShortcutsMixin,
 ]
