@@ -256,7 +256,7 @@ class IdentifierShortcutsMixin(object):
         :param overwrite_overlapping: overwrite first overlapping
         :param extend_overlapping: extend first overlapping (touching)
         :param merge_overlapping: get last start_date and first end_date
-        :parma same_scheme_values_criterion: True if overlap is computed
+        :param same_scheme_values_criterion: True if overlap is computed
             only for identifiers with same scheme and values
             If set to False (default) overlapping is computed for
             identifiers having the same scheme.
