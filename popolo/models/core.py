@@ -46,7 +46,7 @@ except ImportError:
     pass
 
 from django.core.validators import RegexValidator
-from django.db import models
+from django.contrib.gis.db import models
 from model_utils import Choices
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -1321,27 +1321,25 @@ class Area(
         help_text=_("If the city is a provincial capital." "Takes the Null value if not a municipality."),
     )
 
-    geom = models.TextField(
-        _("geom"), null=True, blank=True, help_text=_("A geometry, expressed as text, eg: GeoJson, TopoJson, KML")
+    geometry = models.MultiPolygonField(
+        _("Geometry"), null=True, blank=True, help_text=_("The geometry of the area"), geography=True, dim=2
     )
 
-    gps_lat = models.DecimalField(
-        _("GPS Latitude"),
-        null=True,
-        blank=True,
-        max_digits=9,
-        decimal_places=6,
-        help_text=_("The Latitude, expressed as a float, eg: 85.3420"),
+    coordinates = models.PointField(
+        _("Coordinates"), null=True, blank=True, help_text=_("The coordinates (latitude, longitude) of the area")
     )
 
-    gps_lon = models.DecimalField(
-        _("GPS Longitude"),
-        null=True,
-        blank=True,
-        max_digits=9,
-        decimal_places=6,
-        help_text=_("The Longitude, expressed as a float, eg: 27.7172"),
-    )
+    @property
+    def geom(self):
+        return self.geometry
+
+    @property
+    def gps_lat(self):
+        return self.coordinates
+
+    @property
+    def gps_lon(self):
+        return self.coordinates
 
     # inhabitants, can be useful for some queries
     inhabitants = models.PositiveIntegerField(
