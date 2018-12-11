@@ -14,18 +14,13 @@ env:
 matrix:
   exclude:
     - python: "2.7"
-      env: DJANGO_VERSION='>=1.8,<1.9'
-      env: DJANGO_VERSION='>=1.9,<1.11'
-      env: DJANGO_VERSION='>=1.11,<1.12'
-    - python: "3.3"
-      env: DJANGO_VERSION='>=1.9,<1.11'
       env: DJANGO_VERSION='>=2.1,<2.2'
     - python: "3.3"
-      env: DJANGO_VERSION='>=1.11,<1.12'
-      env: DJANGO_VERSION='>=2.1,<2.2'
+      env: DJANGO_VERSION='>=1.9,<2.2'
+    - python: "3.3"
+      env: DJANGO_VERSION='>=1.11,<2.2'
     - python: "3.6"
       env: DJANGO_VERSION='>=1.8,<1.9'
-      env: DJANGO_VERSION='>=2.1,<2.2'
 install:
   - "pip install Django$DJANGO_VERSION"
   - "pip install -r tests_requirements.txt"
