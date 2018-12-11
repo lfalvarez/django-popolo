@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.gis.geos import Point
 
 from popolo.models.extra import Language, KeyEvent
 from popolo.models.mixins import (
@@ -1606,24 +1607,44 @@ class Area(
         dim=2,
     )
 
-    coordinates = models.PointField(
-        _("Coordinates"),
-        null=True,
-        blank=True,
-        help_text=_("The coordinates (latitude, longitude) of the area"),
-    )
-
     @property
     def geom(self):
-        return self.geometry
+        """
+        The geometry of the area expressed as a GeoJSON string.
+
+        Property implemented for backward compatibility.
+        It might be deprecated in the future.
+        :return:    A GeoJSON string representing the geometry of the area.
+        :rtype:     str
+        """
+        return self.geometry.json
+
+    @property
+    def coordinates(self):
+        """
+        The centroid point of the area.
+        :return:    A GEOS point representing the centroid point of the area.
+        :rtype:     Point
+        """
+        return self.geometry.centroid
 
     @property
     def gps_lat(self):
-        return self.coordinates
+        """
+        The latitude coordinate.
+        :return:    The latitude coordinate.
+        :rtype:     float
+        """
+        return self.coordinates.y
 
     @property
     def gps_lon(self):
-        return self.coordinates
+        """
+        The longitude coordinate.
+        :return:    The longitude coordinate.
+        :rtype:     float
+        """
+        return self.coordinates.x
 
     # inhabitants, can be useful for some queries
     inhabitants = models.PositiveIntegerField(
