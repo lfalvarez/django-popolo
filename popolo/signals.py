@@ -57,7 +57,11 @@ def verify_start_end_dates_order(sender, **kwargs):
 def verify_membership_has_org_and_member(sender, **kwargs):
     obj = kwargs["instance"]
     if obj.person is None and obj.member_organization is None:
-        raise Exception(_("A member, either a Person or an Organization, must be specified."))
+        raise Exception(
+            _(
+                "A member, either a Person or an Organization, must be specified."
+            )
+        )
     if obj.organization is None:
         raise Exception(_("An Organization, must be specified."))
 
@@ -66,7 +70,11 @@ def verify_membership_has_org_and_member(sender, **kwargs):
 def verify_ownership_has_org_and_owner(sender, **kwargs):
     obj = kwargs["instance"]
     if obj.owner_person is None and obj.owner_organization is None:
-        raise Exception(_("An owner, either a Person or an Organization, must be specified."))
+        raise Exception(
+            _(
+                "An owner, either a Person or an Organization, must be specified."
+            )
+        )
 
 
 @receiver(post_save, sender=OriginalEducationLevel)
@@ -79,9 +87,9 @@ def update_education_levels(sender, **kwargs):
     """
     obj = kwargs["instance"]
     if obj.normalized_education_level:
-        obj.persons_with_this_original_education_level.exclude(education_level=obj.normalized_education_level).update(
+        obj.persons_with_this_original_education_level.exclude(
             education_level=obj.normalized_education_level
-        )
+        ).update(education_level=obj.normalized_education_level)
 
 
 # all main instances are validated before being saved

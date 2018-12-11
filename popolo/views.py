@@ -1,6 +1,14 @@
 from django.views.generic import DetailView
 
-from popolo.models import Organization, Person, Membership, Post, KeyEvent, ElectoralResult, Area
+from popolo.models import (
+    Organization,
+    Person,
+    Membership,
+    Post,
+    KeyEvent,
+    ElectoralResult,
+    Area,
+)
 
 
 class PersonDetailView(DetailView):

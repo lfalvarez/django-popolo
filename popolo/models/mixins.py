@@ -2,11 +2,17 @@
 from popolo.models.exceptions import OverlappingIntervalError
 
 try:
-    from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+    from django.contrib.contenttypes.fields import (
+        GenericRelation,
+        GenericForeignKey,
+    )
 except ImportError:
     # This fallback import is the version that was deprecated in
     # Django 1.7 and is removed in 1.9:
-    from django.contrib.contenttypes.generic import GenericRelation, GenericForeignKey
+    from django.contrib.contenttypes.generic import (
+        GenericRelation,
+        GenericForeignKey,
+    )
 
 try:
     # PassTrhroughManager was removed in django-model-utils 2.4
@@ -24,7 +30,9 @@ get_model = app_config.get_model
 class ContactDetailsShortcutsMixin(object):
     def add_contact_detail(self, **kwargs):
         value = kwargs.pop("value")
-        c, created = self.contact_details.get_or_create(value=value, defaults=kwargs)
+        c, created = self.contact_details.get_or_create(
+            value=value, defaults=kwargs
+        )
         return c
 
     def add_contact_details(self, contacts):
@@ -49,7 +57,9 @@ class ContactDetailsShortcutsMixin(object):
 
         # update objects
         for id in new_ids & existing_ids:
-            u_name = list(filter(lambda x: x.get("id", None) == id, new_contacts))[0].copy()
+            u_name = list(
+                filter(lambda x: x.get("id", None) == id, new_contacts)
+            )[0].copy()
 
             self.contact_details.filter(pk=u_name.pop("id")).update(**u_name)
 
@@ -61,7 +71,12 @@ class ContactDetailsShortcutsMixin(object):
 
 class OtherNamesShortcutsMixin(object):
     def add_other_name(
-        self, name, othername_type="ALT", overwrite_overlapping=False, extend_overlapping=True, **kwargs
+        self,
+        name,
+        othername_type="ALT",
+        overwrite_overlapping=False,
+        extend_overlapping=True,
+        **kwargs
     ):
         """Add other_name to the instance inheriting the mixin
 
@@ -98,8 +113,13 @@ class OtherNamesShortcutsMixin(object):
 
         # names with no date interval specified are added immediately
         # the tuple (othername_type, name) must be unique
-        if kwargs.get("start_date", None) is None and kwargs.get("end_date", None) is None:
-            i, created = self.other_names.get_or_create(othername_type=othername_type, name=name, **kwargs)
+        if (
+            kwargs.get("start_date", None) is None
+            and kwargs.get("end_date", None) is None
+        ):
+            i, created = self.other_names.get_or_create(
+                othername_type=othername_type, name=name, **kwargs
+            )
             return i
         else:
             # the type was used
@@ -108,10 +128,15 @@ class OtherNamesShortcutsMixin(object):
             from popolo.utils import PartialDate
 
             # get names having the same type
-            same_type_names = self.other_names.filter(othername_type=othername_type).order_by("-end_date")
+            same_type_names = self.other_names.filter(
+                othername_type=othername_type
+            ).order_by("-end_date")
 
             # new name dates interval as PartialDatesInterval instance
-            new_int = PartialDatesInterval(start=kwargs.get("start_date", None), end=kwargs.get("end_date", None))
+            new_int = PartialDatesInterval(
+                start=kwargs.get("start_date", None),
+                end=kwargs.get("end_date", None),
+            )
 
             is_overlapping_or_extending = False
 
@@ -148,18 +173,28 @@ class OtherNamesShortcutsMixin(object):
                                 raise OverlappingIntervalError(
                                     n,
                                     "Name could not be created, "
-                                    "due to overlapping dates ({0} : {1})".format(new_int, n_int),
+                                    "due to overlapping dates ({0} : {1})".format(
+                                        new_int, n_int
+                                    ),
                                 )
 
                     else:
                         if extend_overlapping:
                             # extension, get new dates for i
-                            if new_int.start.date is None or n_int.start.date is None:
+                            if (
+                                new_int.start.date is None
+                                or n_int.start.date is None
+                            ):
                                 n.start_date = None
                             else:
-                                n.start_date = min(n.start_date, new_int.start.date)
+                                n.start_date = min(
+                                    n.start_date, new_int.start.date
+                                )
 
-                            if new_int.end.date is None or n_int.end.date is None:
+                            if (
+                                new_int.end.date is None
+                                or n_int.end.date is None
+                            ):
                                 n.end_date = None
                             else:
                                 n.end_date = max(n.end_date, new_int.end.date)
@@ -173,12 +208,16 @@ class OtherNamesShortcutsMixin(object):
                             raise OverlappingIntervalError(
                                 n,
                                 "Name could not be created, "
-                                "due to overlapping dates ({0} : {1})".format(new_int, n_int),
+                                "due to overlapping dates ({0} : {1})".format(
+                                    new_int, n_int
+                                ),
                             )
 
             # no overlaps, nor extensions, the identifier can be created
             if not is_overlapping_or_extending:
-                return self.other_names.create(othername_type=othername_type, name=name, **kwargs)
+                return self.other_names.create(
+                    othername_type=othername_type, name=name, **kwargs
+                )
 
     def add_other_names(self, names):
         """add other static names
@@ -207,7 +246,9 @@ class OtherNamesShortcutsMixin(object):
 
         # update objects
         for id in new_ids & existing_ids:
-            u_name = list(filter(lambda x: x.get("id", None) == id, new_names))[0].copy()
+            u_name = list(filter(lambda x: x.get("id", None) == id, new_names))[
+                0
+            ].copy()
 
             self.other_names.filter(pk=u_name.pop("id")).update(**u_name)
 
@@ -269,7 +310,9 @@ class IdentifierShortcutsMixin(object):
 
         # add identifier if the scheme is new
         if same_scheme_identifiers.count() == 0:
-            i, created = self.identifiers.get_or_create(scheme=scheme, identifier=identifier, **kwargs)
+            i, created = self.identifiers.get_or_create(
+                scheme=scheme, identifier=identifier, **kwargs
+            )
             return i
         else:
             # the scheme is used
@@ -278,7 +321,10 @@ class IdentifierShortcutsMixin(object):
             from popolo.utils import PartialDate
 
             # new identifiere dates interval as PartialDatesInterval instance
-            new_int = PartialDatesInterval(start=kwargs.get("start_date", None), end=kwargs.get("end_date", None))
+            new_int = PartialDatesInterval(
+                start=kwargs.get("start_date", None),
+                end=kwargs.get("end_date", None),
+            )
 
             is_overlapping_or_extending = False
 
@@ -316,13 +362,19 @@ class IdentifierShortcutsMixin(object):
                                 break
                             else:
                                 # block insertion
-                                if new_int.start.date is None and new_int.end.date is None and i_int == new_int:
+                                if (
+                                    new_int.start.date is None
+                                    and new_int.end.date is None
+                                    and i_int == new_int
+                                ):
                                     return
                                 else:
                                     raise OverlappingIntervalError(
                                         i,
                                         "Identifier could not be created, "
-                                        "due to overlapping dates ({0} : {1})".format(new_int, i_int),
+                                        "due to overlapping dates ({0} : {1})".format(
+                                            new_int, i_int
+                                        ),
                                     )
                     else:
                         # same values
@@ -335,12 +387,20 @@ class IdentifierShortcutsMixin(object):
                         # we can extend, merge or block
                         if extend_overlapping:
                             # extension, get new dates for i
-                            if new_int.start.date is None or i_int.start.date is None:
+                            if (
+                                new_int.start.date is None
+                                or i_int.start.date is None
+                            ):
                                 i.start_date = None
                             else:
-                                i.start_date = min(i.start_date, new_int.start.date)
+                                i.start_date = min(
+                                    i.start_date, new_int.start.date
+                                )
 
-                            if new_int.end.date is None or i_int.end.date is None:
+                            if (
+                                new_int.end.date is None
+                                or i_int.end.date is None
+                            ):
                                 i.end_date = None
                             else:
                                 i.end_date = max(i.end_date, new_int.end.date)
@@ -351,13 +411,19 @@ class IdentifierShortcutsMixin(object):
                             break
                         elif merge_overlapping:
                             nonnull_start_dates = list(
-                                filter(lambda x: x is not None, [new_int.start.date, i_int.start.date])
+                                filter(
+                                    lambda x: x is not None,
+                                    [new_int.start.date, i_int.start.date],
+                                )
                             )
                             if len(nonnull_start_dates):
                                 i.start_date = min(nonnull_start_dates)
 
                             nonnull_end_dates = list(
-                                filter(lambda x: x is not None, [new_int.end.date, i_int.end.date])
+                                filter(
+                                    lambda x: x is not None,
+                                    [new_int.end.date, i_int.end.date],
+                                )
                             )
                             if len(nonnull_end_dates):
                                 i.end_date = max(nonnull_end_dates)
@@ -366,18 +432,26 @@ class IdentifierShortcutsMixin(object):
                             is_overlapping_or_extending = True
                         else:
                             # block insertion
-                            if new_int.start.date is None and new_int.end.date is None and i_int == new_int:
+                            if (
+                                new_int.start.date is None
+                                and new_int.end.date is None
+                                and i_int == new_int
+                            ):
                                 return
                             else:
                                 raise OverlappingIntervalError(
                                     i,
                                     "Identifier with same scheme could not be created, "
-                                    "due to overlapping dates ({0} : {1})".format(new_int, i_int),
+                                    "due to overlapping dates ({0} : {1})".format(
+                                        new_int, i_int
+                                    ),
                                 )
 
             # no overlaps, nor extensions, the identifier can be created
             if not is_overlapping_or_extending:
-                return self.identifiers.get_or_create(scheme=scheme, identifier=identifier, **kwargs)
+                return self.identifiers.get_or_create(
+                    scheme=scheme, identifier=identifier, **kwargs
+                )
 
     def add_identifiers(self, identifiers, update=True):
         """ add identifiers and skip those that generate exceptions
@@ -418,7 +492,9 @@ class IdentifierShortcutsMixin(object):
 
         # update objects
         for id in new_ids & existing_ids:
-            u_name = list(filter(lambda x: x.get("id", None) == id, new_identifiers))[0].copy()
+            u_name = list(
+                filter(lambda x: x.get("id", None) == id, new_identifiers)
+            )[0].copy()
 
             self.identifiers.filter(pk=u_name.pop("id")).update(**u_name)
 
@@ -440,7 +516,9 @@ class ClassificationShortcutsMixin(object):
         # classifications having the same scheme, code and descr are considered
         # overlapping and will not be added
         if code is None and descr is None:
-            raise Exception("At least one between descr " "and code must take value")
+            raise Exception(
+                "At least one between descr " "and code must take value"
+            )
 
         # first create the Classification object,
         # or fetch an already existing one
@@ -459,12 +537,20 @@ class ClassificationShortcutsMixin(object):
         :return: the ClassificationRel instance just added
         """
         # then add the ClassificationRel to classifications
-        if not isinstance(classification, int) and not isinstance(classification, get_model("Classification")):
-            raise Exception("classification needs to be an integer ID or a Classification instance")
+        if not isinstance(classification, int) and not isinstance(
+            classification, get_model("Classification")
+        ):
+            raise Exception(
+                "classification needs to be an integer ID or a Classification instance"
+            )
         if isinstance(classification, int):
-            c, created = self.classifications.get_or_create(classification_id=classification, defaults=kwargs)
+            c, created = self.classifications.get_or_create(
+                classification_id=classification, defaults=kwargs
+            )
         else:
-            c, created = self.classifications.get_or_create(classification=classification, defaults=kwargs)
+            c, created = self.classifications.get_or_create(
+                classification=classification, defaults=kwargs
+            )
 
         # and finally return the classification just added
         return c
@@ -491,15 +577,24 @@ class ClassificationShortcutsMixin(object):
         :return:
         """
 
-        existing_ids = set(self.classifications.values_list("classification", flat=True))
-        new_ids = set(n.get("classification", None) for n in new_classifications)
+        existing_ids = set(
+            self.classifications.values_list("classification", flat=True)
+        )
+        new_ids = set(
+            n.get("classification", None) for n in new_classifications
+        )
 
         # remove objects
         delete_ids = existing_ids - set(new_ids)
         self.classifications.filter(classification__in=delete_ids).delete()
 
         # update objects (reference to already existing only)
-        self.add_classifications([{"classification": c_id["classification"]} for c_id in new_classifications])
+        self.add_classifications(
+            [
+                {"classification": c_id["classification"]}
+                for c_id in new_classifications
+            ]
+        )
 
         # update or create objects
         # for id in new_ids:
@@ -517,7 +612,9 @@ class ClassificationShortcutsMixin(object):
 
 class LinkShortcutsMixin(object):
     def add_link(self, url, **kwargs):
-        l, created = get_model("Link").objects.get_or_create(url=url, defaults=kwargs)
+        l, created = get_model("Link").objects.get_or_create(
+            url=url, defaults=kwargs
+        )
 
         # then add the LinkRel to links
         self.links.get_or_create(link=l)
@@ -549,7 +646,9 @@ class LinkShortcutsMixin(object):
 
         # update or create objects
         for id in new_ids:
-            ul = list(filter(lambda x: x.get("id", None) == id, new_links)).copy()
+            ul = list(
+                filter(lambda x: x.get("id", None) == id, new_links)
+            ).copy()
             for u in ul:
                 u.pop("id", None)
                 u.pop("content_type_id", None)
@@ -567,7 +666,9 @@ class LinkShortcutsMixin(object):
 
 class SourceShortcutsMixin(object):
     def add_source(self, url, **kwargs):
-        s, created = get_model("Source").objects.get_or_create(url=url, defaults=kwargs)
+        s, created = get_model("Source").objects.get_or_create(
+            url=url, defaults=kwargs
+        )
 
         # then add the SourceRel to sources
         self.sources.get_or_create(source=s)
@@ -599,7 +700,9 @@ class SourceShortcutsMixin(object):
 
         # update or create objects
         for id in new_ids:
-            ul = list(filter(lambda x: x.get("id", None) == id, new_sources)).copy()
+            ul = list(
+                filter(lambda x: x.get("id", None) == id, new_sources)
+            ).copy()
             for u in ul:
                 u.pop("id", None)
                 u.pop("content_type_id", None)

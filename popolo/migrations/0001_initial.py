@@ -22,7 +22,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Area",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -32,7 +40,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -48,7 +57,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -65,8 +75,18 @@ class Migration(migrations.Migration):
                         verbose_name="end reason",
                     ),
                 ),
-                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
-                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="creation time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="last modification time"
+                    ),
+                ),
                 (
                     "slug",
                     autoslug.fields.AutoSlugField(
@@ -80,7 +100,10 @@ class Migration(migrations.Migration):
                 (
                     "name",
                     models.CharField(
-                        blank=True, help_text="The official, issued name", max_length=256, verbose_name="name"
+                        blank=True,
+                        help_text="The official, issued name",
+                        max_length=256,
+                        verbose_name="name",
                     ),
                 ),
                 (
@@ -161,7 +184,10 @@ class Migration(migrations.Migration):
                 (
                     "inhabitants",
                     models.PositiveIntegerField(
-                        blank=True, help_text="The total number of inhabitants", null=True, verbose_name="inhabitants"
+                        blank=True,
+                        help_text="The total number of inhabitants",
+                        null=True,
+                        verbose_name="inhabitants",
                     ),
                 ),
                 (
@@ -186,7 +212,10 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Geographic Area", "verbose_name_plural": "Geographic Areas"},
+            options={
+                "verbose_name": "Geographic Area",
+                "verbose_name_plural": "Geographic Areas",
+            },
             bases=(
                 popolo.models.SourceShortcutsMixin,
                 popolo.models.LinkShortcutsMixin,
@@ -198,21 +227,42 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="AreaI18Name",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 ("name", models.CharField(max_length=255, verbose_name="name")),
                 (
                     "area",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, related_name="i18n_names", to="popolo.Area"
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="i18n_names",
+                        to="popolo.Area",
                     ),
                 ),
             ],
-            options={"verbose_name": "I18N Name", "verbose_name_plural": "I18N Names"},
+            options={
+                "verbose_name": "I18N Name",
+                "verbose_name_plural": "I18N Names",
+            },
         ),
         migrations.CreateModel(
             name="AreaRelationship",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -222,7 +272,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -238,7 +289,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -255,21 +307,41 @@ class Migration(migrations.Migration):
                         verbose_name="end reason",
                     ),
                 ),
-                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
-                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="creation time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="last modification time"
+                    ),
+                ),
                 (
                     "classification",
                     models.CharField(
                         choices=[
                             ("FIP", "Former ISTAT parent"),
                             ("AMP", "Alternate mountain community parent"),
-                            ("ACP", "Alternate consortium of municipality parent"),
+                            (
+                                "ACP",
+                                "Alternate consortium of municipality parent",
+                            ),
                         ],
                         help_text="The relationship classification, ex: Former ISTAT parent, ...",
                         max_length=3,
                     ),
                 ),
-                ("note", models.TextField(blank=True, help_text="Additional info about the relationship", null=True)),
+                (
+                    "note",
+                    models.TextField(
+                        blank=True,
+                        help_text="Additional info about the relationship",
+                        null=True,
+                    ),
+                ),
                 (
                     "dest_area",
                     models.ForeignKey(
@@ -291,13 +363,24 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Area relationship", "verbose_name_plural": "Area relationships"},
+            options={
+                "verbose_name": "Area relationship",
+                "verbose_name_plural": "Area relationships",
+            },
             bases=(popolo.models.SourceShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
             name="Classification",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -307,7 +390,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -323,7 +407,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -381,14 +466,28 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Classification", "verbose_name_plural": "Classifications"},
+            options={
+                "verbose_name": "Classification",
+                "verbose_name_plural": "Classifications",
+            },
             bases=(popolo.models.SourceShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
             name="ClassificationRel",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "object_id",
+                    models.PositiveIntegerField(db_index=True, null=True),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -398,7 +497,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -414,7 +514,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -455,8 +556,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="ContactDetail",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "object_id",
+                    models.PositiveIntegerField(db_index=True, null=True),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -466,7 +578,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -482,7 +595,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -499,8 +613,18 @@ class Migration(migrations.Migration):
                         verbose_name="end reason",
                     ),
                 ),
-                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
-                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="creation time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="last modification time"
+                    ),
+                ),
                 (
                     "label",
                     models.CharField(
@@ -538,7 +662,9 @@ class Migration(migrations.Migration):
                 (
                     "value",
                     models.CharField(
-                        help_text="A value, e.g. a phone number or email address", max_length=256, verbose_name="value"
+                        help_text="A value, e.g. a phone number or email address",
+                        max_length=256,
+                        verbose_name="value",
                     ),
                 ),
                 (
@@ -560,29 +686,64 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Contact detail", "verbose_name_plural": "Contact details"},
+            options={
+                "verbose_name": "Contact detail",
+                "verbose_name_plural": "Contact details",
+            },
             bases=(popolo.models.SourceShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
             name="EducationLevel",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "name",
                     models.CharField(
-                        help_text="Education level name", max_length=128, unique=True, verbose_name="name"
+                        help_text="Education level name",
+                        max_length=128,
+                        unique=True,
+                        verbose_name="name",
                     ),
                 ),
             ],
-            options={"verbose_name": "Education level", "verbose_name_plural": "Education levels"},
+            options={
+                "verbose_name": "Education level",
+                "verbose_name_plural": "Education levels",
+            },
             bases=(popolo.models.IdentifierShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
             name="ElectoralResult",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
-                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="creation time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="last modification time"
+                    ),
+                ),
                 (
                     "slug",
                     autoslug.fields.AutoSlugField(
@@ -673,20 +834,53 @@ class Migration(migrations.Migration):
                 (
                     "is_elected",
                     models.NullBooleanField(
-                        help_text="If the candidate has been elected with the result", verbose_name="Is elected"
+                        help_text="If the candidate has been elected with the result",
+                        verbose_name="Is elected",
                     ),
                 ),
             ],
-            options={"verbose_name": "Electoral result", "verbose_name_plural": "Electoral results"},
-            bases=(popolo.models.SourceShortcutsMixin, popolo.models.LinkShortcutsMixin, models.Model),
+            options={
+                "verbose_name": "Electoral result",
+                "verbose_name_plural": "Electoral results",
+            },
+            bases=(
+                popolo.models.SourceShortcutsMixin,
+                popolo.models.LinkShortcutsMixin,
+                models.Model,
+            ),
         ),
         migrations.CreateModel(
             name="Event",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
-                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
-                ("name", models.CharField(help_text="The event's name", max_length=128, verbose_name="name")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="creation time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="last modification time"
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        help_text="The event's name",
+                        max_length=128,
+                        verbose_name="name",
+                    ),
+                ),
                 (
                     "description",
                     models.CharField(
@@ -734,13 +928,21 @@ class Migration(migrations.Migration):
                 (
                     "location",
                     models.CharField(
-                        blank=True, help_text="The event's location", max_length=255, null=True, verbose_name="location"
+                        blank=True,
+                        help_text="The event's location",
+                        max_length=255,
+                        null=True,
+                        verbose_name="location",
                     ),
                 ),
                 (
                     "status",
                     models.CharField(
-                        blank=True, help_text="The event's status", max_length=128, null=True, verbose_name="status"
+                        blank=True,
+                        help_text="The event's status",
+                        max_length=128,
+                        null=True,
+                        verbose_name="status",
                     ),
                 ),
                 (
@@ -771,8 +973,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Identifier",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "object_id",
+                    models.PositiveIntegerField(db_index=True, null=True),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -782,7 +995,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -798,7 +1012,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -818,13 +1033,18 @@ class Migration(migrations.Migration):
                 (
                     "identifier",
                     models.CharField(
-                        help_text="An issued identifier, e.g. a DUNS number", max_length=512, verbose_name="identifier"
+                        help_text="An issued identifier, e.g. a DUNS number",
+                        max_length=512,
+                        verbose_name="identifier",
                     ),
                 ),
                 (
                     "scheme",
                     models.CharField(
-                        blank=True, help_text="An identifier scheme, e.g. DUNS", max_length=128, verbose_name="scheme"
+                        blank=True,
+                        help_text="An identifier scheme, e.g. DUNS",
+                        max_length=128,
+                        verbose_name="scheme",
                     ),
                 ),
                 (
@@ -847,12 +1067,23 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Identifier", "verbose_name_plural": "Identifiers"},
+            options={
+                "verbose_name": "Identifier",
+                "verbose_name_plural": "Identifiers",
+            },
         ),
         migrations.CreateModel(
             name="KeyEvent",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -862,7 +1093,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -878,7 +1110,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -895,8 +1128,18 @@ class Migration(migrations.Migration):
                         verbose_name="end reason",
                     ),
                 ),
-                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
-                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="creation time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="last modification time"
+                    ),
+                ),
                 (
                     "slug",
                     autoslug.fields.AutoSlugField(
@@ -920,7 +1163,11 @@ class Migration(migrations.Migration):
                 (
                     "event_type",
                     models.CharField(
-                        choices=[("ELE", "Election round"), ("LEG", "Legislature"), ("XAD", "External administration")],
+                        choices=[
+                            ("ELE", "Election round"),
+                            ("LEG", "Legislature"),
+                            ("XAD", "External administration"),
+                        ],
                         default="ELE",
                         help_text="The electoral type, e.g.: election, legislature, ...",
                         max_length=3,
@@ -938,15 +1185,30 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Key event", "verbose_name_plural": "Key events"},
+            options={
+                "verbose_name": "Key event",
+                "verbose_name_plural": "Key events",
+            },
         ),
         migrations.CreateModel(
             name="Language",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "name",
-                    models.CharField(help_text="English name of the language", max_length=128, verbose_name="name"),
+                    models.CharField(
+                        help_text="English name of the language",
+                        max_length=128,
+                        verbose_name="name",
+                    ),
                 ),
                 (
                     "iso639_1_code",
@@ -969,17 +1231,36 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Language", "verbose_name_plural": "Languages"},
+            options={
+                "verbose_name": "Language",
+                "verbose_name_plural": "Languages",
+            },
         ),
         migrations.CreateModel(
             name="Link",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("url", models.URLField(help_text="A URL", max_length=350, verbose_name="url")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "url",
+                    models.URLField(
+                        help_text="A URL", max_length=350, verbose_name="url"
+                    ),
+                ),
                 (
                     "note",
                     models.CharField(
-                        blank=True, help_text="A note, e.g. 'Wikipedia page'", max_length=512, verbose_name="note"
+                        blank=True,
+                        help_text="A note, e.g. 'Wikipedia page'",
+                        max_length=512,
+                        verbose_name="note",
                     ),
                 ),
             ],
@@ -988,8 +1269,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="LinkRel",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "object_id",
+                    models.PositiveIntegerField(db_index=True, null=True),
+                ),
                 (
                     "content_type",
                     models.ForeignKey(
@@ -1014,7 +1306,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Membership",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -1024,7 +1324,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1040,7 +1341,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1057,8 +1359,18 @@ class Migration(migrations.Migration):
                         verbose_name="end reason",
                     ),
                 ),
-                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
-                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="creation time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="last modification time"
+                    ),
+                ),
                 (
                     "slug",
                     autoslug.fields.AutoSlugField(
@@ -1092,12 +1404,20 @@ class Migration(migrations.Migration):
                 (
                     "constituency_descr_tmp",
                     models.CharField(
-                        blank=True, max_length=128, null=True, verbose_name="Constituency location description"
+                        blank=True,
+                        max_length=128,
+                        null=True,
+                        verbose_name="Constituency location description",
                     ),
                 ),
                 (
                     "electoral_list_descr_tmp",
-                    models.CharField(blank=True, max_length=512, null=True, verbose_name="Electoral list description"),
+                    models.CharField(
+                        blank=True,
+                        max_length=512,
+                        null=True,
+                        verbose_name="Electoral list description",
+                    ),
                 ),
                 (
                     "area",
@@ -1124,7 +1444,10 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Membership", "verbose_name_plural": "Memberships"},
+            options={
+                "verbose_name": "Membership",
+                "verbose_name_plural": "Memberships",
+            },
             bases=(
                 popolo.models.ContactDetailsShortcutsMixin,
                 popolo.models.LinkShortcutsMixin,
@@ -1135,7 +1458,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Organization",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -1145,7 +1476,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1161,7 +1493,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1178,8 +1511,18 @@ class Migration(migrations.Migration):
                         verbose_name="end reason",
                     ),
                 ),
-                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
-                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="creation time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="last modification time"
+                    ),
+                ),
                 (
                     "slug",
                     autoslug.fields.AutoSlugField(
@@ -1193,7 +1536,9 @@ class Migration(migrations.Migration):
                 (
                     "name",
                     models.CharField(
-                        help_text="A primary name, e.g. a legally recognized name", max_length=512, verbose_name="name"
+                        help_text="A primary name, e.g. a legally recognized name",
+                        max_length=512,
+                        verbose_name="name",
                     ),
                 ),
                 (
@@ -1312,11 +1657,16 @@ class Migration(migrations.Migration):
                 (
                     "organization_members",
                     models.ManyToManyField(
-                        related_name="organizations_memberships", through="popolo.Membership", to="popolo.Organization"
+                        related_name="organizations_memberships",
+                        through="popolo.Membership",
+                        to="popolo.Organization",
                     ),
                 ),
             ],
-            options={"verbose_name": "Organization", "verbose_name_plural": "Organizations"},
+            options={
+                "verbose_name": "Organization",
+                "verbose_name_plural": "Organizations",
+            },
             bases=(
                 popolo.models.ContactDetailsShortcutsMixin,
                 popolo.models.OtherNamesShortcutsMixin,
@@ -1330,11 +1680,22 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="OriginalEducationLevel",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "name",
                     models.CharField(
-                        help_text="Education level name", max_length=128, unique=True, verbose_name="name"
+                        help_text="Education level name",
+                        max_length=128,
+                        unique=True,
+                        verbose_name="name",
                     ),
                 ),
                 (
@@ -1357,21 +1718,46 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="OriginalProfession",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "name",
                     models.CharField(
-                        help_text="The original profession name", max_length=512, unique=True, verbose_name="name"
+                        help_text="The original profession name",
+                        max_length=512,
+                        unique=True,
+                        verbose_name="name",
                     ),
                 ),
             ],
-            options={"verbose_name": "Original profession", "verbose_name_plural": "Original professions"},
+            options={
+                "verbose_name": "Original profession",
+                "verbose_name_plural": "Original professions",
+            },
         ),
         migrations.CreateModel(
             name="OtherName",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "object_id",
+                    models.PositiveIntegerField(db_index=True, null=True),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -1381,7 +1767,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1397,7 +1784,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1416,7 +1804,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(help_text="An alternate or former name", max_length=512, verbose_name="name"),
+                    models.CharField(
+                        help_text="An alternate or former name",
+                        max_length=512,
+                        verbose_name="name",
+                    ),
                 ),
                 (
                     "othername_type",
@@ -1464,12 +1856,23 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Other name", "verbose_name_plural": "Other names"},
+            options={
+                "verbose_name": "Other name",
+                "verbose_name_plural": "Other names",
+            },
         ),
         migrations.CreateModel(
             name="Ownership",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -1479,7 +1882,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1495,7 +1899,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1512,8 +1917,18 @@ class Migration(migrations.Migration):
                         verbose_name="end reason",
                     ),
                 ),
-                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
-                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="creation time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="last modification time"
+                    ),
+                ),
                 (
                     "slug",
                     autoslug.fields.AutoSlugField(
@@ -1555,13 +1970,24 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Ownership", "verbose_name_plural": "Ownerships"},
+            options={
+                "verbose_name": "Ownership",
+                "verbose_name_plural": "Ownerships",
+            },
             bases=(popolo.models.SourceShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
             name="Person",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -1571,7 +1997,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1587,7 +2014,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1604,8 +2032,18 @@ class Migration(migrations.Migration):
                         verbose_name="end reason",
                     ),
                 ),
-                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
-                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="creation time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="last modification time"
+                    ),
+                ),
                 (
                     "slug",
                     autoslug.fields.AutoSlugField(
@@ -1619,7 +2057,10 @@ class Migration(migrations.Migration):
                 (
                     "name",
                     models.CharField(
-                        db_index=True, help_text="A person's preferred full name", max_length=512, verbose_name="name"
+                        db_index=True,
+                        help_text="A person's preferred full name",
+                        max_length=512,
+                        verbose_name="name",
                     ),
                 ),
                 (
@@ -1708,7 +2149,12 @@ class Migration(migrations.Migration):
                 (
                     "gender",
                     models.CharField(
-                        blank=True, db_index=True, help_text="A gender", max_length=32, null=True, verbose_name="gender"
+                        blank=True,
+                        db_index=True,
+                        help_text="A gender",
+                        max_length=32,
+                        null=True,
+                        verbose_name="gender",
                     ),
                 ),
                 (
@@ -1745,7 +2191,12 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "image",
-                    models.URLField(blank=True, help_text="A URL of a head shot", null=True, verbose_name="image"),
+                    models.URLField(
+                        blank=True,
+                        help_text="A URL of a head shot",
+                        null=True,
+                        verbose_name="image",
+                    ),
                 ),
                 (
                     "summary",
@@ -1838,7 +2289,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="PersonalRelationship",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -1848,7 +2307,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1864,7 +2324,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1881,8 +2342,18 @@ class Migration(migrations.Migration):
                         verbose_name="end reason",
                     ),
                 ),
-                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
-                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="creation time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="last modification time"
+                    ),
+                ),
                 (
                     "weight",
                     models.IntegerField(
@@ -1901,7 +2372,8 @@ class Migration(migrations.Migration):
                 (
                     "classification",
                     models.CharField(
-                        help_text="The relationship classification, ex: friendship, family, ...", max_length=255
+                        help_text="The relationship classification, ex: friendship, family, ...",
+                        max_length=255,
                     ),
                 ),
                 (
@@ -1925,13 +2397,24 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Personal relationship", "verbose_name_plural": "Personal relationships"},
+            options={
+                "verbose_name": "Personal relationship",
+                "verbose_name_plural": "Personal relationships",
+            },
             bases=(popolo.models.SourceShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
             name="Post",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "start_date",
                     models.CharField(
@@ -1941,7 +2424,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1957,7 +2441,8 @@ class Migration(migrations.Migration):
                         null=True,
                         validators=[
                             django.core.validators.RegexValidator(
-                                message="Date has wrong format", regex="^[0-9]{4}(-[0-9]{2}){0,2}$"
+                                message="Date has wrong format",
+                                regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
                             ),
                             popolo.behaviors.models.validate_partial_date,
                         ],
@@ -1974,8 +2459,18 @@ class Migration(migrations.Migration):
                         verbose_name="end reason",
                     ),
                 ),
-                ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="creation time")),
-                ("updated_at", models.DateTimeField(auto_now=True, verbose_name="last modification time")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="creation time"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="last modification time"
+                    ),
+                ),
                 (
                     "slug",
                     autoslug.fields.AutoSlugField(
@@ -1989,7 +2484,10 @@ class Migration(migrations.Migration):
                 (
                     "label",
                     models.CharField(
-                        blank=True, help_text="A label describing the post", max_length=256, verbose_name="label"
+                        blank=True,
+                        help_text="A label describing the post",
+                        max_length=256,
+                        verbose_name="label",
                     ),
                 ),
                 (
@@ -2047,7 +2545,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "holders",
-                    models.ManyToManyField(related_name="roles_held", through="popolo.Membership", to="popolo.Person"),
+                    models.ManyToManyField(
+                        related_name="roles_held",
+                        through="popolo.Membership",
+                        to="popolo.Person",
+                    ),
                 ),
                 (
                     "organization",
@@ -2064,7 +2566,9 @@ class Migration(migrations.Migration):
                 (
                     "organizations",
                     models.ManyToManyField(
-                        related_name="posts_available", through="popolo.Membership", to="popolo.Organization"
+                        related_name="posts_available",
+                        through="popolo.Membership",
+                        to="popolo.Organization",
                     ),
                 ),
             ],
@@ -2079,24 +2583,50 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Profession",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "name",
                     models.CharField(
-                        help_text="Normalized profession name", max_length=512, unique=True, verbose_name="name"
+                        help_text="Normalized profession name",
+                        max_length=512,
+                        unique=True,
+                        verbose_name="name",
                     ),
                 ),
             ],
-            options={"verbose_name": "Normalized profession", "verbose_name_plural": "Normalized professions"},
+            options={
+                "verbose_name": "Normalized profession",
+                "verbose_name_plural": "Normalized professions",
+            },
             bases=(popolo.models.IdentifierShortcutsMixin, models.Model),
         ),
         migrations.CreateModel(
             name="RoleType",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
                 (
                     "label",
-                    models.CharField(help_text="A label describing the post", max_length=256, verbose_name="label"),
+                    models.CharField(
+                        help_text="A label describing the post",
+                        max_length=256,
+                        verbose_name="label",
+                    ),
                 ),
                 (
                     "other_label",
@@ -2127,27 +2657,60 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Role type", "verbose_name_plural": "Role types"},
+            options={
+                "verbose_name": "Role type",
+                "verbose_name_plural": "Role types",
+            },
         ),
         migrations.CreateModel(
             name="Source",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("url", models.URLField(help_text="A URL", max_length=350, verbose_name="url")),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "url",
+                    models.URLField(
+                        help_text="A URL", max_length=350, verbose_name="url"
+                    ),
+                ),
                 (
                     "note",
                     models.CharField(
-                        blank=True, help_text="A note, e.g. 'Parliament website'", max_length=512, verbose_name="note"
+                        blank=True,
+                        help_text="A note, e.g. 'Parliament website'",
+                        max_length=512,
+                        verbose_name="note",
                     ),
                 ),
             ],
-            options={"verbose_name": "Source", "verbose_name_plural": "Sources"},
+            options={
+                "verbose_name": "Source",
+                "verbose_name_plural": "Sources",
+            },
         ),
         migrations.CreateModel(
             name="SourceRel",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "object_id",
+                    models.PositiveIntegerField(db_index=True, null=True),
+                ),
                 (
                     "content_type",
                     models.ForeignKey(
@@ -2198,7 +2761,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="person",
             name="related_persons",
-            field=models.ManyToManyField(through="popolo.PersonalRelationship", to="popolo.Person"),
+            field=models.ManyToManyField(
+                through="popolo.PersonalRelationship", to="popolo.Person"
+            ),
         ),
         migrations.AddField(
             model_name="ownership",
@@ -2229,7 +2794,9 @@ class Migration(migrations.Migration):
             model_name="organization",
             name="organization_owners",
             field=models.ManyToManyField(
-                related_name="organization_ownerships", through="popolo.Ownership", to="popolo.Organization"
+                related_name="organization_ownerships",
+                through="popolo.Ownership",
+                to="popolo.Organization",
             ),
         ),
         migrations.AddField(
@@ -2249,14 +2816,18 @@ class Migration(migrations.Migration):
             model_name="organization",
             name="person_members",
             field=models.ManyToManyField(
-                related_name="organizations_memberships", through="popolo.Membership", to="popolo.Person"
+                related_name="organizations_memberships",
+                through="popolo.Membership",
+                to="popolo.Person",
             ),
         ),
         migrations.AddField(
             model_name="organization",
             name="person_owners",
             field=models.ManyToManyField(
-                related_name="organizations_ownerships", through="popolo.Ownership", to="popolo.Person"
+                related_name="organizations_ownerships",
+                through="popolo.Ownership",
+                to="popolo.Person",
             ),
         ),
         migrations.AddField(
@@ -2324,12 +2895,17 @@ class Migration(migrations.Migration):
                 verbose_name="Post",
             ),
         ),
-        migrations.AlterUniqueTogether(name="keyevent", unique_together=set([("start_date", "event_type")])),
+        migrations.AlterUniqueTogether(
+            name="keyevent", unique_together=set([("start_date", "event_type")])
+        ),
         migrations.AddField(
             model_name="event",
             name="attendees",
             field=models.ManyToManyField(
-                blank=True, help_text="People attending the event", related_name="attended_events", to="popolo.Person"
+                blank=True,
+                help_text="People attending the event",
+                related_name="attended_events",
+                to="popolo.Person",
             ),
         ),
         migrations.AddField(
@@ -2422,7 +2998,9 @@ class Migration(migrations.Migration):
             model_name="areai18name",
             name="language",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to="popolo.Language", verbose_name="Language"
+                on_delete=django.db.models.deletion.CASCADE,
+                to="popolo.Language",
+                verbose_name="Language",
             ),
         ),
         migrations.AddField(
@@ -2435,11 +3013,24 @@ class Migration(migrations.Migration):
                 to="popolo.Area",
             ),
         ),
-        migrations.AlterUniqueTogether(name="roletype", unique_together=set([("classification", "label")])),
-        migrations.AddIndex(
-            model_name="identifier", index=models.Index(fields=["identifier"], name="popolo_iden_identif_ace930_idx")
+        migrations.AlterUniqueTogether(
+            name="roletype", unique_together=set([("classification", "label")])
         ),
-        migrations.AlterUniqueTogether(name="event", unique_together=set([("name", "start_date")])),
-        migrations.AlterUniqueTogether(name="classification", unique_together=set([("scheme", "code", "descr")])),
-        migrations.AlterUniqueTogether(name="areai18name", unique_together=set([("area", "language", "name")])),
+        migrations.AddIndex(
+            model_name="identifier",
+            index=models.Index(
+                fields=["identifier"], name="popolo_iden_identif_ace930_idx"
+            ),
+        ),
+        migrations.AlterUniqueTogether(
+            name="event", unique_together=set([("name", "start_date")])
+        ),
+        migrations.AlterUniqueTogether(
+            name="classification",
+            unique_together=set([("scheme", "code", "descr")]),
+        ),
+        migrations.AlterUniqueTogether(
+            name="areai18name",
+            unique_together=set([("area", "language", "name")]),
+        ),
     ]

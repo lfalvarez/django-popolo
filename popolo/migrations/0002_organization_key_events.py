@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="organization",
             name="key_events",
-            field=models.ManyToManyField(related_name="organization", to="popolo.KeyEvent"),
+            field=models.ManyToManyField(
+                related_name="organization", to="popolo.KeyEvent"
+            ),
         )
     ]

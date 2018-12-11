@@ -26,10 +26,12 @@ class RoleTypeAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "classification":
-            kwargs["queryset"] = popolo_models.Classification.objects.filter(scheme="FORMA_GIURIDICA_OP").order_by(
-                "code"
-            )
-        return super(RoleTypeAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+            kwargs["queryset"] = popolo_models.Classification.objects.filter(
+                scheme="FORMA_GIURIDICA_OP"
+            ).order_by("code")
+        return super(RoleTypeAdmin, self).formfield_for_foreignkey(
+            db_field, request, **kwargs
+        )
 
 
 class IdentifiersInline(GenericTabularInline):
@@ -60,7 +62,9 @@ class OriginalEducationLevelAdmin(admin.ModelAdmin):
     list_display = ("name", "normalized_education_level")
     list_filter = ("normalized_education_level",)
     search_fields = ("name", "normalized_education_level__name")
-    formfield_overrides = {models.CharField: {"widget": TextInput(attrs={"size": "120"})}}
+    formfield_overrides = {
+        models.CharField: {"widget": TextInput(attrs={"size": "120"})}
+    }
 
 
 class OriginalProfessionInline(admin.TabularInline):
@@ -85,13 +89,17 @@ class OriginalProfessionAdmin(admin.ModelAdmin):
     list_display = ("name", "normalized_profession")
     list_filter = ("normalized_profession",)
     search_fields = ("name", "normalized_profession__name")
-    formfield_overrides = {models.CharField: {"widget": TextInput(attrs={"size": "120"})}}
+    formfield_overrides = {
+        models.CharField: {"widget": TextInput(attrs={"size": "120"})}
+    }
 
 
 admin.site.register(popolo_models.RoleType, RoleTypeAdmin)
 admin.site.register(popolo_models.Classification, ClassificationAdmin)
 admin.site.register(popolo_models.EducationLevel, EducationLevelAdmin)
-admin.site.register(popolo_models.OriginalEducationLevel, OriginalEducationLevelAdmin)
+admin.site.register(
+    popolo_models.OriginalEducationLevel, OriginalEducationLevelAdmin
+)
 admin.site.register(popolo_models.Profession, ProfessionAdmin)
 admin.site.register(popolo_models.OriginalProfession, OriginalProfessionAdmin)
 admin.site.register(popolo_models.Language)

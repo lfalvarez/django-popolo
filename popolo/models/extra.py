@@ -2,16 +2,26 @@
 from model_utils import Choices
 
 from popolo.behaviors.models import Permalinkable, Timestampable, Dateframeable
-from popolo.models.mixins import LinkShortcutsMixin, SourceShortcutsMixin, IdentifierShortcutsMixin
+from popolo.models.mixins import (
+    LinkShortcutsMixin,
+    SourceShortcutsMixin,
+    IdentifierShortcutsMixin,
+)
 from popolo.querysets import ElectoralResultQuerySet, KeyEventQuerySet
 from popolo.validators import validate_percentage
 
 try:
-    from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+    from django.contrib.contenttypes.fields import (
+        GenericRelation,
+        GenericForeignKey,
+    )
 except ImportError:
     # This fallback import is the version that was deprecated in
     # Django 1.7 and is removed in 1.9:
-    from django.contrib.contenttypes.generic import GenericRelation, GenericForeignKey
+    from django.contrib.contenttypes.generic import (
+        GenericRelation,
+        GenericForeignKey,
+    )
 
 try:
     # PassTrhroughManager was removed in django-model-utils 2.4
@@ -32,10 +42,15 @@ class Language(models.Model):
     Taken from http://dbpedia.org, using a sparql query
     """
 
-    name = models.CharField(_("name"), max_length=128, help_text=_("English name of the language"))
+    name = models.CharField(
+        _("name"), max_length=128, help_text=_("English name of the language")
+    )
 
     iso639_1_code = models.CharField(
-        _("iso639_1 code"), max_length=2, unique=True, help_text=_("ISO 639_1 code, ex: en, it, de, fr, es, ...")
+        _("iso639_1 code"),
+        max_length=2,
+        unique=True,
+        help_text=_("ISO 639_1 code, ex: en, it, de, fr, es, ..."),
     )
 
     dbpedia_resource = models.CharField(
@@ -62,9 +77,13 @@ class AreaI18Name(models.Model):
     Contains references to language and area.
     """
 
-    area = models.ForeignKey("Area", related_name="i18n_names", on_delete=models.CASCADE,)
+    area = models.ForeignKey(
+        "Area", related_name="i18n_names", on_delete=models.CASCADE
+    )
 
-    language = models.ForeignKey("Language", verbose_name=_("Language"), on_delete=models.CASCADE)
+    language = models.ForeignKey(
+        "Language", verbose_name=_("Language"), on_delete=models.CASCADE
+    )
 
     name = models.CharField(_("name"), max_length=255)
 
@@ -83,7 +102,12 @@ class OriginalProfession(models.Model):
     Profession of a Person, according to the original source
     """
 
-    name = models.CharField(_("name"), max_length=512, unique=True, help_text=_("The original profession name"))
+    name = models.CharField(
+        _("name"),
+        max_length=512,
+        unique=True,
+        help_text=_("The original profession name"),
+    )
 
     normalized_profession = models.ForeignKey(
         "Profession",
@@ -110,9 +134,9 @@ class OriginalProfession(models.Model):
         """
         super(OriginalProfession, self).save(*args, **kwargs)
         if self.normalized_profession:
-            self.persons_with_this_original_profession.exclude(profession=self.normalized_profession).update(
+            self.persons_with_this_original_profession.exclude(
                 profession=self.normalized_profession
-            )
+            ).update(profession=self.normalized_profession)
 
 
 @python_2_unicode_compatible
@@ -121,11 +145,19 @@ class Profession(IdentifierShortcutsMixin, models.Model):
     Profession of a Person, as a controlled vocabulary
     """
 
-    name = models.CharField(_("name"), max_length=512, unique=True, help_text=_("Normalized profession name"))
+    name = models.CharField(
+        _("name"),
+        max_length=512,
+        unique=True,
+        help_text=_("Normalized profession name"),
+    )
 
     # array of items referencing
     # "http://popoloproject.com/schemas/identifier.json#"
-    identifiers = GenericRelation("Identifier", help_text=_("Other identifiers for this profession (ISTAT code)"))
+    identifiers = GenericRelation(
+        "Identifier",
+        help_text=_("Other identifiers for this profession (ISTAT code)"),
+    )
 
     class Meta:
         verbose_name = _("Normalized profession")
@@ -142,7 +174,12 @@ class OriginalEducationLevel(models.Model):
     With identifiers (ICSED).
     """
 
-    name = models.CharField(_("name"), max_length=512, unique=True, help_text=_("Education level name"))
+    name = models.CharField(
+        _("name"),
+        max_length=512,
+        unique=True,
+        help_text=_("Education level name"),
+    )
 
     normalized_education_level = models.ForeignKey(
         "EducationLevel",
@@ -181,11 +218,19 @@ class EducationLevel(IdentifierShortcutsMixin, models.Model):
     With identifiers (ICSED).
     """
 
-    name = models.CharField(_("name"), max_length=256, unique=True, help_text=_("Education level name"))
+    name = models.CharField(
+        _("name"),
+        max_length=256,
+        unique=True,
+        help_text=_("Education level name"),
+    )
 
     # array of items referencing
     # "http://popoloproject.com/schemas/identifier.json#"
-    identifiers = GenericRelation("Identifier", help_text=_("Other identifiers for this education level (ICSED code)"))
+    identifiers = GenericRelation(
+        "Identifier",
+        help_text=_("Other identifiers for this education level (ICSED code)"),
+    )
 
     class Meta:
         verbose_name = _("Normalized education level")
@@ -239,7 +284,11 @@ class KeyEvent(Permalinkable, Dateframeable, Timestampable, models.Model):
     )
 
     identifier = models.CharField(
-        _("identifier"), max_length=512, blank=True, null=True, help_text=_("An issued identifier")
+        _("identifier"),
+        max_length=512,
+        blank=True,
+        null=True,
+        help_text=_("An issued identifier"),
     )
 
     url_name = "keyevent-detail"
@@ -264,7 +313,13 @@ class KeyEvent(Permalinkable, Dateframeable, Timestampable, models.Model):
 
 
 @python_2_unicode_compatible
-class ElectoralResult(SourceShortcutsMixin, LinkShortcutsMixin, Permalinkable, Timestampable, models.Model):
+class ElectoralResult(
+    SourceShortcutsMixin,
+    LinkShortcutsMixin,
+    Permalinkable,
+    Timestampable,
+    models.Model,
+):
     """
     An electoral result is a set of numbers and percentages, describing
     a general, list or personal outcome within an electoral session.
@@ -319,7 +374,9 @@ class ElectoralResult(SourceShortcutsMixin, LinkShortcutsMixin, Permalinkable, T
         null=True,
         related_name="electoral_results",
         verbose_name=_("Electoral constituency"),
-        help_text=_("The electoral constituency these electoral data are referred to"),
+        help_text=_(
+            "The electoral constituency these electoral data are referred to"
+        ),
         on_delete=models.CASCADE,
     )
 
@@ -352,17 +409,28 @@ class ElectoralResult(SourceShortcutsMixin, LinkShortcutsMixin, Permalinkable, T
     )
 
     # array of items referencing "http://popoloproject.com/schemas/source.json#"
-    sources = GenericRelation("SourceRel", help_text=_("URLs to sources about the electoral result"))
+    sources = GenericRelation(
+        "SourceRel", help_text=_("URLs to sources about the electoral result")
+    )
 
     # array of items referencing "http://popoloproject.com/schemas/link.json#"
-    links = GenericRelation("LinkRel", help_text=_("URLs to documents referring to the electoral result"))
+    links = GenericRelation(
+        "LinkRel",
+        help_text=_("URLs to documents referring to the electoral result"),
+    )
 
     n_eligible_voters = models.PositiveIntegerField(
-        _("Total number of eligible voters"), blank=True, null=True, help_text=_("The total number of eligible voter")
+        _("Total number of eligible voters"),
+        blank=True,
+        null=True,
+        help_text=_("The total number of eligible voter"),
     )
 
     n_ballots = models.PositiveIntegerField(
-        _("Total number of ballots casted"), blank=True, null=True, help_text=_("The total number of ballots casted")
+        _("Total number of ballots casted"),
+        blank=True,
+        null=True,
+        help_text=_("The total number of ballots casted"),
     )
 
     perc_turnout = models.FloatField(
@@ -401,7 +469,9 @@ class ElectoralResult(SourceShortcutsMixin, LinkShortcutsMixin, Permalinkable, T
         _("Total number of preferences"),
         blank=True,
         null=True,
-        help_text=_("The total number of preferences expressed for the list/candidate"),
+        help_text=_(
+            "The total number of preferences expressed for the list/candidate"
+        ),
     )
 
     perc_preferences = models.FloatField(
@@ -409,11 +479,16 @@ class ElectoralResult(SourceShortcutsMixin, LinkShortcutsMixin, Permalinkable, T
         blank=True,
         null=True,
         validators=[validate_percentage],
-        help_text=_("The percentage of preferences expressed for the list/candidate"),
+        help_text=_(
+            "The percentage of preferences expressed for the list/candidate"
+        ),
     )
 
     is_elected = models.NullBooleanField(
-        _("Is elected"), blank=True, null=True, help_text=_("If the candidate has been elected with the result")
+        _("Is elected"),
+        blank=True,
+        null=True,
+        help_text=_("If the candidate has been elected with the result"),
     )
 
     url_name = "electoral-result-detail"
@@ -421,7 +496,9 @@ class ElectoralResult(SourceShortcutsMixin, LinkShortcutsMixin, Permalinkable, T
     try:
         # PassTrhroughManager was removed in django-model-utils 2.4,
         # see issue #22
-        objects = PassThroughManager.for_queryset_class(ElectoralResultQuerySet)()
+        objects = PassThroughManager.for_queryset_class(
+            ElectoralResultQuerySet
+        )()
     except:
         objects = ElectoralResultQuerySet.as_manager()
 

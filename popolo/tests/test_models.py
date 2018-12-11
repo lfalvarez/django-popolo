@@ -10,7 +10,11 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 from faker import Factory
 
-from popolo.behaviors.tests import TimestampableTests, DateframeableTests, PermalinkableTests
+from popolo.behaviors.tests import (
+    TimestampableTests,
+    DateframeableTests,
+    PermalinkableTests,
+)
 from popolo.factories import (
     OriginalProfessionFactory,
     PersonFactory,
@@ -52,14 +56,22 @@ class ContactDetailTestsMixin(object):
 
     def test_add_contact_detail(self):
         i = self.create_instance()
-        i.add_contact_detail(contact_type=ContactDetail.CONTACT_TYPES.email, value=faker.email())
+        i.add_contact_detail(
+            contact_type=ContactDetail.CONTACT_TYPES.email, value=faker.email()
+        )
         self.assertEqual(i.contact_details.count(), 1)
 
     def test_add_contact_details(self):
         i = self.create_instance()
         contacts = [
-            {"contact_type": ContactDetail.CONTACT_TYPES.email, "value": faker.email()},
-            {"contact_type": ContactDetail.CONTACT_TYPES.phone, "value": faker.phone_number()},
+            {
+                "contact_type": ContactDetail.CONTACT_TYPES.email,
+                "value": faker.email(),
+            },
+            {
+                "contact_type": ContactDetail.CONTACT_TYPES.phone,
+                "value": faker.phone_number(),
+            },
         ]
         i.add_contact_details(contacts)
         self.assertEqual(i.contact_details.count(), 2)
@@ -68,8 +80,14 @@ class ContactDetailTestsMixin(object):
         i = self.create_instance()
 
         contacts = [
-            {"contact_type": ContactDetail.CONTACT_TYPES.email, "value": faker.email()},
-            {"contact_type": ContactDetail.CONTACT_TYPES.phone, "value": faker.phone_number()},
+            {
+                "contact_type": ContactDetail.CONTACT_TYPES.email,
+                "value": faker.email(),
+            },
+            {
+                "contact_type": ContactDetail.CONTACT_TYPES.phone,
+                "value": faker.phone_number(),
+            },
         ]
         i.add_contact_details(contacts)
         self.assertEqual(i.contact_details.count(), 2)
@@ -82,8 +100,18 @@ class ContactDetailTestsMixin(object):
         contacts.pop()
 
         # append two objects
-        contacts.append({"contact_type": ContactDetail.CONTACT_TYPES.address, "value": faker.address()})
-        contacts.append({"contact_type": ContactDetail.CONTACT_TYPES.url, "value": faker.uri()})
+        contacts.append(
+            {
+                "contact_type": ContactDetail.CONTACT_TYPES.address,
+                "value": faker.address(),
+            }
+        )
+        contacts.append(
+            {
+                "contact_type": ContactDetail.CONTACT_TYPES.url,
+                "value": faker.uri(),
+            }
+        )
 
         # update contacts
         i.update_contact_details(contacts)
@@ -92,13 +120,19 @@ class ContactDetailTestsMixin(object):
         self.assertEqual(i.contact_details.count(), 3)
 
         # test modified name is there
-        self.assertTrue(test_value in i.contact_details.values_list("value", flat=True))
+        self.assertTrue(
+            test_value in i.contact_details.values_list("value", flat=True)
+        )
 
 
 class OtherNameTestsMixin(object):
     def test_add_other_name(self):
         p = self.create_instance()
-        p.add_other_name(name=faker.name(), note=faker.text(max_nb_chars=500), source=faker.uri())
+        p.add_other_name(
+            name=faker.name(),
+            note=faker.text(max_nb_chars=500),
+            source=faker.uri(),
+        )
         self.assertEqual(p.other_names.count(), 1)
 
     def test_add_other_names(self):
@@ -106,7 +140,13 @@ class OtherNameTestsMixin(object):
 
         objects = []
         for n in range(3):
-            objects.append({"name": faker.name(), "note": faker.text(max_nb_chars=500), "source": faker.uri()})
+            objects.append(
+                {
+                    "name": faker.name(),
+                    "note": faker.text(max_nb_chars=500),
+                    "source": faker.uri(),
+                }
+            )
         p.add_other_names(objects)
         self.assertEqual(p.other_names.count(), 3)
 
@@ -184,14 +224,18 @@ class OtherNameTestsMixin(object):
                         "othername_type": name_type,
                         "source": faker.uri(),
                         "start_date": None,
-                        "end_date": (day_1 + timedelta(100)).strftime("%Y-%m-%d"),
+                        "end_date": (day_1 + timedelta(100)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                     {
                         "name": faker.city(),
                         "othername_type": name_type,
                         "source": faker.uri(),
                         "start_date": None,
-                        "end_date": (day_1 + timedelta(50)).strftime("%Y-%m-%d"),
+                        "end_date": (day_1 + timedelta(50)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                 ]
             )
@@ -202,7 +246,13 @@ class OtherNameTestsMixin(object):
 
         objects = []
         for n in range(3):
-            objects.append({"name": faker.name(), "note": faker.text(max_nb_chars=500), "source": faker.uri()})
+            objects.append(
+                {
+                    "name": faker.name(),
+                    "note": faker.text(max_nb_chars=500),
+                    "source": faker.uri(),
+                }
+            )
         p.add_other_names(objects)
         self.assertEqual(p.other_names.count(), 3)
 
@@ -214,8 +264,20 @@ class OtherNameTestsMixin(object):
         objects.pop()
 
         # append two objects
-        objects.append({"name": faker.name(), "note": faker.text(max_nb_chars=500), "source": faker.uri()})
-        objects.append({"name": faker.name(), "note": faker.text(max_nb_chars=500), "source": faker.uri()})
+        objects.append(
+            {
+                "name": faker.name(),
+                "note": faker.text(max_nb_chars=500),
+                "source": faker.uri(),
+            }
+        )
+        objects.append(
+            {
+                "name": faker.name(),
+                "note": faker.text(max_nb_chars=500),
+                "source": faker.uri(),
+            }
+        )
 
         # update identifiers
         p.update_other_names(objects)
@@ -224,14 +286,18 @@ class OtherNameTestsMixin(object):
         self.assertEqual(p.other_names.count(), 4)
 
         # test modified name is there
-        self.assertTrue(test_value in p.other_names.values_list("name", flat=True))
+        self.assertTrue(
+            test_value in p.other_names.values_list("name", flat=True)
+        )
 
 
 class IdentifierTestsMixin(object):
     def test_add_identifier(self):
         p = self.create_instance()
         i = p.add_identifier(
-            identifier=faker.numerify("OP_######"), scheme=faker.text(max_nb_chars=128), source=faker.uri()
+            identifier=faker.numerify("OP_######"),
+            scheme=faker.text(max_nb_chars=128),
+            source=faker.uri(),
         )
         self.assertEqual(isinstance(i, Identifier), True)
         self.assertEqual(p.identifiers.count(), 1)
@@ -245,8 +311,16 @@ class IdentifierTestsMixin(object):
 
         p.add_identifiers(
             [
-                {"identifier": identifier, "scheme": scheme, "source": faker.uri()},
-                {"identifier": identifier, "scheme": scheme, "source": faker.uri()},
+                {
+                    "identifier": identifier,
+                    "scheme": scheme,
+                    "source": faker.uri(),
+                },
+                {
+                    "identifier": identifier,
+                    "scheme": scheme,
+                    "source": faker.uri(),
+                },
             ]
         )
         self.assertEqual(p.identifiers.count(), 1)
@@ -299,21 +373,31 @@ class IdentifierTestsMixin(object):
                         "scheme": scheme,
                         "source": faker.uri(),
                         "start_date": day_1.strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(50)).strftime("%Y-%m-%d"),
+                        "end_date": (day_1 + timedelta(50)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                     {
                         "identifier": faker.numerify("OP_######"),
                         "scheme": scheme,
                         "source": faker.uri(),
-                        "start_date": (day_1 + timedelta(40)).strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(120)).strftime("%Y-%m-%d"),
+                        "start_date": (day_1 + timedelta(40)).strftime(
+                            "%Y-%m-%d"
+                        ),
+                        "end_date": (day_1 + timedelta(120)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                     {
                         "identifier": faker.numerify("OP_######"),
                         "scheme": scheme,
                         "source": faker.uri(),
-                        "start_date": (day_1 + timedelta(100)).strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(200)).strftime("%Y-%m-%d"),
+                        "start_date": (day_1 + timedelta(100)).strftime(
+                            "%Y-%m-%d"
+                        ),
+                        "end_date": (day_1 + timedelta(200)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                 ]
             )
@@ -333,22 +417,32 @@ class IdentifierTestsMixin(object):
                         "identifier": faker.numerify("OP_######"),
                         "scheme": scheme,
                         "source": faker.uri(),
-                        "start_date": (day_1 + timedelta(40)).strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(120)).strftime("%Y-%m-%d"),
+                        "start_date": (day_1 + timedelta(40)).strftime(
+                            "%Y-%m-%d"
+                        ),
+                        "end_date": (day_1 + timedelta(120)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                     {
                         "identifier": faker.numerify("OP_######"),
                         "scheme": scheme,
                         "source": faker.uri(),
                         "start_date": day_1.strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(50)).strftime("%Y-%m-%d"),
+                        "end_date": (day_1 + timedelta(50)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                     {
                         "identifier": faker.numerify("OP_######"),
                         "scheme": scheme,
                         "source": faker.uri(),
-                        "start_date": (day_1 + timedelta(100)).strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(200)).strftime("%Y-%m-%d"),
+                        "start_date": (day_1 + timedelta(100)).strftime(
+                            "%Y-%m-%d"
+                        ),
+                        "end_date": (day_1 + timedelta(200)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                 ]
             )
@@ -370,21 +464,29 @@ class IdentifierTestsMixin(object):
                         "scheme": scheme,
                         "source": faker.uri(),
                         "start_date": day_1.strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(50)).strftime("%Y-%m-%d"),
+                        "end_date": (day_1 + timedelta(50)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                     {
                         "identifier": faker.numerify("OP_######"),
                         "scheme": scheme,
                         "source": faker.uri(),
                         "start_date": None,
-                        "end_date": (day_1 + timedelta(120)).strftime("%Y-%m-%d"),
+                        "end_date": (day_1 + timedelta(120)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                     {
                         "identifier": faker.numerify("OP_######"),
                         "scheme": scheme,
                         "source": faker.uri(),
-                        "start_date": (day_1 + timedelta(100)).strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(200)).strftime("%Y-%m-%d"),
+                        "start_date": (day_1 + timedelta(100)).strftime(
+                            "%Y-%m-%d"
+                        ),
+                        "end_date": (day_1 + timedelta(200)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                 ]
             )
@@ -568,22 +670,32 @@ class IdentifierTestsMixin(object):
                         "identifier": identifierA,
                         "scheme": scheme,
                         "source": faker.uri(),
-                        "start_date": (day_1 + timedelta(60)).strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(100)).strftime("%Y-%m-%d"),
+                        "start_date": (day_1 + timedelta(60)).strftime(
+                            "%Y-%m-%d"
+                        ),
+                        "end_date": (day_1 + timedelta(100)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                     {
                         "identifier": identifierB,
                         "scheme": scheme,
                         "source": faker.uri(),
                         "start_date": day_1.strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(90)).strftime("%Y-%m-%d"),
+                        "end_date": (day_1 + timedelta(90)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                     {
                         "identifier": identifierB,
                         "scheme": scheme,
                         "source": faker.uri(),
-                        "start_date": (day_1 + timedelta(80)).strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(200)).strftime("%Y-%m-%d"),
+                        "start_date": (day_1 + timedelta(80)).strftime(
+                            "%Y-%m-%d"
+                        ),
+                        "end_date": (day_1 + timedelta(200)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                 ]
             )
@@ -608,21 +720,31 @@ class IdentifierTestsMixin(object):
                         "scheme": scheme,
                         "source": faker.uri(),
                         "start_date": day_1.strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(90)).strftime("%Y-%m-%d"),
+                        "end_date": (day_1 + timedelta(90)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                     {
                         "identifier": identifierA,
                         "scheme": scheme,
                         "source": faker.uri(),
-                        "start_date": (day_1 + timedelta(60)).strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(100)).strftime("%Y-%m-%d"),
+                        "start_date": (day_1 + timedelta(60)).strftime(
+                            "%Y-%m-%d"
+                        ),
+                        "end_date": (day_1 + timedelta(100)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                     {
                         "identifier": identifierB,
                         "scheme": scheme,
                         "source": faker.uri(),
-                        "start_date": (day_1 + timedelta(80)).strftime("%Y-%m-%d"),
-                        "end_date": (day_1 + timedelta(200)).strftime("%Y-%m-%d"),
+                        "start_date": (day_1 + timedelta(80)).strftime(
+                            "%Y-%m-%d"
+                        ),
+                        "end_date": (day_1 + timedelta(200)).strftime(
+                            "%Y-%m-%d"
+                        ),
                     },
                 ]
             )
@@ -657,7 +779,11 @@ class IdentifierTestsMixin(object):
                     "start_date": "1995-01-01",
                     "end_date": "2006-01-01",
                 },
-                {"identifier": identifierB, "scheme": "ISTAT_CODE_COM", "start_date": "2010-01-01"},
+                {
+                    "identifier": identifierB,
+                    "scheme": "ISTAT_CODE_COM",
+                    "start_date": "2010-01-01",
+                },
                 {
                     "identifier": identifierA,
                     "scheme": "ISTAT_CODE_COM",
@@ -692,10 +818,18 @@ class IdentifierTestsMixin(object):
 
         # append two objects
         objects.append(
-            {"identifier": faker.text(max_nb_chars=128), "scheme": faker.text(max_nb_chars=32), "source": faker.uri()}
+            {
+                "identifier": faker.text(max_nb_chars=128),
+                "scheme": faker.text(max_nb_chars=32),
+                "source": faker.uri(),
+            }
         )
         objects.append(
-            {"identifier": faker.text(max_nb_chars=128), "scheme": faker.text(max_nb_chars=32), "source": faker.uri()}
+            {
+                "identifier": faker.text(max_nb_chars=128),
+                "scheme": faker.text(max_nb_chars=32),
+                "source": faker.uri(),
+            }
         )
 
         # update identifiers
@@ -705,19 +839,25 @@ class IdentifierTestsMixin(object):
         self.assertEqual(p.identifiers.count(), 4)
 
         # test modified identifier is there
-        self.assertTrue(test_value in p.identifiers.values_list("identifier", flat=True))
+        self.assertTrue(
+            test_value in p.identifiers.values_list("identifier", flat=True)
+        )
 
 
 class ClassificationTestsMixin(object):
     def test_add_classification(self):
         c = Classification.objects.create(
-            scheme=faker.text(max_nb_chars=128), code=faker.text(max_nb_chars=12), descr=faker.text(max_nb_chars=256)
+            scheme=faker.text(max_nb_chars=128),
+            code=faker.text(max_nb_chars=12),
+            descr=faker.text(max_nb_chars=256),
         )
 
         p = self.create_instance()
         p.add_classification_rel(c.id)
 
-        self.assertEqual(isinstance(p.classifications.first(), ClassificationRel), True)
+        self.assertEqual(
+            isinstance(p.classifications.first(), ClassificationRel), True
+        )
         self.assertEqual(p.classifications.count(), 1)
 
     def test_add_three_classifications(self):
@@ -725,7 +865,9 @@ class ClassificationTestsMixin(object):
         new_classifications = []
         for i in range(0, 3):
             cl = Classification.objects.create(
-                scheme=scheme, code=faker.text(max_nb_chars=12), descr=faker.text(max_nb_chars=256)
+                scheme=scheme,
+                code=faker.text(max_nb_chars=12),
+                descr=faker.text(max_nb_chars=256),
             )
             new_classifications.append({"classification": cl.id})
 
@@ -738,7 +880,9 @@ class ClassificationTestsMixin(object):
         new_classifications = []
         for i in range(0, 2):
             cl = Classification.objects.create(
-                scheme=scheme, code=faker.text(max_nb_chars=12), descr=faker.text(max_nb_chars=256)
+                scheme=scheme,
+                code=faker.text(max_nb_chars=12),
+                descr=faker.text(max_nb_chars=256),
             )
             new_classifications.append({"classification": cl.id})
         new_classifications.append(new_classifications[0])
@@ -752,7 +896,9 @@ class ClassificationTestsMixin(object):
         new_classifications = []
         for i in range(0, 3):
             cl = Classification.objects.create(
-                scheme=scheme, code=faker.text(max_nb_chars=12), descr=faker.text(max_nb_chars=256)
+                scheme=scheme,
+                code=faker.text(max_nb_chars=12),
+                descr=faker.text(max_nb_chars=256),
             )
             new_classifications.append({"classification": cl.id})
         p = self.create_instance()
@@ -768,7 +914,9 @@ class ClassificationTestsMixin(object):
 
         # append one object
         cl = Classification.objects.create(
-            scheme=scheme, code=faker.text(max_nb_chars=12), descr=faker.text(max_nb_chars=256)
+            scheme=scheme,
+            code=faker.text(max_nb_chars=12),
+            descr=faker.text(max_nb_chars=256),
         )
         objects.append({"classification": cl.id})
         p.update_classifications(objects)
@@ -788,7 +936,9 @@ class LinkTestsMixin(object):
 
         objects = []
         for n in range(3):
-            objects.append({"url": faker.uri(), "note": faker.text(max_nb_chars=500)})
+            objects.append(
+                {"url": faker.uri(), "note": faker.text(max_nb_chars=500)}
+            )
         p.add_links(objects)
         self.assertEqual(p.links.count(), 3)
 
@@ -804,7 +954,9 @@ class LinkTestsMixin(object):
         p = self.create_instance()
         objects = []
         for n in range(3):
-            objects.append({"url": faker.uri(), "note": faker.text(max_nb_chars=500)})
+            objects.append(
+                {"url": faker.uri(), "note": faker.text(max_nb_chars=500)}
+            )
         p.add_links(objects)
         self.assertEqual(p.links.count(), 3)
 
@@ -823,14 +975,20 @@ class LinkTestsMixin(object):
         objects[0]["link"]["note"] = test_note
 
         # add two new links
-        objects.append({"link": {"note": faker.paragraph(2), "url": faker.uri()}})
-        objects.append({"link": {"note": faker.paragraph(2), "url": faker.uri()}})
+        objects.append(
+            {"link": {"note": faker.paragraph(2), "url": faker.uri()}}
+        )
+        objects.append(
+            {"link": {"note": faker.paragraph(2), "url": faker.uri()}}
+        )
 
         # now call update_links
         p.update_links(objects)
 
         self.assertEqual(p.links.count(), 4)
-        self.assertTrue(test_note in p.links.values_list("link__note", flat=True))
+        self.assertTrue(
+            test_note in p.links.values_list("link__note", flat=True)
+        )
 
 
 class SourceTestsMixin(object):
@@ -846,7 +1004,9 @@ class SourceTestsMixin(object):
 
         objects = []
         for n in range(3):
-            objects.append({"url": faker.uri(), "note": faker.text(max_nb_chars=500)})
+            objects.append(
+                {"url": faker.uri(), "note": faker.text(max_nb_chars=500)}
+            )
         p.add_sources(objects)
         self.assertEqual(p.sources.count(), 3)
 
@@ -862,7 +1022,9 @@ class SourceTestsMixin(object):
         p = self.create_instance()
         objects = []
         for n in range(3):
-            objects.append({"url": faker.uri(), "note": faker.text(max_nb_chars=500)})
+            objects.append(
+                {"url": faker.uri(), "note": faker.text(max_nb_chars=500)}
+            )
         p.add_sources(objects)
         self.assertEqual(p.sources.count(), 3)
 
@@ -871,7 +1033,11 @@ class SourceTestsMixin(object):
         objects = list(p.sources.values())
         for obj in objects:
             source = Source.objects.get(pk=obj.pop("source_id"))
-            obj["source"] = {"id": source.id, "url": source.url, "note": source.note}
+            obj["source"] = {
+                "id": source.id,
+                "url": source.url,
+                "note": source.note,
+            }
 
         # delete one object
         deleted = objects.pop()
@@ -881,14 +1047,20 @@ class SourceTestsMixin(object):
         objects[0]["source"]["note"] = test_note
 
         # add two new sources
-        objects.append({"source": {"note": faker.paragraph(2), "url": faker.uri()}})
-        objects.append({"source": {"note": faker.paragraph(2), "url": faker.uri()}})
+        objects.append(
+            {"source": {"note": faker.paragraph(2), "url": faker.uri()}}
+        )
+        objects.append(
+            {"source": {"note": faker.paragraph(2), "url": faker.uri()}}
+        )
 
         # now call update_sources
         p.update_sources(objects)
 
         self.assertEqual(p.sources.count(), 4)
-        self.assertTrue(test_note in p.sources.values_list("source__note", flat=True))
+        self.assertTrue(
+            test_note in p.sources.values_list("source__note", flat=True)
+        )
 
 
 class PersonTestCase(
@@ -930,10 +1102,13 @@ class PersonTestCase(
         election_date = (day_1 - timedelta(15)).strftime("%Y-%m-%d")
         election_date_fmt = (day_1 - timedelta(15)).strftime("%d/%m/%Y")
         electoral_event = KeyEventTestCase().create_instance(
-            name="Elezioni comunali del {0}".format(election_date_fmt), start_date=election_date
+            name="Elezioni comunali del {0}".format(election_date_fmt),
+            start_date=election_date,
         )
 
-        p.add_membership(o, start_date=start_date, electoral_event=electoral_event)
+        p.add_membership(
+            o, start_date=start_date, electoral_event=electoral_event
+        )
         m = p.memberships.first()
         self.assertEqual(m.start_date, start_date)
         self.assertEqual(m.electoral_event.start_date, election_date)
@@ -1209,17 +1384,30 @@ class PersonTestCase(
         )
         self.assertEqual(p.memberships.count(), 1)
 
-    def test_add_multiple_overlapping_roles_with_null_end_dates_donot_duplicate(self):
+    def test_add_multiple_overlapping_roles_with_null_end_dates_donot_duplicate(
+        self
+    ):
         day_1 = faker.date_time_between("-2y", "-1y")
         p = PersonFactory()
         o = OrganizationFactory()
         po = Post.objects.create(label=u"Associate", organization=o)
 
-        p.add_role(po, start_date=(day_1 + timedelta(40)).strftime("%Y-%m-%d"), end_date=None)
+        p.add_role(
+            po,
+            start_date=(day_1 + timedelta(40)).strftime("%Y-%m-%d"),
+            end_date=None,
+        )
         p.add_role(po, start_date=(day_1).strftime("%Y-%m-%d"), end_date=None)
-        p.add_role(po, start_date=(day_1 + timedelta(80)).strftime("%Y-%m-%d"), end_date=None)
+        p.add_role(
+            po,
+            start_date=(day_1 + timedelta(80)).strftime("%Y-%m-%d"),
+            end_date=None,
+        )
         self.assertEqual(p.memberships.count(), 1)
-        self.assertEqual(p.memberships.first().start_date, (day_1 + timedelta(40)).strftime("%Y-%m-%d"))
+        self.assertEqual(
+            p.memberships.first().start_date,
+            (day_1 + timedelta(40)).strftime("%Y-%m-%d"),
+        )
 
     def test_add_multiple_nonoverlapping_specific_roles_do_duplicate(self):
         day_1 = faker.date_time_between("-2y", "-1y")
@@ -1248,7 +1436,9 @@ class PersonTestCase(
         )
         self.assertEqual(p.memberships.count(), 3)
 
-    def test_add_multiple_overlapping_roles_with_different_labels_do_duplicate_when_check_label_is_true(self):
+    def test_add_multiple_overlapping_roles_with_different_labels_do_duplicate_when_check_label_is_true(
+        self
+    ):
         day_1 = faker.date_time_between("-2y", "-1y")
         p = self.create_instance(name=faker.name(), birth_date=faker.year())
         o = OrganizationFactory.create()
@@ -1274,7 +1464,9 @@ class PersonTestCase(
         )
         self.assertEqual(p.memberships.count(), 2)
 
-    def test_add_multiple_overlapping_roles_with_different_labels_do_not_duplicate_when_check_label_is_false(self):
+    def test_add_multiple_overlapping_roles_with_different_labels_do_not_duplicate_when_check_label_is_false(
+        self
+    ):
         day_1 = faker.date_time_between("-2y", "-1y")
         p = self.create_instance(name=faker.name(), birth_date=faker.year())
         o = OrganizationFactory.create()
@@ -1368,7 +1560,12 @@ class PersonTestCase(
         given_name = faker.first_name()
         family_name = faker.last_name()
         name = "{0} {1}".format(given_name, family_name)
-        pr = Person(given_name=given_name, family_name=family_name, name=name, birth_date=faker.year())
+        pr = Person(
+            given_name=given_name,
+            family_name=family_name,
+            name=name,
+            birth_date=faker.year(),
+        )
         self.assertIsNone(pr.start_date)
         pr.save()
         self.assertEqual(pr.start_date, pr.birth_date)
@@ -1377,7 +1574,12 @@ class PersonTestCase(
         given_name = faker.first_name()
         family_name = faker.last_name()
         name = "{0} {1}".format(given_name, family_name)
-        pr = Person(given_name=given_name, family_name=family_name, name=name, birth_date=faker.year())
+        pr = Person(
+            given_name=given_name,
+            family_name=family_name,
+            name=name,
+            birth_date=faker.year(),
+        )
         self.assertIsNone(pr.end_date)
         pr.save()
         self.assertEqual(pr.end_date, pr.death_date)
@@ -1385,7 +1587,11 @@ class PersonTestCase(
     def test_add_relationship(self):
         p1 = self.create_instance()
         p2 = self.create_instance()
-        p1.add_relationship(dest_person=p2, classification="FRIENDSHIP", weight=PersonalRelationship.WEIGHTS.negative)
+        p1.add_relationship(
+            dest_person=p2,
+            classification="FRIENDSHIP",
+            weight=PersonalRelationship.WEIGHTS.negative,
+        )
         self.assertEqual(p1.related_persons.count(), 1)
         self.assertEqual(p1.related_persons.first(), p2)
 
@@ -1420,7 +1626,9 @@ class OrganizationTestCase(
         self.assertEqual(o.key_events.count(), 1)
         self.assertEqual(isinstance(ke_ret, KeyEventRel), True)
         self.assertEqual(isinstance(o.key_events.first(), KeyEventRel), True)
-        self.assertEqual(isinstance(o.key_events.first().key_event, KeyEvent), True)
+        self.assertEqual(
+            isinstance(o.key_events.first().key_event, KeyEvent), True
+        )
         self.assertEqual(o.key_events.first().key_event, ke)
 
     def test_add_key_events(self):
@@ -1473,7 +1681,11 @@ class OrganizationTestCase(
 
     def test_add_members(self):
         o = self.create_instance(name=faker.company())
-        ps = [PersonFactory.create(), PersonFactory.create(), PersonFactory.create()]
+        ps = [
+            PersonFactory.create(),
+            PersonFactory.create(),
+            PersonFactory.create(),
+        ]
         o.add_members(ps)
         self.assertEqual(o.person_members.count(), 3)
         self.assertEqual(len(o.members), 3)
@@ -1497,7 +1709,9 @@ class OrganizationTestCase(
         o = self.create_instance(name=faker.company())
         ms = [
             PersonFactory.create(),
-            Organization.objects.create(name=faker.company(), founding_date=faker.year()),
+            Organization.objects.create(
+                name=faker.company(), founding_date=faker.year()
+            ),
             PersonFactory.create(),
         ]
         o.add_members(ms)
@@ -1535,7 +1749,11 @@ class OrganizationTestCase(
 
     def test_add_wrong_member_type(self):
         o = self.create_instance(name=faker.company())
-        a = Area.objects.create(name=faker.city(), identifier=faker.numerify("####"), classification=faker.word())
+        a = Area.objects.create(
+            name=faker.city(),
+            identifier=faker.numerify("####"),
+            classification=faker.word(),
+        )
         with self.assertRaises(Exception):
             o.add_member(a)
 
@@ -1606,7 +1824,12 @@ class OrganizationTestCase(
 
 
 class PostTestCase(
-    ContactDetailTestsMixin, LinkTestsMixin, SourceTestsMixin, DateframeableTests, TimestampableTests, TestCase
+    ContactDetailTestsMixin,
+    LinkTestsMixin,
+    SourceTestsMixin,
+    DateframeableTests,
+    TimestampableTests,
+    TestCase,
 ):
     model = Post
 
@@ -1620,7 +1843,9 @@ class PostTestCase(
 
     def test_add_person(self):
         r = self.create_instance(
-            label=u"Chief Executive Officer", other_label=u"CEO,AD", organization=OrganizationFactory.create()
+            label=u"Chief Executive Officer",
+            other_label=u"CEO,AD",
+            organization=OrganizationFactory.create(),
         )
         p = PersonFactory.create()
         r.add_person(p, start_date=faker.year())
@@ -1628,7 +1853,11 @@ class PostTestCase(
         self.assertEqual(p.roles_held.count(), 1)
 
     def test_add_person_on_behalf_of(self):
-        r = self.create_instance(label=u"Director", other_label=u"DIR", organization=OrganizationFactory.create())
+        r = self.create_instance(
+            label=u"Director",
+            other_label=u"DIR",
+            organization=OrganizationFactory.create(),
+        )
 
         o2 = OrganizationFactory.create()
         p = PersonFactory.create(birth_date=faker.year())
@@ -1636,7 +1865,11 @@ class PostTestCase(
         self.assertEqual(r.memberships.first().on_behalf_of, o2)
 
     def test_add_appointer(self):
-        r = self.create_instance(label=u"Director", other_label=u"DIR", organization=OrganizationFactory.create())
+        r = self.create_instance(
+            label=u"Director",
+            other_label=u"DIR",
+            organization=OrganizationFactory.create(),
+        )
         o2 = OrganizationFactory.create()
         r1 = o2.add_post(label="President", other_label="PRES")
         r.add_appointer(r1)
@@ -1645,7 +1878,12 @@ class PostTestCase(
 
 
 class MembershipTestCase(
-    ContactDetailTestsMixin, LinkTestsMixin, SourceTestsMixin, DateframeableTests, TimestampableTests, TestCase
+    ContactDetailTestsMixin,
+    LinkTestsMixin,
+    SourceTestsMixin,
+    DateframeableTests,
+    TimestampableTests,
+    TestCase,
 ):
     model = Membership
 
@@ -1673,7 +1911,9 @@ class MembershipTestCase(
             m.save()
 
 
-class OwnershipTestCase(SourceTestsMixin, DateframeableTests, TimestampableTests, TestCase):
+class OwnershipTestCase(
+    SourceTestsMixin, DateframeableTests, TimestampableTests, TestCase
+):
     model = Ownership
 
     def create_instance(self, **kwargs):
@@ -1720,7 +1960,10 @@ class KeyEventTestCase(DateframeableTests, TimestampableTests, TestCase):
                 if methodName != "runTest":
                     # we allow instantiation with no explicit method name
                     # but not an *incorrect* or missing method name
-                    raise ValueError("no such test method in %s: %s" % (self.__class__, methodName))
+                    raise ValueError(
+                        "no such test method in %s: %s"
+                        % (self.__class__, methodName)
+                    )
             else:
                 self._testMethodDoc = testMethod.__doc__
 
@@ -1739,7 +1982,9 @@ class KeyEventTestCase(DateframeableTests, TimestampableTests, TestCase):
             "perc_null_votes": 0.11,
             "perc_blank_votes": 0.05,
         }
-        e.add_result(organization=OrganizationFactory.create(), **general_result)
+        e.add_result(
+            organization=OrganizationFactory.create(), **general_result
+        )
         self.assertEqual(e.results.count(), 1)
         self.assertLess(e.results.first().perc_turnout, 0.90)
 
@@ -1769,13 +2014,21 @@ class KeyEventTestCase(DateframeableTests, TimestampableTests, TestCase):
     def test_add_list_result(self):
         e = self.create_instance()
         list_result = {"n_preferences": 1313, "perc_preferences": 0.13}
-        e.add_result(organization=OrganizationFactory.create(), list=OrganizationFactory.create(), **list_result)
+        e.add_result(
+            organization=OrganizationFactory.create(),
+            list=OrganizationFactory.create(),
+            **list_result
+        )
         self.assertEqual(e.results.count(), 1)
         self.assertIsInstance(e.results.first().list, Organization)
 
     def test_add_candidate_result(self):
         e = self.create_instance()
-        candidate_result = {"n_preferences": 1563, "perc_preferences": 0.16, "is_elected": True}
+        candidate_result = {
+            "n_preferences": 1563,
+            "perc_preferences": 0.16,
+            "is_elected": True,
+        }
         e.add_result(
             organization=OrganizationFactory.create(),
             list=OrganizationFactory.create(),
@@ -1787,12 +2040,23 @@ class KeyEventTestCase(DateframeableTests, TimestampableTests, TestCase):
         self.assertIsInstance(e.results.first().candidate, Person)
 
 
-class ElectoralResultTestCase(SourceTestsMixin, LinkTestsMixin, PermalinkableTests, TimestampableTests, TestCase):
+class ElectoralResultTestCase(
+    SourceTestsMixin,
+    LinkTestsMixin,
+    PermalinkableTests,
+    TimestampableTests,
+    TestCase,
+):
     model = ElectoralResult
 
     def create_instance(self, **kwargs):
-        e = KeyEvent.objects.create(event_type=KeyEvent.EVENT_TYPES.election, name="Municipal elections 2016")
-        return ElectoralResult.objects.create(event=e, organization=OrganizationFactory.create(), **kwargs)
+        e = KeyEvent.objects.create(
+            event_type=KeyEvent.EVENT_TYPES.election,
+            name="Municipal elections 2016",
+        )
+        return ElectoralResult.objects.create(
+            event=e, organization=OrganizationFactory.create(), **kwargs
+        )
 
 
 class AreaTestCase(
@@ -1819,9 +2083,13 @@ class AreaTestCase(
         return Area.objects.create(**kwargs)
 
     def test_add_i18n_name(self):
-        a = self.create_instance(name="Bolzano-Bozen", classification="city", identifier="021008")
+        a = self.create_instance(
+            name="Bolzano-Bozen", classification="city", identifier="021008"
+        )
 
-        it_language = Language.objects.create(name="Italian", iso639_1_code="it")
+        it_language = Language.objects.create(
+            name="Italian", iso639_1_code="it"
+        )
         de_language = Language.objects.create(name="German", iso639_1_code="de")
 
         a.add_i18n_name("Bolzano", it_language)
@@ -1875,7 +2143,9 @@ class OriginalProfessionTestCase(TestCase):
         person.save()
 
         self.assertEqual(person.profession is None, True)
-        self.assertEqual(or_pro.persons_with_this_original_profession.count() > 0, True)
+        self.assertEqual(
+            or_pro.persons_with_this_original_profession.count() > 0, True
+        )
 
     # def test_normalized_profession_is_cached_by_signal(self):
     #     pro = ProfessionFactory()

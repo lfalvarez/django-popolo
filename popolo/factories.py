@@ -21,7 +21,12 @@ class PersonFactory(factory.django.DjangoModelFactory):
     birth_location = factory.Faker("city")
     additional_name = factory.Faker("first_name")
     email = factory.Faker("ascii_safe_email")
-    biography = factory.Faker("paragraph", nb_sentences=7, variable_nb_sentences=True, ext_word_list=None)
+    biography = factory.Faker(
+        "paragraph",
+        nb_sentences=7,
+        variable_nb_sentences=True,
+        ext_word_list=None,
+    )
 
 
 class AreaFactory(factory.django.DjangoModelFactory):
@@ -93,11 +98,15 @@ class MembershipFactory(factory.django.DjangoModelFactory):
 
     @factory.lazy_attribute
     def start_date(self):
-        return faker.date_between(start_date="-3y", end_date="-2y").strftime("%Y-%m-%d")
+        return faker.date_between(start_date="-3y", end_date="-2y").strftime(
+            "%Y-%m-%d"
+        )
 
     @factory.lazy_attribute
     def end_date(self):
-        return faker.date_between(start_date="-2y", end_date="-1y").strftime("%Y-%m-%d")
+        return faker.date_between(start_date="-2y", end_date="-1y").strftime(
+            "%Y-%m-%d"
+        )
 
 
 class PostFactory(factory.django.DjangoModelFactory):
@@ -109,11 +118,15 @@ class PostFactory(factory.django.DjangoModelFactory):
 
     @factory.lazy_attribute
     def start_date(self):
-        return faker.date_between(start_date="-3y", end_date="-2y").strftime("%Y-%m-%d")
+        return faker.date_between(start_date="-3y", end_date="-2y").strftime(
+            "%Y-%m-%d"
+        )
 
     @factory.lazy_attribute
     def end_date(self):
-        return faker.date_between(start_date="-2y", end_date="-1y").strftime("%Y-%m-%d")
+        return faker.date_between(start_date="-2y", end_date="-1y").strftime(
+            "%Y-%m-%d"
+        )
 
 
 class ClassificationFactory(factory.django.DjangoModelFactory):

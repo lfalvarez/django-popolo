@@ -9,14 +9,24 @@ from popolo.models.mixins import (
     ContactDetailsShortcutsMixin,
     ClassificationShortcutsMixin,
 )
-from popolo.models.relations import AreaRelationship, Ownership, PersonalRelationship
+from popolo.models.relations import (
+    AreaRelationship,
+    Ownership,
+    PersonalRelationship,
+)
 
 try:
-    from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+    from django.contrib.contenttypes.fields import (
+        GenericRelation,
+        GenericForeignKey,
+    )
 except ImportError:
     # This fallback import is the version that was deprecated in
     # Django 1.7 and is removed in 1.9:
-    from django.contrib.contenttypes.generic import GenericRelation, GenericForeignKey
+    from django.contrib.contenttypes.generic import (
+        GenericRelation,
+        GenericForeignKey,
+    )
 
 try:
     # PassTrhroughManager was removed in django-model-utils 2.4
@@ -32,11 +42,17 @@ from django.db.models import Q, Index
 from popolo.utils import PartialDatesInterval, PartialDate
 
 try:
-    from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+    from django.contrib.contenttypes.fields import (
+        GenericRelation,
+        GenericForeignKey,
+    )
 except ImportError:
     # This fallback import is the version that was deprecated in
     # Django 1.7 and is removed in 1.9:
-    from django.contrib.contenttypes.generic import GenericRelation, GenericForeignKey
+    from django.contrib.contenttypes.generic import (
+        GenericRelation,
+        GenericForeignKey,
+    )
 
 try:
     # PassTrhroughManager was removed in django-model-utils 2.4
@@ -51,7 +67,12 @@ from model_utils import Choices
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from popolo.behaviors.models import Permalinkable, Timestampable, Dateframeable, GenericRelatable
+from popolo.behaviors.models import (
+    Permalinkable,
+    Timestampable,
+    Dateframeable,
+    GenericRelatable,
+)
 from popolo.querysets import (
     PostQuerySet,
     OtherNameQuerySet,
@@ -90,19 +111,33 @@ class Person(
         return u"{0} {1}".format(self.name, self.birth_date)
 
     name = models.CharField(
-        _("name"), max_length=512, blank=True, null=True, db_index=True, help_text=_("A person's preferred full name")
+        _("name"),
+        max_length=512,
+        blank=True,
+        null=True,
+        db_index=True,
+        help_text=_("A person's preferred full name"),
     )
 
     # array of items referencing
     # "http://popoloproject.com/schemas/other_name.json#"
-    other_names = GenericRelation("OtherName", help_text=_("Alternate or former names"))
+    other_names = GenericRelation(
+        "OtherName", help_text=_("Alternate or former names")
+    )
 
     # array of items referencing
     # "http://popoloproject.com/schemas/identifier.json#"
-    identifiers = GenericRelation("Identifier", help_text=_("Issued identifiers"))
+    identifiers = GenericRelation(
+        "Identifier", help_text=_("Issued identifiers")
+    )
 
     family_name = models.CharField(
-        _("family name"), max_length=128, blank=True, null=True, db_index=True, help_text=_("One or more family names")
+        _("family name"),
+        max_length=128,
+        blank=True,
+        null=True,
+        db_index=True,
+        help_text=_("One or more family names"),
     )
 
     given_name = models.CharField(
@@ -115,7 +150,11 @@ class Person(
     )
 
     additional_name = models.CharField(
-        _("additional name"), max_length=128, blank=True, null=True, help_text=_("One or more secondary given names")
+        _("additional name"),
+        max_length=128,
+        blank=True,
+        null=True,
+        help_text=_("One or more secondary given names"),
     )
 
     honorific_prefix = models.CharField(
@@ -135,7 +174,11 @@ class Person(
     )
 
     patronymic_name = models.CharField(
-        _("patronymic name"), max_length=128, blank=True, null=True, help_text=_("One or more patronymic names")
+        _("patronymic name"),
+        max_length=128,
+        blank=True,
+        null=True,
+        help_text=_("One or more patronymic names"),
     )
 
     sort_name = models.CharField(
@@ -147,16 +190,37 @@ class Person(
         help_text=_("A name to use in an lexicographically " "ordered list"),
     )
 
-    email = models.EmailField(_("email"), blank=True, null=True, help_text=_("A preferred email address"))
+    email = models.EmailField(
+        _("email"),
+        blank=True,
+        null=True,
+        help_text=_("A preferred email address"),
+    )
 
-    gender = models.CharField(_("gender"), max_length=32, blank=True, null=True, db_index=True, help_text=_("A gender"))
+    gender = models.CharField(
+        _("gender"),
+        max_length=32,
+        blank=True,
+        null=True,
+        db_index=True,
+        help_text=_("A gender"),
+    )
 
     birth_date = models.CharField(
-        _("birth date"), max_length=10, blank=True, null=True, db_index=True, help_text=_("A date of birth")
+        _("birth date"),
+        max_length=10,
+        blank=True,
+        null=True,
+        db_index=True,
+        help_text=_("A date of birth"),
     )
 
     birth_location = models.CharField(
-        _("birth location"), max_length=128, blank=True, null=True, help_text=_("Birth location as a string")
+        _("birth location"),
+        max_length=128,
+        blank=True,
+        null=True,
+        help_text=_("Birth location as a string"),
     )
 
     birth_location_area = models.ForeignKey(
@@ -165,26 +229,46 @@ class Person(
         null=True,
         related_name="persons_born_here",
         verbose_name=_("birth location Area"),
-        help_text=_("The geographic area corresponding " "to the birth location"),
+        help_text=_(
+            "The geographic area corresponding " "to the birth location"
+        ),
         on_delete=models.CASCADE,
     )
 
     death_date = models.CharField(
-        _("death date"), max_length=10, blank=True, null=True, db_index=True, help_text=_("A date of death")
+        _("death date"),
+        max_length=10,
+        blank=True,
+        null=True,
+        db_index=True,
+        help_text=_("A date of death"),
     )
 
-    image = models.URLField(_("image"), blank=True, null=True, help_text=_("A URL of a head shot"))
+    image = models.URLField(
+        _("image"), blank=True, null=True, help_text=_("A URL of a head shot")
+    )
 
     summary = models.CharField(
-        _("summary"), max_length=1024, blank=True, null=True, help_text=_("A one-line account of a person's life")
+        _("summary"),
+        max_length=1024,
+        blank=True,
+        null=True,
+        help_text=_("A one-line account of a person's life"),
     )
 
     biography = models.TextField(
-        _("biography"), blank=True, null=True, help_text=_("An extended account of a person's life")
+        _("biography"),
+        blank=True,
+        null=True,
+        help_text=_("An extended account of a person's life"),
     )
 
     national_identity = models.CharField(
-        _("national identity"), max_length=128, blank=True, null=True, help_text=_("A national identity")
+        _("national identity"),
+        max_length=128,
+        blank=True,
+        null=True,
+        help_text=_("A national identity"),
     )
 
     original_profession = models.ForeignKey(
@@ -229,16 +313,25 @@ class Person(
 
     # array of items referencing
     # "http://popoloproject.com/schemas/contact_detail.json#"
-    contact_details = GenericRelation("ContactDetail", help_text="Means of contacting the person")
+    contact_details = GenericRelation(
+        "ContactDetail", help_text="Means of contacting the person"
+    )
 
     # array of items referencing "http://popoloproject.com/schemas/link.json#"
-    links = GenericRelation("LinkRel", help_text="URLs to documents related to the person")
+    links = GenericRelation(
+        "LinkRel", help_text="URLs to documents related to the person"
+    )
 
     # array of items referencing "http://popoloproject.com/schemas/source.json#"
-    sources = GenericRelation("SourceRel", help_text="URLs to source documents about the person")
+    sources = GenericRelation(
+        "SourceRel", help_text="URLs to source documents about the person"
+    )
 
     related_persons = models.ManyToManyField(
-        "self", through="PersonalRelationship", through_fields=("source_person", "dest_person"), symmetrical=False
+        "self",
+        through="PersonalRelationship",
+        through_fields=("source_person", "dest_person"),
+        symmetrical=False,
     )
     url_name = "person-detail"
 
@@ -265,14 +358,19 @@ class Person(
         """
 
         # new  dates interval as PartialDatesInterval instance
-        new_int = PartialDatesInterval(start=kwargs.get("start_date", None), end=kwargs.get("end_date", None))
+        new_int = PartialDatesInterval(
+            start=kwargs.get("start_date", None),
+            end=kwargs.get("end_date", None),
+        )
 
         is_overlapping = False
 
         allow_overlap = kwargs.pop("allow_overlap", False)
 
         # loop over memberships to the same org
-        same_org_memberships = self.memberships.filter(organization=organization, post__isnull=True)
+        same_org_memberships = self.memberships.filter(
+            organization=organization, post__isnull=True
+        )
         for i in same_org_memberships:
 
             # existing identifier interval as PartialDatesInterval instance
@@ -325,15 +423,24 @@ class Person(
 
         if not "organization" in kwargs:
             if post.organization is None:
-                raise Exception("Post needs to be specific, " "i.e. linked to an organization")
+                raise Exception(
+                    "Post needs to be specific, "
+                    "i.e. linked to an organization"
+                )
             org = post.organization
         else:
             if post.organization is not None:
-                raise Exception("Post needs to be generic, " "i.e. not linked to an organization")
+                raise Exception(
+                    "Post needs to be generic, "
+                    "i.e. not linked to an organization"
+                )
             org = kwargs.pop("organization")
 
         # new  dates interval as PartialDatesInterval instance
-        new_int = PartialDatesInterval(start=kwargs.get("start_date", None), end=kwargs.get("end_date", None))
+        new_int = PartialDatesInterval(
+            start=kwargs.get("start_date", None),
+            end=kwargs.get("end_date", None),
+        )
 
         is_overlapping = False
 
@@ -344,9 +451,13 @@ class Person(
         # for role as Ministro, Assessore, Sottosegretario
         label = kwargs.get("label", None)
         if label and check_label:
-            same_org_post_memberships = self.memberships.filter(organization=org, post=post, label=label)
+            same_org_post_memberships = self.memberships.filter(
+                organization=org, post=post, label=label
+            )
         else:
-            same_org_post_memberships = self.memberships.filter(organization=org, post=post)
+            same_org_post_memberships = self.memberships.filter(
+                organization=org, post=post
+            )
 
         for i in same_org_post_memberships:
 
@@ -407,7 +518,9 @@ class Person(
         :param kwargs:
         :return:
         """
-        r = PersonalRelationship(source_person=self, dest_person=dest_person, **kwargs)
+        r = PersonalRelationship(
+            source_person=self, dest_person=dest_person, **kwargs
+        )
         r.save()
         return r
 
@@ -416,7 +529,9 @@ class Person(
 
         :return:
         """
-        return Organization.objects.filter(posts__in=Post.objects.filter(memberships__person=self))
+        return Organization.objects.filter(
+            posts__in=Post.objects.filter(memberships__person=self)
+        )
 
     def __str__(self):
         return self.name
@@ -445,14 +560,20 @@ class Organization(
     def slug_source(self):
         return "{0} {1} {2}".format(self.name, self.identifier, self.start_date)
 
-    name = models.CharField(_("name"), max_length=512, help_text=_("A primary name, e.g. a legally recognized name"))
+    name = models.CharField(
+        _("name"),
+        max_length=512,
+        help_text=_("A primary name, e.g. a legally recognized name"),
+    )
 
     identifier = models.CharField(
         _("identifier"),
         max_length=128,
         blank=True,
         null=True,
-        help_text=_("The main issued identifier, or fiscal code, for organization"),
+        help_text=_(
+            "The main issued identifier, or fiscal code, for organization"
+        ),
     )
 
     classification = models.CharField(
@@ -472,16 +593,23 @@ class Organization(
     )
 
     classifications = GenericRelation(
-        "ClassificationRel", help_text=_("ATECO, Legal Form and all other available classifications")
+        "ClassificationRel",
+        help_text=_(
+            "ATECO, Legal Form and all other available classifications"
+        ),
     )
 
     # array of items referencing
     # "http://popoloproject.com/schemas/other_name.json#"
-    other_names = GenericRelation("OtherName", help_text=_("Alternate or former names"))
+    other_names = GenericRelation(
+        "OtherName", help_text=_("Alternate or former names")
+    )
 
     # array of items referencing
     # "http://popoloproject.com/schemas/identifier.json#"
-    identifiers = GenericRelation("Identifier", help_text=_("Issued identifiers"))
+    identifiers = GenericRelation(
+        "Identifier", help_text=_("Issued identifiers")
+    )
 
     # reference to "http://popoloproject.com/schemas/organization.json#"
     parent = models.ForeignKey(
@@ -500,16 +628,25 @@ class Organization(
         blank=True,
         null=True,
         related_name="organizations",
-        help_text=_("The geographic area to which this " "organization is related"),
+        help_text=_(
+            "The geographic area to which this " "organization is related"
+        ),
         on_delete=models.CASCADE,
     )
 
     abstract = models.CharField(
-        _("abstract"), max_length=256, blank=True, null=True, help_text=_("A one-line description of an organization")
+        _("abstract"),
+        max_length=256,
+        blank=True,
+        null=True,
+        help_text=_("A one-line description of an organization"),
     )
 
     description = models.TextField(
-        _("biography"), blank=True, null=True, help_text=_("An extended description of an organization")
+        _("biography"),
+        blank=True,
+        null=True,
+        help_text=_("An extended description of an organization"),
     )
 
     founding_date = models.CharField(
@@ -520,7 +657,8 @@ class Organization(
         validators=[
             RegexValidator(
                 regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
-                message="founding date must follow the given pattern: ^[0-9]{" "4}(-[0-9]{2}){0,2}$",
+                message="founding date must follow the given pattern: ^[0-9]{"
+                "4}(-[0-9]{2}){0,2}$",
                 code="invalid_founding_date",
             )
         ],
@@ -535,7 +673,8 @@ class Organization(
         validators=[
             RegexValidator(
                 regex="^[0-9]{4}(-[0-9]{2}){0,2}$",
-                message="dissolution date must follow the given pattern: ^[" "0-9]{4}(-[0-9]{2}){0,2}$",
+                message="dissolution date must follow the given pattern: ^["
+                "0-9]{4}(-[0-9]{2}){0,2}$",
                 code="invalid_dissolution_date",
             )
         ],
@@ -555,21 +694,33 @@ class Organization(
         blank=True,
         related_name="old_orgs",
         symmetrical=False,
-        help_text=_("Link to organization(s) after dissolution_date, " "needed to track mergers, acquisition, splits."),
+        help_text=_(
+            "Link to organization(s) after dissolution_date, "
+            "needed to track mergers, acquisition, splits."
+        ),
     )
 
     # array of items referencing
     # "http://popoloproject.com/schemas/contact_detail.json#"
-    contact_details = GenericRelation("ContactDetail", help_text=_("Means of contacting the organization"))
+    contact_details = GenericRelation(
+        "ContactDetail", help_text=_("Means of contacting the organization")
+    )
 
     # array of references to KeyEvent instances related to this Organization
-    key_events = GenericRelation("KeyEventRel", help_text=_("KeyEvents related to this organization"))
+    key_events = GenericRelation(
+        "KeyEventRel", help_text=_("KeyEvents related to this organization")
+    )
 
     # array of items referencing "http://popoloproject.com/schemas/link.json#"
-    links = GenericRelation("LinkRel", help_text=_("URLs to documents about the organization"))
+    links = GenericRelation(
+        "LinkRel", help_text=_("URLs to documents about the organization")
+    )
 
     # array of items referencing "http://popoloproject.com/schemas/source.json#"
-    sources = GenericRelation("SourceRel", help_text=_("URLs to source documents about the organization"))
+    sources = GenericRelation(
+        "SourceRel",
+        help_text=_("URLs to source documents about the organization"),
+    )
 
     person_members = models.ManyToManyField(
         "Person",
@@ -591,7 +742,9 @@ class Organization(
 
         :return: list of Person or Organization instances
         """
-        return list(self.person_members.all()) + list(self.organization_members.all())
+        return list(self.person_members.all()) + list(
+            self.organization_members.all()
+        )
 
     person_owners = models.ManyToManyField(
         "Person",
@@ -613,7 +766,9 @@ class Organization(
 
         :return: list of Person or Organization instances
         """
-        return list(self.person_owners.all()) + list(self.organization_owners.all())
+        return list(self.person_owners.all()) + list(
+            self.organization_owners.all()
+        )
 
     url_name = "organization-detail"
 
@@ -638,7 +793,9 @@ class Organization(
         if isinstance(member, Person):
             m = member.add_membership(self, **kwargs)
         elif isinstance(member, Organization):
-            m = Membership(organization=self, member_organization=member, **kwargs)
+            m = Membership(
+                organization=self, member_organization=member, **kwargs
+            )
         else:
             raise Exception(_("Member must be Person or Organization"))
         m.save()
@@ -660,7 +817,9 @@ class Organization(
         :param kwargs: membership parameters
         :return: the added Membership
         """
-        m = Membership(organization=organization, member_organization=self, **kwargs)
+        m = Membership(
+            organization=organization, member_organization=self, **kwargs
+        )
         m.save()
         return m
 
@@ -687,7 +846,9 @@ class Organization(
         :param kwargs: ownership parameters
         :return: the added Membership
         """
-        o = Ownership(organization=organization, owner_organization=self, **kwargs)
+        o = Ownership(
+            organization=organization, owner_organization=self, **kwargs
+        )
         o.save()
         return o
 
@@ -713,7 +874,9 @@ class Organization(
         :param kwargs: may contain the moment key
         :return:
         """
-        moment = kwargs.get("moment", datetime.strftime(datetime.now(), "%Y-%m-%d"))
+        moment = kwargs.get(
+            "moment", datetime.strftime(datetime.now(), "%Y-%m-%d")
+        )
 
         for i in args:
             i.close(moment=moment, reason=_("Merged into other organizations"))
@@ -729,7 +892,9 @@ class Organization(
         :param kwargs: keyword args that may contain moment
         :return:
         """
-        moment = kwargs.get("moment", datetime.strftime(datetime.now(), "%Y-%m-%d"))
+        moment = kwargs.get(
+            "moment", datetime.strftime(datetime.now(), "%Y-%m-%d")
+        )
 
         for i in args:
             i.start_date = moment
@@ -744,8 +909,12 @@ class Organization(
         :return: the KeyEventRel instance just added
         """
         # then add the KeyEventRel to classifications
-        if not isinstance(key_event, int) and not isinstance(key_event, KeyEvent):
-            raise Exception("key_event needs to be an integer ID or a KeyEvent instance")
+        if not isinstance(key_event, int) and not isinstance(
+            key_event, KeyEvent
+        ):
+            raise Exception(
+                "key_event needs to be an integer ID or a KeyEvent instance"
+            )
         if isinstance(key_event, int):
             ke, created = self.key_events.get_or_create(key_event_id=key_event)
         else:
@@ -804,13 +973,17 @@ class RoleType(models.Model):
     OP_FORMA_GIURIDICA classification.
     """
 
-    label = models.CharField(_("label"), max_length=256, help_text=_("A label describing the post"))
+    label = models.CharField(
+        _("label"), max_length=256, help_text=_("A label describing the post")
+    )
 
     classification = models.ForeignKey(
         "Classification",
         related_name="role_types",
         limit_choices_to={"scheme": "FORMA_GIURIDICA_OP"},
-        help_text=_("The OP_FORMA_GIURIDICA classification this role type is related to"),
+        help_text=_(
+            "The OP_FORMA_GIURIDICA classification this role type is related to"
+        ),
         on_delete=models.CASCADE,
     )
 
@@ -826,7 +999,9 @@ class RoleType(models.Model):
         _("priority"),
         blank=True,
         null=True,
-        help_text=_("The priority of this role type, within the same classification group"),
+        help_text=_(
+            "The priority of this role type, within the same classification group"
+        ),
     )
 
     def __str__(self):
@@ -857,7 +1032,12 @@ class Post(
     def slug_source(self):
         return self.label
 
-    label = models.CharField(_("label"), max_length=256, blank=True, help_text=_("A label describing the post"))
+    label = models.CharField(
+        _("label"),
+        max_length=256,
+        blank=True,
+        help_text=_("A label describing the post"),
+    )
 
     other_label = models.CharField(
         _("other label"),
@@ -889,7 +1069,9 @@ class Post(
         _("priority"),
         blank=True,
         null=True,
-        help_text=_("The absolute priority of this specific post, with respect to all others."),
+        help_text=_(
+            "The absolute priority of this specific post, with respect to all others."
+        ),
     )
 
     # reference to "http://popoloproject.com/schemas/organization.json#"
@@ -921,28 +1103,42 @@ class Post(
         related_name="appointees",
         verbose_name=_("Appointed by"),
         help_text=_(
-            "The Post that officially appoints members to this one, " "ex: Secr. of Defence is appointed by POTUS"
+            "The Post that officially appoints members to this one, "
+            "ex: Secr. of Defence is appointed by POTUS"
         ),
         on_delete=models.CASCADE,
     )
 
     holders = models.ManyToManyField(
-        "Person", through="Membership", through_fields=("post", "person"), related_name="roles_held"
+        "Person",
+        through="Membership",
+        through_fields=("post", "person"),
+        related_name="roles_held",
     )
 
     organizations = models.ManyToManyField(
-        "Organization", through="Membership", through_fields=("post", "organization"), related_name="posts_available"
+        "Organization",
+        through="Membership",
+        through_fields=("post", "organization"),
+        related_name="posts_available",
     )
 
     # array of items referencing
     # "http://popoloproject.com/schemas/contact_detail.json#"
-    contact_details = GenericRelation("ContactDetail", help_text=_("Means of contacting the holder of the post"))
+    contact_details = GenericRelation(
+        "ContactDetail",
+        help_text=_("Means of contacting the holder of the post"),
+    )
 
     # array of items referencing "http://popoloproject.com/schemas/link.json#"
-    links = GenericRelation("LinkRel", help_text=_("URLs to documents about the post"))
+    links = GenericRelation(
+        "LinkRel", help_text=_("URLs to documents about the post")
+    )
 
     # array of items referencing "http://popoloproject.com/schemas/source.json#"
-    sources = GenericRelation("SourceRel", help_text=_("URLs to source documents about the post"))
+    sources = GenericRelation(
+        "SourceRel", help_text=_("URLs to source documents about the post")
+    )
 
     url_name = "post-detail"
 
@@ -966,7 +1162,9 @@ class Post(
         :param kwargs: membership parameters (label, dates, ...)
         :return:
         """
-        m = Membership(post=self, person=person, organization=self.organization, **kwargs)
+        m = Membership(
+            post=self, person=person, organization=self.organization, **kwargs
+        )
         m.save()
 
     def add_person_on_behalf_of(self, person, organization, **kwargs):
@@ -978,7 +1176,13 @@ class Post(
         :param kwargs: membership parameters (label, dates, ...)
         :return:
         """
-        m = Membership(post=self, person=person, organization=self.organization, on_behalf_of=organization, **kwargs)
+        m = Membership(
+            post=self,
+            person=person,
+            organization=self.organization,
+            on_behalf_of=organization,
+            **kwargs
+        )
         m.save()
 
     def add_appointer(self, role):
@@ -1012,10 +1216,16 @@ class Membership(
 
     @property
     def slug_source(self):
-        return u"{0} {1}".format(self.member.name, self.organization.name, self.label)
+        return u"{0} {1}".format(
+            self.member.name, self.organization.name, self.label
+        )
 
     label = models.CharField(
-        _("label"), max_length=512, blank=True, null=True, help_text=_("A label describing the membership")
+        _("label"),
+        max_length=512,
+        blank=True,
+        null=True,
+        help_text=_("A label describing the membership"),
     )
 
     role = models.CharField(
@@ -1062,7 +1272,9 @@ class Membership(
         null=True,
         related_name="memberships",
         verbose_name=_("Organization"),
-        help_text=_("The organization in which the person or organization is a member"),
+        help_text=_(
+            "The organization in which the person or organization is a member"
+        ),
         on_delete=models.CASCADE,
     )
 
@@ -1072,7 +1284,10 @@ class Membership(
         null=True,
         related_name="memberships_on_behalf_of",
         verbose_name=_("On behalf of"),
-        help_text=_("The organization on whose behalf the person " "is a member of the organization"),
+        help_text=_(
+            "The organization on whose behalf the person "
+            "is a member of the organization"
+        ),
         on_delete=models.CASCADE,
     )
 
@@ -1083,7 +1298,10 @@ class Membership(
         null=True,
         related_name="memberships",
         verbose_name=_("Post"),
-        help_text=_("The post held by the person in the " "organization through this membership"),
+        help_text=_(
+            "The post held by the person in the "
+            "organization through this membership"
+        ),
         on_delete=models.CASCADE,
     )
 
@@ -1103,11 +1321,17 @@ class Membership(
     # info-set in the future
     # THEY ARE TO BE CONSIDERED TEMPORARY
     constituency_descr_tmp = models.CharField(
-        blank=True, null=True, max_length=128, verbose_name=_("Constituency location description")
+        blank=True,
+        null=True,
+        max_length=128,
+        verbose_name=_("Constituency location description"),
     )
 
     electoral_list_descr_tmp = models.CharField(
-        blank=True, null=True, max_length=512, verbose_name=_("Electoral list description")
+        blank=True,
+        null=True,
+        max_length=512,
+        verbose_name=_("Electoral list description"),
     )
     # END OF TEMP
 
@@ -1125,14 +1349,20 @@ class Membership(
     # array of items referencing
     # "http://popoloproject.com/schemas/contact_detail.json#"
     contact_details = GenericRelation(
-        "ContactDetail", help_text=_("Means of contacting the member of the organization")
+        "ContactDetail",
+        help_text=_("Means of contacting the member of the organization"),
     )
 
     # array of items referencing "http://popoloproject.com/schemas/link.json#"
-    links = GenericRelation("LinkRel", help_text=_("URLs to documents about the membership"))
+    links = GenericRelation(
+        "LinkRel", help_text=_("URLs to documents about the membership")
+    )
 
     # array of items referencing "http://popoloproject.com/schemas/source.json#"
-    sources = GenericRelation("SourceRel", help_text=_("URLs to source documents about the membership"))
+    sources = GenericRelation(
+        "SourceRel",
+        help_text=_("URLs to source documents about the membership"),
+    )
 
     url_name = "membership-detail"
 
@@ -1149,13 +1379,23 @@ class Membership(
 
     def __str__(self):
         if self.label:
-            return "{0} -[{1}]> {2}".format(getattr(self.member, "name"), self.label, self.organization)
+            return "{0} -[{1}]> {2}".format(
+                getattr(self.member, "name"), self.label, self.organization
+            )
         else:
-            return "{0} -[member of]> {1}".format(getattr(self.member, "name"), self.organization)
+            return "{0} -[member of]> {1}".format(
+                getattr(self.member, "name"), self.organization
+            )
 
 
 @python_2_unicode_compatible
-class ContactDetail(SourceShortcutsMixin, Timestampable, Dateframeable, GenericRelatable, models.Model):
+class ContactDetail(
+    SourceShortcutsMixin,
+    Timestampable,
+    Dateframeable,
+    GenericRelatable,
+    models.Model,
+):
     """
     A means of contacting an entity
     see schema at http://popoloproject.com/schemas/contact-detail.json#
@@ -1182,25 +1422,40 @@ class ContactDetail(SourceShortcutsMixin, Timestampable, Dateframeable, GenericR
     )
 
     label = models.CharField(
-        _("label"), max_length=256, blank=True, help_text=_("A human-readable label for the contact detail")
+        _("label"),
+        max_length=256,
+        blank=True,
+        help_text=_("A human-readable label for the contact detail"),
     )
 
     contact_type = models.CharField(
-        _("type"), max_length=12, choices=CONTACT_TYPES, help_text=_("A type of medium, e.g. 'fax' or 'email'")
+        _("type"),
+        max_length=12,
+        choices=CONTACT_TYPES,
+        help_text=_("A type of medium, e.g. 'fax' or 'email'"),
     )
 
-    value = models.CharField(_("value"), max_length=256, help_text=_("A value, e.g. a phone number or email address"))
+    value = models.CharField(
+        _("value"),
+        max_length=256,
+        help_text=_("A value, e.g. a phone number or email address"),
+    )
 
     note = models.CharField(
         _("note"),
         max_length=512,
         blank=True,
         null=True,
-        help_text=_("A note, e.g. for grouping contact details by physical location"),
+        help_text=_(
+            "A note, e.g. for grouping contact details by physical location"
+        ),
     )
 
     # array of items referencing "http://popoloproject.com/schemas/source.json#"
-    sources = GenericRelation("SourceRel", help_text=_("URLs to source documents about the contact detail"))
+    sources = GenericRelation(
+        "SourceRel",
+        help_text=_("URLs to source documents about the contact detail"),
+    )
 
     class Meta:
         verbose_name = _("Contact detail")
@@ -1253,10 +1508,19 @@ class Area(
     def slug_source(self):
         return u"{0}-{1}".format(self.istat_classification, self.identifier)
 
-    name = models.CharField(_("name"), max_length=256, blank=True, help_text=_("The official, issued name"))
+    name = models.CharField(
+        _("name"),
+        max_length=256,
+        blank=True,
+        help_text=_("The official, issued name"),
+    )
 
     identifier = models.CharField(
-        _("identifier"), max_length=128, blank=True, unique=True, help_text=_("The main issued identifier")
+        _("identifier"),
+        max_length=128,
+        blank=True,
+        unique=True,
+        help_text=_("The main issued identifier"),
     )
 
     classification = models.CharField(
@@ -1264,7 +1528,8 @@ class Area(
         max_length=128,
         blank=True,
         help_text=_(
-            "An area category, according to GEONames definitions: " "http://www.geonames.org/export/codes.html"
+            "An area category, according to GEONames definitions: "
+            "http://www.geonames.org/export/codes.html"
         ),
     )
 
@@ -1292,7 +1557,10 @@ class Area(
     # array of items referencing
     # "http://popoloproject.com/schemas/identifier.json#"
     identifiers = GenericRelation(
-        "Identifier", help_text=_("Other issued identifiers (zip code, other useful codes, ...)")
+        "Identifier",
+        help_text=_(
+            "Other issued identifiers (zip code, other useful codes, ...)"
+        ),
     )
 
     @property
@@ -1301,7 +1569,9 @@ class Area(
 
     # array of items referencing
     # "http://popoloproject.com/schemas/other_name.json#"
-    other_names = GenericRelation("OtherName", help_text=_("Alternate or former names"))
+    other_names = GenericRelation(
+        "OtherName", help_text=_("Alternate or former names")
+    )
 
     # reference to "http://popoloproject.com/schemas/area.json#"
     parent = models.ForeignKey(
@@ -1310,7 +1580,10 @@ class Area(
         null=True,
         related_name="children",
         verbose_name=_("Main parent"),
-        help_text=_("The area that contains this area, " "as for the main administrative subdivision."),
+        help_text=_(
+            "The area that contains this area, "
+            "as for the main administrative subdivision."
+        ),
         on_delete=models.CASCADE,
     )
 
@@ -1318,15 +1591,26 @@ class Area(
         blank=True,
         null=True,
         verbose_name=_("Is provincial capital"),
-        help_text=_("If the city is a provincial capital." "Takes the Null value if not a municipality."),
+        help_text=_(
+            "If the city is a provincial capital."
+            "Takes the Null value if not a municipality."
+        ),
     )
 
     geometry = models.MultiPolygonField(
-        _("Geometry"), null=True, blank=True, help_text=_("The geometry of the area"), geography=True, dim=2
+        _("Geometry"),
+        null=True,
+        blank=True,
+        help_text=_("The geometry of the area"),
+        geography=True,
+        dim=2,
     )
 
     coordinates = models.PointField(
-        _("Coordinates"), null=True, blank=True, help_text=_("The coordinates (latitude, longitude) of the area")
+        _("Coordinates"),
+        null=True,
+        blank=True,
+        help_text=_("The coordinates (latitude, longitude) of the area"),
     )
 
     @property
@@ -1343,15 +1627,26 @@ class Area(
 
     # inhabitants, can be useful for some queries
     inhabitants = models.PositiveIntegerField(
-        _("inhabitants"), null=True, blank=True, help_text=_("The total number of inhabitants")
+        _("inhabitants"),
+        null=True,
+        blank=True,
+        help_text=_("The total number of inhabitants"),
     )
 
     # array of items referencing "http://popoloproject.com/schemas/links.json#"
-    links = GenericRelation("LinkRel", blank=True, null=True, help_text=_("URLs to documents relted to the Area"))
+    links = GenericRelation(
+        "LinkRel",
+        blank=True,
+        null=True,
+        help_text=_("URLs to documents relted to the Area"),
+    )
 
     # array of items referencing "http://popoloproject.com/schemas/source.json#"
     sources = GenericRelation(
-        "SourceRel", blank=True, null=True, help_text=_("URLs to source documents about the Area")
+        "SourceRel",
+        blank=True,
+        null=True,
+        help_text=_("URLs to source documents about the Area"),
     )
 
     # related areas
@@ -1365,7 +1660,11 @@ class Area(
     )
 
     new_places = models.ManyToManyField(
-        "self", blank=True, related_name="old_places", symmetrical=False, help_text=_("Link to area(s) after date_end")
+        "self",
+        blank=True,
+        related_name="old_places",
+        symmetrical=False,
+        help_text=_("Link to area(s) after date_end"),
     )
 
     url_name = "area-detail"
@@ -1391,8 +1690,12 @@ class Area(
         """
 
         if not isinstance(language, Language):
-            raise Exception(_("The language parameter needs to be a Language instance"))
-        i18n_name, created = self.i18n_names.get_or_create(language=language, name=name)
+            raise Exception(
+                _("The language parameter needs to be a Language instance")
+            )
+        i18n_name, created = self.i18n_names.get_or_create(
+            language=language, name=name
+        )
 
         return i18n_name
 
@@ -1404,7 +1707,9 @@ class Area(
         :param kwargs:
         :return:
         """
-        moment = kwargs.get("moment", datetime.strftime(datetime.now(), "%Y-%m-%d"))
+        moment = kwargs.get(
+            "moment", datetime.strftime(datetime.now(), "%Y-%m-%d")
+        )
 
         for ai in areas:
             ai.close(moment=moment, reason=_("Merged into other areas"))
@@ -1420,7 +1725,9 @@ class Area(
         :param kwargs: keyword args that may contain moment
         :return:
         """
-        moment = kwargs.get("moment", datetime.strftime(datetime.now(), "%Y-%m-%d"))
+        moment = kwargs.get(
+            "moment", datetime.strftime(datetime.now(), "%Y-%m-%d")
+        )
 
         for ai in areas:
             ai.start_date = moment
@@ -1428,7 +1735,9 @@ class Area(
             self.new_places.add(ai)
         self.close(moment=moment, reason=_("Split into other areas"))
 
-    def add_relationship(self, area, classification, start_date=None, end_date=None, **kwargs):
+    def add_relationship(
+        self, area, classification, start_date=None, end_date=None, **kwargs
+    ):
         """add a personal relaationship to dest_area
         with parameters kwargs
 
@@ -1449,7 +1758,9 @@ class Area(
         )
         return relationship, created
 
-    def remove_relationship(self, area, classification, start_date, end_date, **kwargs):
+    def remove_relationship(
+        self, area, classification, start_date, end_date, **kwargs
+    ):
         """remove a relationtip to an area
 
         will raise an exception if no relationships or
@@ -1479,10 +1790,14 @@ class Area(
             r.delete()
 
     def get_relationships(self, classification):
-        return self.from_relationships.filter(classification=classification).select_related("source_area", "dest_area")
+        return self.from_relationships.filter(
+            classification=classification
+        ).select_related("source_area", "dest_area")
 
     def get_inverse_relationships(self, classification):
-        return self.to_relationships.filter(classification=classification).select_related("source_area", "dest_area")
+        return self.to_relationships.filter(
+            classification=classification
+        ).select_related("source_area", "dest_area")
 
     def get_former_parents(self, moment_date=None):
         """returns all parent relationtips valid at moment_date
@@ -1494,12 +1809,14 @@ class Area(
         :return: AreaRelationship queryset,
             with source_area and dest_area pre-selected
         """
-        rels = self.get_relationships(AreaRelationship.CLASSIFICATION_TYPES.former_istat_parent).order_by("-end_date")
+        rels = self.get_relationships(
+            AreaRelationship.CLASSIFICATION_TYPES.former_istat_parent
+        ).order_by("-end_date")
 
         if moment_date is not None:
-            rels = rels.filter(Q(start_date__lt=moment_date) | Q(start_date__isnull=True)).filter(
-                Q(end_date__gt=moment_date) | Q(end_date__isnull=True)
-            )
+            rels = rels.filter(
+                Q(start_date__lt=moment_date) | Q(start_date__isnull=True)
+            ).filter(Q(end_date__gt=moment_date) | Q(end_date__isnull=True))
 
         return rels
 
@@ -1513,14 +1830,14 @@ class Area(
         :return: AreaRelationship queryset,
             with source_area and dest_area pre-selected
         """
-        rels = self.get_inverse_relationships(AreaRelationship.CLASSIFICATION_TYPES.former_istat_parent).order_by(
-            "-end_date"
-        )
+        rels = self.get_inverse_relationships(
+            AreaRelationship.CLASSIFICATION_TYPES.former_istat_parent
+        ).order_by("-end_date")
 
         if moment_date is not None:
-            rels = rels.filter(Q(start_date__lt=moment_date) | Q(start_date__isnull=True)).filter(
-                Q(end_date__gt=moment_date) | Q(end_date__isnull=True)
-            )
+            rels = rels.filter(
+                Q(start_date__lt=moment_date) | Q(start_date__isnull=True)
+            ).filter(Q(end_date__gt=moment_date) | Q(end_date__isnull=True))
 
         return rels
 
@@ -1535,7 +1852,9 @@ class OtherName(Dateframeable, GenericRelatable, models.Model):
     see schema at http://popoloproject.com/schemas/name-component.json#
     """
 
-    name = models.CharField(_("name"), max_length=512, help_text=_("An alternate or former name"))
+    name = models.CharField(
+        _("name"), max_length=512, help_text=_("An alternate or former name")
+    )
 
     NAME_TYPES = Choices(
         ("FOR", "former", _("Former name")),
@@ -1549,7 +1868,9 @@ class OtherName(Dateframeable, GenericRelatable, models.Model):
         max_length=3,
         default="ALT",
         choices=NAME_TYPES,
-        help_text=_("Type of other name, e.g. FOR: former, ALT: alternate, ..."),
+        help_text=_(
+            "Type of other name, e.g. FOR: former, ALT: alternate, ..."
+        ),
     )
 
     note = models.CharField(
@@ -1591,10 +1912,17 @@ class Identifier(Dateframeable, GenericRelatable, models.Model):
     """
 
     identifier = models.CharField(
-        _("identifier"), max_length=512, help_text=_("An issued identifier, e.g. a DUNS number")
+        _("identifier"),
+        max_length=512,
+        help_text=_("An issued identifier, e.g. a DUNS number"),
     )
 
-    scheme = models.CharField(_("scheme"), max_length=128, blank=True, help_text=_("An identifier scheme, e.g. DUNS"))
+    scheme = models.CharField(
+        _("scheme"),
+        max_length=128,
+        blank=True,
+        help_text=_("An identifier scheme, e.g. DUNS"),
+    )
 
     source = models.URLField(
         _("source"),
@@ -1627,11 +1955,18 @@ class Classification(SourceShortcutsMixin, Dateframeable, models.Model):
     """
 
     scheme = models.CharField(
-        _("scheme"), max_length=128, blank=True, help_text=_("A classification scheme, e.g. ATECO, or FORMA_GIURIDICA")
+        _("scheme"),
+        max_length=128,
+        blank=True,
+        help_text=_("A classification scheme, e.g. ATECO, or FORMA_GIURIDICA"),
     )
 
     code = models.CharField(
-        _("code"), max_length=128, blank=True, null=True, help_text=_("An alphanumerical code in use within the scheme")
+        _("code"),
+        max_length=128,
+        blank=True,
+        null=True,
+        help_text=_("An alphanumerical code in use within the scheme"),
     )
 
     descr = models.CharField(
@@ -1642,7 +1977,10 @@ class Classification(SourceShortcutsMixin, Dateframeable, models.Model):
         help_text=_("The extended, textual description of the classification"),
     )
 
-    sources = GenericRelation("SourceRel", help_text=_("URLs to source documents about the classification"))
+    sources = GenericRelation(
+        "SourceRel",
+        help_text=_("URLs to source documents about the classification"),
+    )
 
     # reference to "http://popoloproject.com/schemas/area.json#"
     parent = models.ForeignKey(
@@ -1662,7 +2000,9 @@ class Classification(SourceShortcutsMixin, Dateframeable, models.Model):
     try:
         # PassTrhroughManager was removed in django-model-utils 2.4,
         # see issue #22
-        objects = PassThroughManager.for_queryset_class(ClassificationQuerySet)()
+        objects = PassThroughManager.for_queryset_class(
+            ClassificationQuerySet
+        )()
     except:
         objects = ClassificationQuerySet.as_manager()
 
@@ -1679,7 +2019,12 @@ class Link(models.Model):
 
     url = models.URLField(_("url"), max_length=350, help_text=_("A URL"))
 
-    note = models.CharField(_("note"), max_length=512, blank=True, help_text=_("A note, e.g. 'Wikipedia page'"))
+    note = models.CharField(
+        _("note"),
+        max_length=512,
+        blank=True,
+        help_text=_("A note, e.g. 'Wikipedia page'"),
+    )
 
     class Meta:
         verbose_name = _("Link")
@@ -1698,7 +2043,12 @@ class Source(models.Model):
 
     url = models.URLField(_("url"), max_length=350, help_text=_("A URL"))
 
-    note = models.CharField(_("note"), max_length=512, blank=True, help_text=_("A note, e.g. 'Parliament website'"))
+    note = models.CharField(
+        _("note"),
+        max_length=512,
+        blank=True,
+        help_text=_("A note, e.g. 'Parliament website'"),
+    )
 
     class Meta:
         verbose_name = _("Source")
@@ -1714,10 +2064,16 @@ class Event(Timestampable, SourceShortcutsMixin, models.Model):
 
     """
 
-    name = models.CharField(_("name"), max_length=128, help_text=_("The event's name"))
+    name = models.CharField(
+        _("name"), max_length=128, help_text=_("The event's name")
+    )
 
     description = models.CharField(
-        _("description"), max_length=512, blank=True, null=True, help_text=_("The event's description")
+        _("description"),
+        max_length=512,
+        blank=True,
+        null=True,
+        help_text=_("The event's description"),
     )
 
     # start_date and end_date are kept instead of the fields
@@ -1777,7 +2133,11 @@ class Event(Timestampable, SourceShortcutsMixin, models.Model):
 
     # textual full address of the event
     location = models.CharField(
-        _("location"), max_length=255, blank=True, null=True, help_text=_("The event's location")
+        _("location"),
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text=_("The event's location"),
     )
     # reference to "http://popoloproject.com/schemas/area.json#"
     area = models.ForeignKey(
@@ -1789,13 +2149,28 @@ class Event(Timestampable, SourceShortcutsMixin, models.Model):
         on_delete=models.CASCADE,
     )
 
-    status = models.CharField(_("status"), max_length=128, blank=True, null=True, help_text=_("The event's status"))
+    status = models.CharField(
+        _("status"),
+        max_length=128,
+        blank=True,
+        null=True,
+        help_text=_("The event's status"),
+    )
 
     # add 'identifiers' property to get array of items referencing 'http://www.popoloproject.com/schemas/identifier.json#'
-    identifiers = GenericRelation("Identifier", blank=True, null=True, help_text=_("Issued identifiers for this event"))
+    identifiers = GenericRelation(
+        "Identifier",
+        blank=True,
+        null=True,
+        help_text=_("Issued identifiers for this event"),
+    )
 
     classification = models.CharField(
-        _("classification"), max_length=128, blank=True, null=True, help_text=_("The event's category")
+        _("classification"),
+        max_length=128,
+        blank=True,
+        null=True,
+        help_text=_("The event's category"),
     )
 
     # reference to 'http://www.popoloproject.com/schemas/organization.json#'
@@ -1810,7 +2185,10 @@ class Event(Timestampable, SourceShortcutsMixin, models.Model):
 
     # array of items referencing 'http://www.popoloproject.com/schemas/person.json#'
     attendees = models.ManyToManyField(
-        "Person", blank=True, related_name="attended_events", help_text=_("People attending the event")
+        "Person",
+        blank=True,
+        related_name="attended_events",
+        help_text=_("People attending the event"),
     )
 
     # reference to 'http://www.popoloproject.com/schemas/event.json#'
@@ -1826,7 +2204,9 @@ class Event(Timestampable, SourceShortcutsMixin, models.Model):
 
     # array of items referencing
     # 'http://www.popoloproject.com/schemas/source.json#'
-    sources = GenericRelation("SourceRel", help_text=_("URLs to source documents about the event"))
+    sources = GenericRelation(
+        "SourceRel", help_text=_("URLs to source documents about the event")
+    )
 
     def __str__(self):
         return "{0} - {1}".format(self.name, self.start_date)

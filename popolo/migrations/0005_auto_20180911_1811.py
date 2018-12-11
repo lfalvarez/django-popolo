@@ -30,7 +30,11 @@ class Migration(migrations.Migration):
             model_name="keyevent",
             name="identifier",
             field=models.CharField(
-                blank=True, help_text="An issued identifier", max_length=512, null=True, verbose_name="identifier"
+                blank=True,
+                help_text="An issued identifier",
+                max_length=512,
+                null=True,
+                verbose_name="identifier",
             ),
         ),
     ]

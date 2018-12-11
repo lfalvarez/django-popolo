@@ -27,7 +27,13 @@ class GenericRelatable(models.Model):
     An abstract class that provides the possibility of generic relations
     """
 
-    content_type = models.ForeignKey(ContentType, blank=True, null=True, db_index=True, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(
+        ContentType,
+        blank=True,
+        null=True,
+        db_index=True,
+        on_delete=models.CASCADE,
+    )
     object_id = models.PositiveIntegerField(null=True, db_index=True)
     content_object = GenericForeignKey("content_type", "object_id")
 
@@ -50,7 +56,9 @@ def validate_partial_date(value):
             try:
                 datetime.strptime(value, "%Y")
             except ValueError:
-                raise ValidationError(u"date seems not to be correct %s" % value)
+                raise ValidationError(
+                    u"date seems not to be correct %s" % value
+                )
 
 
 class Dateframeable(models.Model):
@@ -61,7 +69,9 @@ class Dateframeable(models.Model):
     0-9]{2}){0,2}$"
     """
 
-    partial_date_validator = RegexValidator(regex="^[0-9]{4}(-[0-9]{2}){0,2}$", message="Date has wrong format")
+    partial_date_validator = RegexValidator(
+        regex="^[0-9]{4}(-[0-9]{2}){0,2}$", message="Date has wrong format"
+    )
 
     start_date = models.CharField(
         _("start date"),
@@ -84,7 +94,9 @@ class Dateframeable(models.Model):
         max_length=255,
         null=True,
         blank=True,
-        help_text=_("The reason why the entity isn't valid any longer (eg: merge)"),
+        help_text=_(
+            "The reason why the entity isn't valid any longer (eg: merge)"
+        ),
     )
 
     @property
@@ -103,7 +115,9 @@ class Dateframeable(models.Model):
         """
         return self.end_date is None or self.end_date >= moment
 
-    def close(self, moment=datetime.strftime(datetime.now(), "%Y-%m-%d"), reason=None):
+    def close(
+        self, moment=datetime.strftime(datetime.now(), "%Y-%m-%d"), reason=None
+    ):
         """closes the validity of the entity, specifying a reason
 
         :param moment: the moment the validity ends, in %Y-%m-%d format
@@ -140,7 +154,12 @@ class Permalinkable(models.Model):
 
     from django.utils.text import slugify
 
-    slug = AutoSlugField(populate_from=get_slug_source, max_length=255, unique=True, slugify=slugify)
+    slug = AutoSlugField(
+        populate_from=get_slug_source,
+        max_length=255,
+        unique=True,
+        slugify=slugify,
+    )
 
     class Meta:
         abstract = True
@@ -162,7 +181,11 @@ class PrioritizedModel(models.Model):
     """
 
     priority = models.IntegerField(
-        _("Priority"), null=True, blank=True, default=0, help_text=_("Sort order in case ambiguities arise")
+        _("Priority"),
+        null=True,
+        blank=True,
+        default=0,
+        help_text=_("Sort order in case ambiguities arise"),
     )
 
     class Meta:

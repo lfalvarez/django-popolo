@@ -184,31 +184,41 @@ class ElectoralResultQuerySet(DateframeableQuerySet):
 
 class AreaQuerySet(DateframeableQuerySet):
     def municipalities(self):
-        return self.filter(istat_classification=self.model.ISTAT_CLASSIFICATIONS.comune)
+        return self.filter(
+            istat_classification=self.model.ISTAT_CLASSIFICATIONS.comune
+        )
 
     def comuni(self):
         return self.municipalities()
 
     def metropolitan_areas(self):
-        return self.filter(istat_classification=self.model.ISTAT_CLASSIFICATIONS.metro)
+        return self.filter(
+            istat_classification=self.model.ISTAT_CLASSIFICATIONS.metro
+        )
 
     def metropoli(self):
         return self.metropolitan_areas()
 
     def provinces(self):
-        return self.filter(istat_classification=self.model.ISTAT_CLASSIFICATIONS.provincia)
+        return self.filter(
+            istat_classification=self.model.ISTAT_CLASSIFICATIONS.provincia
+        )
 
     def province(self):
         return self.provinces()
 
     def regions(self):
-        return self.filter(istat_classification=self.model.ISTAT_CLASSIFICATIONS.regione)
+        return self.filter(
+            istat_classification=self.model.ISTAT_CLASSIFICATIONS.regione
+        )
 
     def regioni(self):
         return self.regions()
 
     def macro_areas(self):
-        return self.filter(istat_classification=self.model.ISTAT_CLASSIFICATIONS.ripartizione)
+        return self.filter(
+            istat_classification=self.model.ISTAT_CLASSIFICATIONS.ripartizione
+        )
 
     def ripartizioni(self):
         return self.macro_areas()

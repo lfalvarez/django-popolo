@@ -3,11 +3,17 @@ from popolo.models.mixins import SourceShortcutsMixin
 from popolo.validators import validate_percentage
 
 try:
-    from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+    from django.contrib.contenttypes.fields import (
+        GenericRelation,
+        GenericForeignKey,
+    )
 except ImportError:
     # This fallback import is the version that was deprecated in
     # Django 1.7 and is removed in 1.9:
-    from django.contrib.contenttypes.generic import GenericRelation, GenericForeignKey
+    from django.contrib.contenttypes.generic import (
+        GenericRelation,
+        GenericForeignKey,
+    )
 
 try:
     # PassTrhroughManager was removed in django-model-utils 2.4
@@ -21,7 +27,12 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from model_utils import Choices
 
-from popolo.behaviors.models import Timestampable, Dateframeable, GenericRelatable, Permalinkable
+from popolo.behaviors.models import (
+    Timestampable,
+    Dateframeable,
+    GenericRelatable,
+    Permalinkable,
+)
 from popolo.querysets import (
     AreaRelationshipQuerySet,
     OwnershipQuerySet,
@@ -30,7 +41,9 @@ from popolo.querysets import (
 
 
 @python_2_unicode_compatible
-class AreaRelationship(SourceShortcutsMixin, Dateframeable, Timestampable, models.Model):
+class AreaRelationship(
+    SourceShortcutsMixin, Dateframeable, Timestampable, models.Model
+):
     """
     A relationship between two areas.
     Must be defined by a classification (type, ex: other_parent, previosly_in, ...)
@@ -56,19 +69,36 @@ class AreaRelationship(SourceShortcutsMixin, Dateframeable, Timestampable, model
 
     CLASSIFICATION_TYPES = Choices(
         ("FIP", "former_istat_parent", _("Former ISTAT parent")),
-        ("AMP", "alternate_mountain_community_parent", _("Alternate mountain community parent")),
-        ("ACP", "alternate_consortium_parent", _("Alternate consortium of municipality parent")),
+        (
+            "AMP",
+            "alternate_mountain_community_parent",
+            _("Alternate mountain community parent"),
+        ),
+        (
+            "ACP",
+            "alternate_consortium_parent",
+            _("Alternate consortium of municipality parent"),
+        ),
     )
     classification = models.CharField(
         max_length=3,
         choices=CLASSIFICATION_TYPES,
-        help_text=_("The relationship classification, ex: Former ISTAT parent, ..."),
+        help_text=_(
+            "The relationship classification, ex: Former ISTAT parent, ..."
+        ),
     )
 
-    note = models.TextField(blank=True, null=True, help_text=_("Additional info about the relationship"))
+    note = models.TextField(
+        blank=True,
+        null=True,
+        help_text=_("Additional info about the relationship"),
+    )
 
     # array of items referencing "http://popoloproject.com/schemas/link.json#"
-    sources = GenericRelation("SourceRel", help_text=_("URLs to source documents about the relationship"))
+    sources = GenericRelation(
+        "SourceRel",
+        help_text=_("URLs to source documents about the relationship"),
+    )
 
     class Meta:
         verbose_name = _("Area relationship")
@@ -77,7 +107,9 @@ class AreaRelationship(SourceShortcutsMixin, Dateframeable, Timestampable, model
     try:
         # PassTrhroughManager was removed in django-model-utils 2.4,
         # see issue #22
-        objects = PassThroughManager.for_queryset_class(AreaRelationshipQuerySet)()
+        objects = PassThroughManager.for_queryset_class(
+            AreaRelationshipQuerySet
+        )()
     except:
         objects = AreaRelationshipQuerySet.as_manager()
 
@@ -92,12 +124,17 @@ class AreaRelationship(SourceShortcutsMixin, Dateframeable, Timestampable, model
             )
         else:
             return "{0} -[({2} -> {3})]-> {1}".format(
-                self.source_area.name, self.dest_area.name, self.start_date, self.end_date
+                self.source_area.name,
+                self.dest_area.name,
+                self.start_date,
+                self.end_date,
             )
 
 
 @python_2_unicode_compatible
-class PersonalRelationship(SourceShortcutsMixin, Dateframeable, Timestampable, models.Model):
+class PersonalRelationship(
+    SourceShortcutsMixin, Dateframeable, Timestampable, models.Model
+):
     """
     A relationship between two persons.
     Must be defined by a classification (type, ex: friendship, family, ...)
@@ -135,15 +172,24 @@ class PersonalRelationship(SourceShortcutsMixin, Dateframeable, Timestampable, m
         _("weight"),
         default=0,
         choices=WEIGHTS,
-        help_text=_("The relationship weight, " "from strongly negative, to strongly positive"),
+        help_text=_(
+            "The relationship weight, "
+            "from strongly negative, to strongly positive"
+        ),
     )
 
     classification = models.CharField(
-        max_length=255, help_text=_("The relationship classification, ex: friendship, family, ...")
+        max_length=255,
+        help_text=_(
+            "The relationship classification, ex: friendship, family, ..."
+        ),
     )
 
     # array of items referencing "http://popoloproject.com/schemas/source.json#"
-    sources = GenericRelation("SourceRel", help_text=_("URLs to source documents about the relationship"))
+    sources = GenericRelation(
+        "SourceRel",
+        help_text=_("URLs to source documents about the relationship"),
+    )
 
     class Meta:
         verbose_name = _("Personal relationship")
@@ -152,14 +198,19 @@ class PersonalRelationship(SourceShortcutsMixin, Dateframeable, Timestampable, m
     try:
         # PassTrhroughManager was removed in django-model-utils 2.4,
         # see issue #22
-        objects = PassThroughManager.for_queryset_class(PersonalRelationshipQuerySet)()
+        objects = PassThroughManager.for_queryset_class(
+            PersonalRelationshipQuerySet
+        )()
     except:
         objects = PersonalRelationshipQuerySet.as_manager()
 
     def __str__(self):
         if self.label:
             return "{0} -[{1} ({2}]> {3}".format(
-                self.source_person.name, self.classification, self.get_weight_display(), self.dest_person.name
+                self.source_person.name,
+                self.classification,
+                self.get_weight_display(),
+                self.dest_person.name,
             )
 
 
@@ -181,7 +232,13 @@ class ClassificationRel(GenericRelatable, Dateframeable, models.Model):
 
 
 @python_2_unicode_compatible
-class Ownership(SourceShortcutsMixin, Dateframeable, Timestampable, Permalinkable, models.Model):
+class Ownership(
+    SourceShortcutsMixin,
+    Dateframeable,
+    Timestampable,
+    Permalinkable,
+    models.Model,
+):
     """
     A relationship between an organization and an owner
     (be it a Person or another Organization), that indicates
@@ -192,7 +249,9 @@ class Ownership(SourceShortcutsMixin, Dateframeable, Timestampable, Permalinkabl
 
     @property
     def slug_source(self):
-        return u"{0} {1} ({2}%)".format(self.owner.name, self.organization.name, self.percentage * 100)
+        return u"{0} {1} ({2}%)".format(
+            self.owner.name, self.organization.name, self.percentage * 100
+        )
 
     # person or organization that is a member of the organization
     organization = models.ForeignKey(
@@ -228,10 +287,15 @@ class Ownership(SourceShortcutsMixin, Dateframeable, Timestampable, Permalinkabl
     percentage = models.FloatField(
         _("percentage ownership"),
         validators=[validate_percentage],
-        help_text=_("The *required* percentage ownership, expressed as a floating " "number, from 0 to 1"),
+        help_text=_(
+            "The *required* percentage ownership, expressed as a floating "
+            "number, from 0 to 1"
+        ),
     )
     # array of items referencing "http://popoloproject.com/schemas/source.json#"
-    sources = GenericRelation("SourceRel", help_text=_("URLs to source documents about the ownership"))
+    sources = GenericRelation(
+        "SourceRel", help_text=_("URLs to source documents about the ownership")
+    )
 
     @property
     def owner(self):
@@ -256,7 +320,9 @@ class Ownership(SourceShortcutsMixin, Dateframeable, Timestampable, Permalinkabl
     def __str__(self):
         if self.label:
             return "{0} -[owns {1}% of]> {2}".format(
-                getattr(self.owner, "name"), self.percentage, self.organization.name
+                getattr(self.owner, "name"),
+                self.percentage,
+                self.organization.name,
             )
 
 
@@ -303,7 +369,9 @@ class KeyEventRel(GenericRelatable, models.Model):
     key_event = models.ForeignKey(
         "KeyEvent",
         related_name="related_objects",
-        help_text=_("A relation to a KeyEvent instance assigned to this object"),
+        help_text=_(
+            "A relation to a KeyEvent instance assigned to this object"
+        ),
         on_delete=models.CASCADE,
     )
 

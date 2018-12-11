@@ -1,7 +1,13 @@
 try:
-    from django.contrib.contenttypes.admin import GenericTabularInline, GenericStackedInline
+    from django.contrib.contenttypes.admin import (
+        GenericTabularInline,
+        GenericStackedInline,
+    )
 except ImportError:
-    from django.contrib.contenttypes.generic import GenericTabularInline, GenericStackedInline
+    from django.contrib.contenttypes.generic import (
+        GenericTabularInline,
+        GenericStackedInline,
+    )
 from popolo import models
 
 
@@ -30,4 +36,10 @@ class OtherNameAdmin(GenericTabularInline):
     extra = 0
 
 
-BASE_INLINES = [LinkRelAdmin, SourceRelAdmin, IdentifierAdmin, ContactDetailAdmin, OtherNameAdmin]
+BASE_INLINES = [
+    LinkRelAdmin,
+    SourceRelAdmin,
+    IdentifierAdmin,
+    ContactDetailAdmin,
+    OtherNameAdmin,
+]

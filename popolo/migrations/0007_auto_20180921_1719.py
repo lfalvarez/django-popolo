@@ -8,14 +8,28 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [("contenttypes", "0002_remove_content_type_name"), ("popolo", "0006_auto_20180913_1607")]
+    dependencies = [
+        ("contenttypes", "0002_remove_content_type_name"),
+        ("popolo", "0006_auto_20180913_1607"),
+    ]
 
     operations = [
         migrations.CreateModel(
             name="KeyEventRel",
             fields=[
-                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("object_id", models.PositiveIntegerField(db_index=True, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "object_id",
+                    models.PositiveIntegerField(db_index=True, null=True),
+                ),
                 (
                     "content_type",
                     models.ForeignKey(
